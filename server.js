@@ -1,16 +1,16 @@
 // defining variables +importing node modules
 const http = require('http'),
-fs = rquire('fs'),
+fs = require('fs'),
 url = require('url');
 
 http.createServer((request, response) => {
   //parsing the url request and asing it to addr var
-  const addr = request.url,
-  q = url.parse(add, true),
+  var req = request.url,
+  query = url.parse(addr, true),
   filePath = '';
 // this uses an if statement if the url contains documentation it will take to that documentation page
 //otherwise it will direct you to index.html
-  if (q.pathname.includes('documentation')){
+  if (query.pathname.includes('documentation')){
     filePath = (__dirname + '/documentation.html');
   }else {
     filePath = 'index.html';
@@ -25,7 +25,7 @@ http.createServer((request, response) => {
     response.end();
   });
 // this will print in the log file time, + url requested
-  fs.appendFile('log.txt', 'URL: ' + addr + '\nTimeStamp: ' + new Date() + '\n\n', function(err) { 
+  fs.appendFile('log.txt', 'URL: ' + req + '\nTimeStamp: ' + new Date() + '\n\n', function(err) { 
     if(err){
     console.log(err);
   } else {
