@@ -6,7 +6,7 @@ url = require('url');
 http.createServer((request, response) => {
   //parsing the url request and asing it to addr var
   var req = request.url,
-  query = url.parse(addr, true),
+  query = url.parse(req, true),
   filePath = '';
 // this uses an if statement if the url contains documentation it will take to that documentation page
 //otherwise it will direct you to index.html
