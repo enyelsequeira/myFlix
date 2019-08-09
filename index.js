@@ -82,10 +82,9 @@ let users =[{
 }];
 
 //Data about a singel movie by title
-/*app.get('/movies', function(req, res){
-    res.json(movies.find(function(movie){
-        return movie.toLowerCase() === req.params.title.toLowerCase()
-    }));*/
+app.get('/movies', function (req, res) {
+    res.json(movies);
+  });
 
 
 app.get('/movies/:title', function (req, res){
@@ -101,7 +100,7 @@ app.get('/movies/:title/genre', function(req, res){
 
     });
     if (movie) {
-        res.status(201).send('The genre of ' + movie.title + 'is ' + movie.genre);
+        res.status(200).send('The genre of ' + movie.title + 'is ' + movie.genre);
     } else {
         res.status(404).send('Movie ' + req.params.title + ' was not found');
     }
