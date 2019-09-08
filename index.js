@@ -17,51 +17,123 @@ app.use(morgan('common'));
 let movies = [ {
     title: 'avatar',
     description: 'a paralyzed former Marine, becomes mobile again through one such Avatar and falls in love with a Navi woman',
-    genre: 'Fantasy/Sci-fi ',
-    director: 'James Cameron',
+    genre: 'Fantasy ',
+    director: {
+        name: 'James Cameron',
+        bio: 'is a Canadian filmmaker and environmentalist who currently lives in New Zealand and the United States',
+        dateOfBirth: '1956',
+        deathYear:'n/a',
+    },
     image: '#',
 }, 
 { 
     title: 'Iron man',
     description: 'Returning to America, Stark refines the suit and uses it to combat crime and terrorism',
-    genre: 'Sci-fi/Thriller',
-    director: 'Jon Favreau',
+    genre: 'Thriller',
+    director: {
+        name: 'John Favreau',
+        bio: 'is an American actor, director, producer, and screenwriter. He is known for his work with the Marvel Cinematic Universe',
+        dateOfBirth: '1966',
+        deathYear:'n/a',
+    },
     image: '#',
 },
 {
     title: 'Men in black',
     description: 'They are the best-kept secret in the universe. Working for a highly funded yet unofficial government agency',
-    genre: 'Sci-fi/Thriller',
-    director: 'Barry Sonnenfeld',
+    genre: 'Thriller',
+    director: {
+        name: 'Barry Sonnenfeld',
+        bio: 'Barry Sonnenfeld is an American filmmaker and television director. He originally worked as a cinematographer for the Coen brothers before directing films such as The Addams Family and its sequel Addams Family Values',
+        dateOfBirth: '1953',
+        deathYear:'n/a',
+    },
     image: '#',
 
 },
 {
     title: 'the lion king',
     description: 'Simba idolizes his father, King Mufasa, and takes to heart his own royal destiny on the plains of Africa.',
-    genre: 'Drama/Adventure',
-    director: ' Jon Favreau',
+    genre: 'Drama',
+    director: {
+        name: 'John Favreau',
+        bio: 'is an American actor, director, producer, and screenwriter. He is known for his work with the Marvel Cinematic Universe',
+        dateOfBirth: '1966',
+        deathYear:'n/a',
+    },
+    image: '#',
+}, 
+   
+{
+    title: 'star wars return of the jedi',
+    description: 'Luke Skywalker (Mark Hamill) battles horrible Jabba the Hut and cruel Darth Vader to save his comrades in the Rebel Alliance and triumph over the Galactic Empire',
+    genre: 'Fantasy',
+    director: {
+        name: 'George Lucas',
+        bio: 'George Walton Lucas Jr. is an American filmmaker and entrepreneur. Lucas is known for creating the Star Wars and Indiana Jones franchises and founding Lucasfilm, LucasArts and Industrial Light & Magic',
+        dateOfBirth: '1944',
+        deathYear:'n/a',
+    },
     image: '#',
 },
 {
     title: 'Avengers',
     description: 'Nick Fury (Samuel L. Jackson), director of S.H.I.E.L.D., initiates a superhero recruitment effort to defeat the unprecedented threat to Earth',
-    genre: 'Fantasy/Sci-fi ',
-    director: 'Anthony Russo',
+    genre: 'Sci-fi ',
+    director: {
+        name: 'John Favreau',
+        bio: 'is an American actor, director, producer, and screenwriter. He is known for his work with the Marvel Cinematic Universe',
+        dateOfBirth: '1966',
+        deathYear:'n/a',
+    },
     image: '#',
 },
 {
     title: 'x-men',
     description: 'They are children of the atom, homo superior, the next link in the chain of evolution.',
-    genre: 'Fantasy/Sci-fi ',
-    director: 'Bryan Singer',
+    genre: 'Sci-fi ',
+    director: {
+        name: 'Bryan Singer',
+        bio: 'Bryan Jay Singer is an American director, producer and writer of film and television. He is the founder of Bad Hat Harry Productions and has produced or co-produced almost all of the films he has directed.',
+        dateOfBirth: '1944',
+        deathYear:'n/a',
+    },
+    image: '#',
+},
+{ 
+    title: 'Silece of the Lambs',
+    description: 'A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.',
+    genre: 'Thriller',
+    director: {
+        name: 'John Favreau',
+        bio: 'Robert Jonathan Demme was an American director, producer, and screenwriter.',
+        dateOfBirth: '1944',
+        deathYear:'2017',
+    },
+    image: '#',
+},
+{ 
+    title: 'The Dark Knight Rises',
+    description: 'It has been eight years since Batman (Christian Bale), in collusion with Commissioner Gordon (Gary Oldman), vanished into the night. Assuming responsibility for the death of Harvey Dent, Batman sacrificed everything for what he and Gordon hoped would be the greater good',
+    genre: 'Thriller',
+    director: {
+        name: 'Christoper Nolan',
+        bio: 'Christopher Edward Nolan, CBE is an English-American film director, screenwriter, and producer, who is known for making personal, distinctive films within the Hollywood mainstream.',
+        dateOfBirth: '1970',
+        deathYear:'n/a',
+    },
     image: '#',
 },
 {
     title : 'Hercules',
     description: 'Though he is famous across the ancient world for his larger-than-life exploits,',
-    genre: 'Fantasy/Action ',
-    director: 'Brett Ratner',
+    genre: 'Fantasy',
+    director: {
+        name: 'Brett Ratner',
+        bio: 'Brett Ratner is an American director and producer. He directed the Rush Hour film series, The Family Man, Red Dragon, X-Men: The Last Stand, and Tower Heist.',
+        dateOfBirth: '1944',
+        deathYear:'n/a',
+    },
     image: '#',
 }];
 
@@ -70,7 +142,7 @@ let users =[{
     email: 'enyelsequeira@hotmail.com',
     password: '1234movies',
     dateOfBirth: 04/04/1994,
-    favorites: []
+    favoriteMovies: []
 
 },
 {
@@ -78,10 +150,10 @@ let users =[{
     email: 'joey@gmail.com',
     password: '1234movies',
     dateOfBirth: '05/05/1995',
-    favorites: []
+    favoriteMovies: []
 }];
 
-//Data about a singel movie by title
+//Data about a single movie by title
 app.get('/movies', function (req, res) {
     res.json(movies);
   });
@@ -197,3 +269,5 @@ app.use(function(err, req, res, next){
 app.listen(8080, () => 
 console.log('this is listening on port 8080')
 );
+
+
