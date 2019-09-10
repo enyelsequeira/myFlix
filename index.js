@@ -2,7 +2,16 @@
 const express = require ('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const uuid = require('uuid');
+//Importing mongoose
+const mongoose = require ('mongoose');
+const Models = require('./models.js');
 
+const Movies = Models.Movie;
+const Users = Models.User;
+
+//connect mongoose to database
+mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
 //crating var to use express functionality
 const app = express();
 
@@ -24,7 +33,7 @@ let movies = [ {
         dateOfBirth: '1956',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt0499549/mediaviewer/rm843615744',
 }, 
 { 
     title: 'Iron man',
@@ -36,7 +45,7 @@ let movies = [ {
         dateOfBirth: '1966',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt0371746/mediaviewer/rm1544850432',
 },
 {
     title: 'Men in black',
@@ -48,7 +57,7 @@ let movies = [ {
         dateOfBirth: '1953',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt0119654/mediaviewer/rm2364027904',
 
 },
 {
@@ -61,7 +70,7 @@ let movies = [ {
         dateOfBirth: '1966',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt6105098/mediaviewer/rm2458872832',
 }, 
    
 {
@@ -74,7 +83,7 @@ let movies = [ {
         dateOfBirth: '1944',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt0086190/mediaviewer/rm602420224',
 },
 {
     title: 'Avengers',
@@ -86,7 +95,7 @@ let movies = [ {
         dateOfBirth: '1966',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt0848228/mediaviewer/rm3955117056',
 },
 {
     title: 'x-men',
@@ -98,7 +107,7 @@ let movies = [ {
         dateOfBirth: '1944',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt0120903/mediaviewer/rm1905724928',
 },
 { 
     title: 'Silece of the Lambs',
@@ -110,7 +119,7 @@ let movies = [ {
         dateOfBirth: '1944',
         deathYear:'2017',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt0102926/mediaviewer/rm3242988544',
 },
 { 
     title: 'The Dark Knight Rises',
@@ -122,7 +131,7 @@ let movies = [ {
         dateOfBirth: '1970',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt1345836/mediaviewer/rm834516224',
 },
 {
     title : 'Hercules',
@@ -134,39 +143,92 @@ let movies = [ {
         dateOfBirth: '1944',
         deathYear:'n/a',
     },
-    image: '#',
+    image: 'https://www.imdb.com/title/tt0119282/mediaviewer/rm944837888',
 }];
 
 let users =[{
-    username: 'EnyelSequeira',
-    email: 'enyelsequeira@hotmail.com',
-    password: '1234movies',
-    dateOfBirth: 04/04/1994,
+    username: 'enyel',
+    email: 'enyel@gmail.com',
+    password: '123456t',
+    birthday:('1994-02-19'),
     favoriteMovies: []
 
 },
 {
-    username: 'JoeyT',
-    email: 'joey@gmail.com',
-    password: '1234movies',
-    dateOfBirth: '05/05/1995',
+    username: 'thor',
+    email: 'thor@gmail.com',
+    password: '123456t',
+    birthday:('1985-02-19'),
+    favoriteMovies: []
+
+},
+{
+    username: 'matilde',
+    email: 'matilde@gmail.com',
+    password: '123456m',
+    birthday:('1987-02-19'),
+    favoriteMovies: []
+
+},
+{
+    username: 'frank',
+    email: 'frank@gmail.com',
+    password: '123456f',
+    dateOfBirth: ('1995-02-19'),
     favoriteMovies: []
 }];
 
-//Data about a single movie by title
+
+
+
+//gets a list of  all movies
 app.get('/movies', function (req, res) {
-    res.json(movies);
+    Movies.find()
+    .then(function(movies){
+        res.status(201).json(movies)
+    })
+    .catch(function(err){
+        console.error(err);
+        res.status(500).send("Error: " + err);
+    });
+});
+
+//Data about a single movie by title
+
+app.get('/movies/:Title',function(req, res){
+    Movies.findOne({Title : req.params.Title})
+    .then(function(movies){
+      res.json(movies)
+    })
+    .catch(function(err) {
+      console.error(err);
+      res.status(500).send("Error:" + err);
+    });
   });
-
-
-app.get('/movies/:title', function (req, res){
+/*app.get('/movies/:title', function (req, res){
     res.json(movies.find(function(movie){
         return movie.title.toLowerCase() === req.params.title.toLowerCase()
     }));
+});*/
+
+//returns data about genre by title  still can't get using postman
+app.get('/movies/:title/genre', function (req, res){
+    Movies.findOne({Title: req.params.Title})
+    .then(function(movie){
+        if(movie){
+            res.status(201).send('Movie with the title : ' + movie.title + "is a " + movie.Genre.Name + ".");
+        }else{
+            res.status(404).send("Movie with the title: " + req.params.title + "was not found");
+        }
+    })
+    .catch(function(err){
+        console.error(err);
+        res.status(500).send("Error:" + err);
+    });
 });
 
-//returns data about genre by title 
-app.get('/movies/:title/genre', function(req, res){
+
+/*app.get('/movies/:title/genre', function(req, res){
     let movie = movies.find((movie) => {
         return movie.title.toLowerCase() === req.params.title.toLowerCase();
 
@@ -176,14 +238,48 @@ app.get('/movies/:title/genre', function(req, res){
     } else {
         res.status(404).send('Movie ' + req.params.title + ' was not found');
     }
+});*/
+
+//returns data about the director //cant get postman data
+app.get('/director/:name', function(req, res){
+    Movies.findOne({"Director.name" : req.params})
+    .then(function(movies){
+        res.json(movies.Director)
+    })
+    .catch(function(err){
+        console.error(err);
+        res.status(500).send("Error:" + err);
+    });
 });
 
-//returns data about the director
-app.get('/directors/:name', function(req, res){
-    res.send('The directors bio');
-});
 
-//allow new user to register
+
+//allow new user to register //post in postman doesn't work
+app.post('/users', function(req, res){
+    Users.findOne({Username: req.body.Username })
+      .then(function(user){
+        if(user){
+          return res.status(400).send(req.body.Username + " already exists.");
+        }else{
+          Users
+          .create ({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then(function(user) {res.status(201).json(user) })
+          .catch(function(error){
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          })
+        }
+      }).catch(function(error){
+          console.error(error);
+          res.status(500).send("Error: " + error);
+      });
+    });
+/*
 app.post('/users', function(req, res){
     let newUser = req.body;
     if(!newUser.username){
@@ -193,25 +289,71 @@ app.post('/users', function(req, res){
         users.push(newUser);
         res.status(201).send(newUser);
     }
-});
+});*/
 
-//list of all users
+//list of all users by name
+app.get('/users/:Username', function(req, res){
+    Users.findOne({Username : req.params.Username})
+    .then(function(user){
+        res.json(user)
+    })
+    .catch(function(err){
+        console.error(err);
+        res.status(500).send("Erro:" + err);
+    });
+})
+/*
 app.get('/users', function(req,res){
     res.json(users);
 });
-
+*/
 //allow to updates users info
+app.put('/users/:Username', function(req, res){
+    Users.findOneAndUpdate({Username: req.params.Username},
+        {$set:
+            {
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+        }
+    },
+    {new: true},
+    function(err,updatedUser){
+        if(err){
+            console.error(err);
+            res.status(500).send("Error:" + err);
+        }else{
+            res.json(updatedUser)
+        }
+    });
+});
 
-app.put('/users/:username/:password', function(req, res){
+/*app.put('/users/:username/:password', function(req, res){
     res.send('you have been updated');
 });
 app.put('/users/:username/:email/:dateOfbirth', function(req,res){
     res.send('you have been updated');
+});*/
+
+//allows user to to add movie to favorites // cant get postman
+
+app.post('/users/:Username/favorites/:MovieID', function(req, res){
+    Users.findOneAndUpdate({Username: req.params.Username},{
+        $addToSet : {Favorites : req.params.MovieID}
+    },
+    {new: true},
+    function(err, updatedUser){
+        if(err){
+            console.error(err);
+        res.status(500).send("Error:" + err);
+      }else{
+          res.jason(updatedUser)
+      }
+    })
 });
 
-//allows user to to add movie to favorites
-
-app.post('/users/:username/:favorites', function(req, res){
+/*app.post('/users/:username/:favorites', function(req, res){
     let newFavorite = req.body;
 
     if (!newFavorite.title){
@@ -224,16 +366,45 @@ app.post('/users/:username/:favorites', function(req, res){
         user.favorites.push(newFavorite);
         res.status(201).send(user.favorites);
     }
-});
+});*/
 
-//delete from favorites
-app.delete('/users/:username/:favorites', function (req, res){
+//delete from favorites //cant get postman
+
+app.delete('/users/:Username/favorites/:MovieID', function(req, res){
+    Users.findOneAndUpdate({Username: req.params.Username},{
+        $pull : {Favorites : req.params.MovieID}
+    },
+    {new: true},
+    function(err,updatedUser){
+        if (err){
+            console.error(err);
+            res.status(500).send("Error:" + err);
+        }else{
+            res.json(updatedUser)
+        }
+    });
+});
+/*app.delete('/users/:username/:favorites', function (req, res){
     res.send('one movie is deleted from favorite');
 });
-
+*/
 //allows users to deregister
+app.delete('/users/:Username',function(req, res){
+    Users.findOneAndRemove ({Username: req.params.Username })
+    .then(function(user) {
+      if (!user){
+        res.status(400).send("Account with the username: " + req.params.Username + " was not found .");
+      }else{
+        res.status(200).send("Account with the username : " + req.params.Username + " was successfully deleted.");
+      }
+    })
+    .catch(function(err){
+      console.error(err.stack);
+      res.status(500).send("Error: " + err);
+    });
+  });
 
-app.delete('/users/:username', function (req, res){
+/*app.delete('/users/:username', function (req, res){
     let user = users.find (function (user){
         return user.username.toLowerCase() === req.params.username.toLowerCase()
     });
@@ -248,7 +419,7 @@ app.delete('/users/:username', function (req, res){
         res.status(404).send('profile with username' + req.params.username + ' was not found');
 
     }
-})
+})*/
 
 
 
@@ -267,7 +438,7 @@ app.use(function(err, req, res, next){
 
 //listening for request
 app.listen(8080, () => 
-console.log('this is listening on port 8080')
+console.log('this is listening to yousss on port 8080')
 );
 
 
