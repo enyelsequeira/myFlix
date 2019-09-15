@@ -17,6 +17,13 @@ const app = express();
 
 app.use(bodyParser.json());
 
+//import aurthentication
+var auth = require('./auth')(app);
+
+// passport
+const passport = require('passport');
+require('./passport');
+
 // servers documentation.html file from public folder
 app.use(express.static('public'));
 //log request using morgans's 
@@ -182,7 +189,8 @@ let users =[{
 
 
 //gets a list of  all movies
-app.get('/movies', function (req, res) {
+app.get('/movies', passport.authenticate('jwt',{ session: false
+}), function (req, res) {
     Movies.find()
     .then(function(movies){
         res.status(201).json(movies)
@@ -195,7 +203,7 @@ app.get('/movies', function (req, res) {
 
 //Data about a single movie by title
 
-app.get('/movies/:Title',function(req, res){
+app.get('/movies/:Title', passport.authenticate('jwt', { session: false}), function(req, res){
     Movies.findOne({Title : req.params.Title})
     .then(function(movies){
       res.json(movies)
@@ -212,7 +220,7 @@ app.get('/movies/:Title',function(req, res){
 });*/
 
 //returns data about genre by title  still can't get using postman
-app.get('/movies/:title/genre', function (req, res){
+app.get('/movies/genres/title', passport.authenticate('jwt', { session: false}), function (req, res){
     Movies.findOne({Title: req.params.Title})
     .then(function(movie){
         if(movie){
@@ -241,7 +249,7 @@ app.get('/movies/:title/genre', function (req, res){
 });*/
 
 //returns data about the director //cant get postman data
-app.get('/director/:name', function(req, res){
+app.get('/director/:Name', passport.authenticate('jwt', { session: false}), function(req, res){
     Movies.findOne({"Director.name" : req.params})
     .then(function(movies){
         res.json(movies.Director)
@@ -292,7 +300,7 @@ app.post('/users', function(req, res){
 });*/
 
 //list of all users by name
-app.get('/users/:Username', function(req, res){
+app.get('/users/:Username', passport.authenticate('jwt', { session: false}),  function(req, res){
     Users.findOne({Username : req.params.Username})
     .then(function(user){
         res.json(user)
@@ -308,7 +316,7 @@ app.get('/users', function(req,res){
 });
 */
 //allow to updates users info
-app.put('/users/:Username', function(req, res){
+app.put('/users/:Username', passport.authenticate('jwt', { session: false}), function(req, res){
     Users.findOneAndUpdate({Username: req.params.Username},
         {$set:
             {
@@ -338,7 +346,7 @@ app.put('/users/:username/:email/:dateOfbirth', function(req,res){
 
 //allows user to to add movie to favorites // cant get postman
 
-app.post('/users/:Username/favorites/:MovieID', function(req, res){
+app.post('/users/:Username/favorites/:MovieID', passport.authenticate('jwt', { session: false}), function(req, res){
     Users.findOneAndUpdate({Username: req.params.Username},{
         $addToSet : {Favorites : req.params.MovieID}
     },
@@ -389,7 +397,7 @@ app.delete('/users/:Username/favorites/:MovieID', function(req, res){
 });
 */
 //allows users to deregister
-app.delete('/users/:Username',function(req, res){
+app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), function(req, res){
     Users.findOneAndRemove ({Username: req.params.Username })
     .then(function(user) {
       if (!user){
@@ -438,7 +446,7 @@ app.use(function(err, req, res, next){
 
 //listening for request
 app.listen(8080, () => 
-console.log('this is listening to yousss on port 8080')
+console.log('this is listening to you on port 8080')
 );
 
 
