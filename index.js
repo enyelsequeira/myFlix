@@ -29,7 +29,7 @@ app.use(express.static('public'));
 //log request using morgans's 
 app.use(morgan('common'));
 
-//list of movies
+/*//list of movies
 let movies = [ {
     title: 'avatar',
     description: 'a paralyzed former Marine, becomes mobile again through one such Avatar and falls in love with a Navi woman',
@@ -158,7 +158,7 @@ let users =[{
     email: 'enyel@gmail.com',
     password: '123456t',
     birthday:('1994-02-19'),
-    favoriteMovies: []
+    FavoriteMovies: []
 
 },
 {
@@ -166,7 +166,7 @@ let users =[{
     email: 'thor@gmail.com',
     password: '123456t',
     birthday:('1985-02-19'),
-    favoriteMovies: []
+    FavoriteMovies: []
 
 },
 {
@@ -174,7 +174,7 @@ let users =[{
     email: 'matilde@gmail.com',
     password: '123456m',
     birthday:('1987-02-19'),
-    favoriteMovies: []
+    FavoriteMovies: []
 
 },
 {
@@ -182,8 +182,8 @@ let users =[{
     email: 'frank@gmail.com',
     password: '123456f',
     dateOfBirth: ('1995-02-19'),
-    favoriteMovies: []
-}];
+    FavoriteMovies: ["5d70a859a1de173d18b1726c", "5d70a859a1de173d18b1726c", "5d70a5daa1de173d18b17269", "5d709d9e68e54b94f24"]
+}];*/
 
 
 
@@ -219,21 +219,21 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false}), funct
     }));
 });*/
 
-//returns data about genre by title  still can't get using postman
-app.get('/movies/genres/title', passport.authenticate('jwt', { session: false}), function (req, res){
+//returns data about genre by title 
+app.get('/movies/genres/:Title', passport.authenticate('jwt',{ session: false}), function(req, res) {
     Movies.findOne({Title: req.params.Title})
     .then(function(movie){
-        if(movie){
-            res.status(201).send('Movie with the title : ' + movie.title + "is a " + movie.Genre.Name + ".");
-        }else{
-            res.status(404).send("Movie with the title: " + req.params.title + "was not found");
-        }
-    })
-    .catch(function(err){
-        console.error(err);
-        res.status(500).send("Error:" + err);
+      if(movie){
+        res.status(201).send("Movie with the title : " + movie.Title + " is  a " + movie.Genre.Name + " ." );
+      }else{
+        res.status(404).send("Movie with the title : " + req.params.Title + " was not found.");
+          }
+      })
+    .catch(function(err) {
+      console.error(err);
+      res.status(500).send("Error:" + err);
     });
-});
+  });
 
 
 /*app.get('/movies/:title/genre', function(req, res){
@@ -248,45 +248,45 @@ app.get('/movies/genres/title', passport.authenticate('jwt', { session: false}),
     }
 });*/
 
-//returns data about the director //cant get postman data
-app.get('/director/:Name', passport.authenticate('jwt', { session: false}), function(req, res){
-    Movies.findOne({"Director.name" : req.params})
+//returns data about the director 
+app.get('/movies/director/:Name', passport.authenticate('jwt',{ session: false}), function(req, res) {
+    Movies.findOne({"Director.Name" : req.params.Name})
     .then(function(movies){
-        res.json(movies.Director)
+      res.json(movies.Director)
     })
-    .catch(function(err){
-        console.error(err);
-        res.status(500).send("Error:" + err);
+    .catch(function(err) {
+      console.error(err);
+      res.status(500).send("Error:" + err);
     });
-});
+  });
 
 
 
-//allow new user to register //post in postman doesn't work
+//allow new user to register 
 app.post('/users', function(req, res){
-    Users.findOne({Username: req.body.Username })
-      .then(function(user){
-        if(user){
-          return res.status(400).send(req.body.Username + " already exists.");
-        }else{
-          Users
-          .create ({
-            Username: req.body.Username,
-            Password: req.body.Password,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
-          })
-          .then(function(user) {res.status(201).json(user) })
-          .catch(function(error){
-            console.error(error);
-            res.status(500).send("Error: " + error);
-          })
-        }
-      }).catch(function(error){
-          console.error(error);
-          res.status(500).send("Error: " + error);
-      });
-    });
+Users.findOne({Username: req.body.Username })
+  .then(function(user){
+    if(user){
+      return res.status(400).send(req.body.Username + " already exists.");
+    }else{
+      Users
+      .create ({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      })
+      .then(function(user) {res.status(201).json(user) })
+      .catch(function(error){
+        console.error(error);
+        res.status(500).send("Error: " + error);
+      })
+    }
+  }).catch(function(error){
+      console.error(error);
+      res.status(500).send("Error: " + error);
+  });
+});
 /*
 app.post('/users', function(req, res){
     let newUser = req.body;
@@ -344,22 +344,22 @@ app.put('/users/:username/:email/:dateOfbirth', function(req,res){
     res.send('you have been updated');
 });*/
 
-//allows user to to add movie to favorites // cant get postman
+//allows user to to add movie to favorites
 
-app.post('/users/:Username/favorites/:MovieID', passport.authenticate('jwt', { session: false}), function(req, res){
-    Users.findOneAndUpdate({Username: req.params.Username},{
-        $addToSet : {Favorites : req.params.MovieID}
+app.post('/users/:Username/Favorite/:MovieID', passport.authenticate('jwt',{ session: false}), function(req, res){
+    Users.findOneAndUpdate({Username: req.params.Username} ,{
+      $addToSet  : {Favorites : req.params.MovieID}
     },
     {new: true},
-    function(err, updatedUser){
-        if(err){
-            console.error(err);
+    function(err,updatedUser){
+      if (err){
+        console.error(err);
         res.status(500).send("Error:" + err);
       }else{
-          res.jason(updatedUser)
+        res.json(updatedUser)
       }
     })
-});
+  });
 
 /*app.post('/users/:username/:favorites', function(req, res){
     let newFavorite = req.body;
@@ -378,7 +378,7 @@ app.post('/users/:Username/favorites/:MovieID', passport.authenticate('jwt', { s
 
 //delete from favorites //cant get postman
 
-app.delete('/users/:Username/favorites/:MovieID', function(req, res){
+app.delete('/users/:Username/Favorite/:MovieID', function(req, res){
     Users.findOneAndUpdate({Username: req.params.Username},{
         $pull : {Favorites : req.params.MovieID}
     },
