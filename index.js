@@ -10,6 +10,12 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
+//using express validator
+const {check, validationResult } = require('express-validator');
+//using cors
+const cors = require('cors');
+app.use(cors());
+
 //connect mongoose to database
 mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
 //crating var to use express functionality
@@ -263,29 +269,43 @@ app.get('/movies/director/:Name', passport.authenticate('jwt',{ session: false})
 
 
 //allow new user to register 
-app.post('/users', function(req, res){
-Users.findOne({Username: req.body.Username })
-  .then(function(user){
-    if(user){
-      return res.status(400).send(req.body.Username + " already exists.");
-    }else{
-      Users
-      .create ({
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
-      })
-      .then(function(user) {res.status(201).json(user) })
-      .catch(function(error){
-        console.error(error);
-        res.status(500).send("Error: " + error);
-      })
-    }
-  }).catch(function(error){
+app.post('/users', function(req, res)  {
+    req.checkBody('Username', 'Username is required').notEmpty();
+    req.checkBody('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()
+    req.checkBody('Password', 'Password is required').notEmpty();
+    req.checkBody('Email', 'Email is required').notEmpty();
+    req.checkBody('Email', 'Email does not appear to be valid').isEmail();
+    // check the validation object for errors
+      var errors = req.validationErrors();
+      if (errors) {
+        return res.status(422).json({ errors: errors });
+      }
+    var hashedPassword = Users.hashPassword(req.body.Password);
+    Users.findOne({ Username : req.body.Username }) // Search to see if a user with the requested username already exists
+    .then(function(user) {
+      if (user) {
+        //If the user is found, send a response that it already exists
+        return res.status(400).send(req.body.Username + " already exists");
+      } else {
+        Users
+        .create({
+          Username : req.body.Username,
+          Password: hashedPassword,
+          Email : req.body.Email,
+          Birthday : req.body.Birthday
+        })
+        .then(function(user) { res.status(201).json(user) })
+        .catch(function(error) {
+          console.error(error);
+          res.status(500).send("Error: " + error);
+        });
+      }
+    }).catch(function(error) {
       console.error(error);
       res.status(500).send("Error: " + error);
+    });
   });
+  
 });
 /*
 app.post('/users', function(req, res){
@@ -378,7 +398,7 @@ app.post('/users/:Username/Favorite/:MovieID', passport.authenticate('jwt',{ ses
 
 //delete from favorites //cant get postman
 
-app.delete('/users/:Username/Favorite/:MovieID', function(req, res){
+app.delete('/users/:Username/Favorite /:MovieID', function(req, res){
     Users.findOneAndUpdate({Username: req.params.Username},{
         $pull : {Favorites : req.params.MovieID}
     },
@@ -445,8 +465,9 @@ app.use(function(err, req, res, next){
 });
 
 //listening for request
-app.listen(8080, () => 
-console.log('this is listening to you on port 8080')
-);
+var port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", function() {
+console.log("Listening on Port 3000");
+});
 
 
