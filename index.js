@@ -2,38 +2,37 @@
 const express = require ('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const uuid = require('uuid');
-//Importing mongoose
+const uuid = require("uuid");
 const mongoose = require ('mongoose');
+const cors = require('cors');
+const validator = require('express-validator');
+const passport = require ('passport');
 const Models = require('./models.js');
+
+require('./passport');
+//crating var to use express functionality
+const app = express();
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
-//using express validator
-const {check, validationResult } = require('express-validator');
-//using cors
-const cors = require('cors');
-app.use(cors());
-
 //connect mongoose to database
 mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
-//crating var to use express functionality
-const app = express();
 
+//log request using morgans's 
+app.use(morgan('common'));
+// servers documentation.html file from public folder
+app.use(express.static('public'));
+//body parser
 app.use(bodyParser.json());
+//using cors
+app.use(cors());
 
 //import aurthentication
 var auth = require('./auth')(app);
 
-// passport
-const passport = require('passport');
-require('./passport');
-
-// servers documentation.html file from public folder
-app.use(express.static('public'));
-//log request using morgans's 
-app.use(morgan('common'));
+//express validator
+app.use(validator());
 
 /*//list of movies
 let movies = [ {
@@ -191,9 +190,6 @@ let users =[{
     FavoriteMovies: ["5d70a859a1de173d18b1726c", "5d70a859a1de173d18b1726c", "5d70a5daa1de173d18b17269", "5d709d9e68e54b94f24"]
 }];*/
 
-
-
-
 //gets a list of  all movies
 app.get('/movies', passport.authenticate('jwt',{ session: false
 }), function (req, res) {
@@ -267,7 +263,6 @@ app.get('/movies/director/:Name', passport.authenticate('jwt',{ session: false})
   });
 
 
-
 //allow new user to register 
 app.post('/users', function(req, res)  {
     req.checkBody('Username', 'Username is required').notEmpty();
@@ -306,7 +301,7 @@ app.post('/users', function(req, res)  {
     });
   });
   
-});
+
 /*
 app.post('/users', function(req, res){
     let newUser = req.body;
@@ -449,10 +444,6 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
     }
 })*/
 
-
-
-
-
 //GET requests
 app.get('/', function(req, res){
     res.send('Welcome to my favorite movies');
@@ -469,5 +460,4 @@ var port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function() {
 console.log("Listening on Port 3000");
 });
-
 
