@@ -3,6 +3,8 @@ const express = require ('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
+const cors = require('cors');
+const {check, validationResult } = require('express-validator');
 // passport
 const passport = require('passport');
 require('./passport');
@@ -20,6 +22,8 @@ app.use(express.static('public'));
 
 app.use(bodyParser.json());
 
+app.use(cors());
+
 //log request using morgans's 
 app.use(morgan('common'));
 
@@ -28,9 +32,6 @@ mongoose.connect('mongodb://localhost:27017/myflix2', {useNewUrlParser: true});
 
 //importing auth.js file
 var auth = require('./auth')(app);
-
-
-
 
 
 
@@ -178,7 +179,7 @@ let users =[{
     username: 'matilde',
     email: 'matilde@gmail.com',
     password: '123456m',
-    birthday:('1987-02-19'),
+    birthday:(''),
     FavoriteMovies: []
 
 },
@@ -431,7 +432,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
     }else {
         res.status(404).send('profile with username' + req.params.username + ' was not found');
 
-    }
+    
 })*/
 
 //GET requests
@@ -444,7 +445,9 @@ app.use(function(err, req, res, next){
     res.status(500).send('something is wrong');
 });
 //listening for request
-app.listen(8080, () => 
-console.log('this is listening to you on port 8080')
-);
+var port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", function() {
+console.log("Listening on Port 3000");
+});
+
 
