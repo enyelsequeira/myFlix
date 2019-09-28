@@ -110,45 +110,42 @@ app.get('/movies/director/:Name', passport.authenticate('jwt',{ session: false})
   });
 
   //Allows new users to register
-app.post('/Users',[
-    // Validation logic here for request
-      check('Username').isAlphanumeric(),
-      check('Password').isLength({ min: 5}),
-      check('Email').normalizeEmail().isEmail()
-    ], (req, res) => {
+  app.post('/users', (req, res) => {
+    //validation logic here for requests
+      req.checkBody('username', 'Username is required').notEmpty();
+      req.checkBody('username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric();
+      req.checkBody('password', 'Password is required').notEmpty();
+      req.checkBody('email', 'Email is required').notEmpty();
+      req.checkBody('email', 'Not a valid email').isEmail();
     
-      // check validation object for errors
-      const errors = validationResult(req);
+    //check validation object for errors
+      const errors = req.validationErrors();
     
-      if (!errors.isEmpty) {
-        return res.status(422).json({ errors: errors.array});
-      }
-      
-      var hashedPassword = Users.hashPassword(req.body.Password
-        );
-      Users.findOne({
-        Username : req.body.Username
-      }) //Search to see if a user with requested username already exists
-      .then(function(user) {
+      // if (errors) {
+      //   return res.status(422).json({ errors: errors });
+      // }
+    
+      const hashedPassword = Users.hashPassword(req.body.password); //hashing password from model.js
+    
+      Users.findOne({ username: req.body.username })
+      .then((user) => {
         if (user) {
-          // If the user is found, send a response that is already exists
-          return res.status(400).send(req.body.Username + 'already exists');
-        } else {
-          Users.create({
-            Username: req.body.Username,
-            Password: hashedPassword,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
-          })
-          .then(function(user) {res.status(201).json(user)})
-          .catch(function(error) {
-            console.error(error);
-            res.status(500).send('Error: ' + error);
-          })
+          return res.status(400).send(req.body.username + ' already exists');
         }
-      }).catch(function(error) {
+          Users.create({
+            username: req.body.username,
+            password: hashedPassword, //requiring hashed password
+            email: req.body.email,
+            birthday: req.body.birthday,
+          })
+          .then((user) => { res.status(201).json(user); })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error ' + error);
+          });
+      }).catch((error) => {
         console.error(error);
-        res.status(500).send('Error: ' + error);
+        res.status(505).send('Error ' + error);
       });
     });
     
