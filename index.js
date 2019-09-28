@@ -26,7 +26,8 @@ app.use(cors());
 app.use(morgan('common'));
 
 //connect mongoose to database
-mongoose.connect('mongodb://localhost:27017/myflix2', {useNewUrlParser: true});
+//mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://enyel:suquC67A@myflix-yuytb.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
 //importing auth.js file
 var auth = require('./auth')(app);
 
