@@ -41,7 +41,7 @@ app.use(function(err, req, res, next){
 
 //default response
 app.get('/', function(req, res){
-    res.send('Welcome to my movies');
+    res.send('Welcome to my favorite movies');
 });
 
 //gets a list of  all movies
