@@ -25,168 +25,25 @@ app.use(cors());
 //log request using morgans's 
 app.use(morgan('common'));
 
+mongoose.set('useFindAndModify', false);
 //connect mongoose to database
 //mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
 mongoose.connect('mongodb+srv://enyel:suquC67A@myflix-yuytb.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
 //importing auth.js file
 var auth = require('./auth')(app);
 
-/*//list of movies
-let movies = [ {
-    title: 'avatar',
-    description: 'a paralyzed former Marine, becomes mobile again through one such Avatar and falls in love with a Navi woman',
-    genre: 'Fantasy ',
-    director: {
-        name: 'James Cameron',
-        bio: 'is a Canadian filmmaker and environmentalist who currently lives in New Zealand and the United States',
-        dateOfBirth: '1956',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt0499549/mediaviewer/rm843615744',
-}, 
-{ 
-    title: 'Iron man',
-    description: 'Returning to America, Stark refines the suit and uses it to combat crime and terrorism',
-    genre: 'Thriller',
-    director: {
-        name: 'John Favreau',
-        bio: 'is an American actor, director, producer, and screenwriter. He is known for his work with the Marvel Cinematic Universe',
-        dateOfBirth: '1966',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt0371746/mediaviewer/rm1544850432',
-},
-{
-    title: 'Men in black',
-    description: 'They are the best-kept secret in the universe. Working for a highly funded yet unofficial government agency',
-    genre: 'Thriller',
-    director: {
-        name: 'Barry Sonnenfeld',
-        bio: 'Barry Sonnenfeld is an American filmmaker and television director. He originally worked as a cinematographer for the Coen brothers before directing films such as The Addams Family and its sequel Addams Family Values',
-        dateOfBirth: '1953',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt0119654/mediaviewer/rm2364027904',
+//error hanglding middleware
+app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.status(500).send('something is wrong');
+    next();
+});
 
-},
-{
-    title: 'the lion king',
-    description: 'Simba idolizes his father, King Mufasa, and takes to heart his own royal destiny on the plains of Africa.',
-    genre: 'Drama',
-    director: {
-        name: 'John Favreau',
-        bio: 'is an American actor, director, producer, and screenwriter. He is known for his work with the Marvel Cinematic Universe',
-        dateOfBirth: '1966',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt6105098/mediaviewer/rm2458872832',
-}, 
-   
-{
-    title: 'star wars return of the jedi',
-    description: 'Luke Skywalker (Mark Hamill) battles horrible Jabba the Hut and cruel Darth Vader to save his comrades in the Rebel Alliance and triumph over the Galactic Empire',
-    genre: 'Fantasy',
-    director: {
-        name: 'George Lucas',
-        bio: 'George Walton Lucas Jr. is an American filmmaker and entrepreneur. Lucas is known for creating the Star Wars and Indiana Jones franchises and founding Lucasfilm, LucasArts and Industrial Light & Magic',
-        dateOfBirth: '1944',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt0086190/mediaviewer/rm602420224',
-},
-{
-    title: 'Avengers',
-    description: 'Nick Fury (Samuel L. Jackson), director of S.H.I.E.L.D., initiates a superhero recruitment effort to defeat the unprecedented threat to Earth',
-    genre: 'Sci-fi ',
-    director: {
-        name: 'John Favreau',
-        bio: 'is an American actor, director, producer, and screenwriter. He is known for his work with the Marvel Cinematic Universe',
-        dateOfBirth: '1966',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt0848228/mediaviewer/rm3955117056',
-},
-{
-    title: 'x-men',
-    description: 'They are children of the atom, homo superior, the next link in the chain of evolution.',
-    genre: 'Sci-fi ',
-    director: {
-        name: 'Bryan Singer',
-        bio: 'Bryan Jay Singer is an American director, producer and writer of film and television. He is the founder of Bad Hat Harry Productions and has produced or co-produced almost all of the films he has directed.',
-        dateOfBirth: '1944',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt0120903/mediaviewer/rm1905724928',
-},
-{ 
-    title: 'Silece of the Lambs',
-    description: 'A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.',
-    genre: 'Thriller',
-    director: {
-        name: 'John Favreau',
-        bio: 'Robert Jonathan Demme was an American director, producer, and screenwriter.',
-        dateOfBirth: '1944',
-        deathYear:'2017',
-    },
-    image: 'https://www.imdb.com/title/tt0102926/mediaviewer/rm3242988544',
-},
-{ 
-    title: 'The Dark Knight Rises',
-    description: 'It has been eight years since Batman (Christian Bale), in collusion with Commissioner Gordon (Gary Oldman), vanished into the night. Assuming responsibility for the death of Harvey Dent, Batman sacrificed everything for what he and Gordon hoped would be the greater good',
-    genre: 'Thriller',
-    director: {
-        name: 'Christoper Nolan',
-        bio: 'Christopher Edward Nolan, CBE is an English-American film director, screenwriter, and producer, who is known for making personal, distinctive films within the Hollywood mainstream.',
-        dateOfBirth: '1970',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt1345836/mediaviewer/rm834516224',
-},
-{
-    title : 'Hercules',
-    description: 'Though he is famous across the ancient world for his larger-than-life exploits,',
-    genre: 'Fantasy',
-    director: {
-        name: 'Brett Ratner',
-        bio: 'Brett Ratner is an American director and producer. He directed the Rush Hour film series, The Family Man, Red Dragon, X-Men: The Last Stand, and Tower Heist.',
-        dateOfBirth: '1944',
-        deathYear:'n/a',
-    },
-    image: 'https://www.imdb.com/title/tt0119282/mediaviewer/rm944837888',
-}];
 
-let users =[{
-    username: 'enyel',
-    email: 'enyel@gmail.com',
-    password: '123456t',
-    birthday:('1994-02-19'),
-    FavoriteMovies: []
-
-},
-{
-    username: 'thor',
-    email: 'thor@gmail.com',
-    password: '123456t',
-    birthday:('1985-02-19'),
-    FavoriteMovies: []
-
-},
-{
-    username: 'matilde',
-    email: 'matilde@gmail.com',
-    password: '123456m',
-    birthday:('1987-02-19'),
-    FavoriteMovies: []
-
-},
-{
-    username: 'frank',
-    email: 'frank@gmail.com',
-    password: '123456f',
-    dateOfBirth: ('1995-02-19'),
-    FavoriteMovies: ["5d70a859a1de173d18b1726c", "5d70a859a1de173d18b1726c", "5d70a5daa1de173d18b17269", "5d709d9e68e54b94f24"]
-}];*/
-
+//default response
+app.get('/', function(req, res){
+    res.send('Welcome to my api');
+});
 
 //gets a list of  all movies
 app.get('/movies', passport.authenticate('jwt',{ session: false
@@ -252,7 +109,51 @@ app.get('/movies/director/:Name', passport.authenticate('jwt',{ session: false})
       res.status(500).send("Error:" + err);
     });
   });
-//allow new user to register 
+
+  //Allows new users to register
+app.post('/Users',[
+    // Validation logic here for request
+      check('Username').isAlphanumeric(),
+      check('Password').isLength({ min: 5}),
+      check('Email').normalizeEmail().isEmail()
+    ], (req, res) => {
+    
+      // check validation object for errors
+      const errors = validationResult(req);
+    
+      if (!errors.isEmpty) {
+        return res.status(422).json({ errors: errors.array});
+      }
+      
+      var hashedPassword = Users.hashPassword(req.body.Password
+        );
+      Users.findOne({
+        Username : req.body.Username
+      }) //Search to see if a user with requested username already exists
+      .then(function(user) {
+        if (user) {
+          // If the user is found, send a response that is already exists
+          return res.status(400).send(req.body.Username + 'already exists');
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then(function(user) {res.status(201).json(user)})
+          .catch(function(error) {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          })
+        }
+      }).catch(function(error) {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
+    });
+    
+/*//allow new user to register 
 app.post('/users', function(req, res){
 Users.findOne({Username: req.body.Username })
   .then(function(user){
@@ -276,7 +177,7 @@ Users.findOne({Username: req.body.Username })
       console.error(error);
       res.status(500).send("Error: " + error);
   });
-});
+});*/
 /*
 app.post('/users', function(req, res){
     let newUser = req.body;
@@ -407,13 +308,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
         res.status(404).send('profile with username' + req.params.username + ' was not found');
     })*/
     //GET requests
-app.get('/', function(req, res){
-    res.send('Welcome to my favorite movies');
-});
-app.use(function(err, req, res, next){
-    console.error(err.stack);
-    res.status(500).send('something is wrong');
-});
+
 //listening for request
 var port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function() {
