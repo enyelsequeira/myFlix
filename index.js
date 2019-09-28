@@ -42,7 +42,7 @@ app.use(function(err, req, res, next){
 
 //default response
 app.get('/', function(req, res){
-    res.send('Welcome to my api');
+    res.send('Welcome to my movies');
 });
 
 //gets a list of  all movies
