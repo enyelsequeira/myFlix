@@ -33772,13 +33772,8 @@ function (_React$Component) {
     value: function render() {
       var _this$props = this.props,
           movie = _this$props.movie,
-          onClick = _this$props.onClick;
+          goBack = _this$props.goBack;
       if (!movie) return null;
-
-      var backButtonHandler = function backButtonHandler() {
-        window.open("/", "_self");
-      };
-
       return _react.default.createElement("div", {
         className: "movie-view"
       }, _react.default.createElement("div", {
@@ -33809,7 +33804,9 @@ function (_React$Component) {
       }, "Director"), _react.default.createElement("div", {
         className: "value"
       }, movie.Director.Name)), _react.default.createElement("button", {
-        onClick: backButtonHandler,
+        onClick: function onClick() {
+          return goBack();
+        },
         className: "back-button"
       }, "Back"));
     }
@@ -33902,7 +33899,7 @@ function (_React$Component) {
     key: "onButtonClick",
     value: function onButtonClick() {
       this.setState({
-        selectedMovie: null
+        selectedMovie: ""
       });
     } //this overrides the render() method of the superclass
 
@@ -33922,9 +33919,7 @@ function (_React$Component) {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
         movie: selectedMovie,
-        onClick: function onClick(button) {
-          return _this3.getMainview();
-        }
+        goBack: this.onButtonClick
       }) : movies.map(function (movie) {
         return _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,

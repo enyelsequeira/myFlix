@@ -40,7 +40,7 @@ export class MainView extends React.Component {
   //button
   onButtonClick() {
     this.setState({
-      selectedMovie: null
+      selectedMovie: ""
     });
   }
 
@@ -54,10 +54,7 @@ export class MainView extends React.Component {
     return (
       <div className="main-view">
         {selectedMovie ? (
-          <MovieView
-            movie={selectedMovie}
-            onClick={button => this.getMainview()}
-          />
+          <MovieView movie={selectedMovie} goBack={this.onButtonClick} />
         ) : (
           movies.map(movie => (
             <MovieCard
