@@ -33710,55 +33710,16 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-var MovieCard =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(MovieCard, _React$Component);
-
-  function MovieCard() {
-    _classCallCheck(this, MovieCard);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(MovieCard).apply(this, arguments));
-  }
-
-  _createClass(MovieCard, [{
-    key: "render",
-    value: function render() {
-      // this is given to the <movieCard> component by the outer world
-      // which, in this case is `mainview as mainview is what's
-      //connect to your database via the movies endpoint of your api
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          onClick = _this$props.onClick;
-      return _react.default.createElement("div", {
-        onClick: function onClick() {
-          return movie;
-        },
-        className: "movie-card"
-      }, movie.Title);
-    }
-  }]);
-
-  return MovieCard;
-}(_react.default.Component);
+var MovieCard = function MovieCard(_ref) {
+  var movie = _ref.movie,
+      onMovieClick = _ref.onMovieClick;
+  return _react.default.createElement("div", {
+    onClick: function onClick() {
+      return onMovieClick(movie);
+    },
+    className: "movie-card"
+  }, movie.Title);
+};
 
 exports.MovieCard = MovieCard;
 },{"react":"node_modules/react/index.js"}],"src/components/movie-view.jsx":[function(require,module,exports) {
@@ -33809,8 +33770,15 @@ function (_React$Component) {
   _createClass(MovieView, [{
     key: "render",
     value: function render() {
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          onClick = _this$props.onClick;
       if (!movie) return null;
+
+      var backButtonHandler = function backButtonHandler() {
+        window.open("/", "_self");
+      };
+
       return _react.default.createElement("div", {
         className: "movie-view"
       }, _react.default.createElement("div", {
@@ -33841,21 +33809,9 @@ function (_React$Component) {
       }, "Director"), _react.default.createElement("div", {
         className: "value"
       }, movie.Director.Name)), _react.default.createElement("button", {
-        onClick: function (_onClick) {
-          function onClick() {
-            return _onClick.apply(this, arguments);
-          }
-
-          onClick.toString = function () {
-            return _onClick.toString();
-          };
-
-          return onClick;
-        }(function () {
-          return onClick;
-        }),
-        className: "homeButton"
-      }, "Go back"));
+        onClick: backButtonHandler,
+        className: "back-button"
+      }, "Back"));
     }
   }]);
 
@@ -33966,14 +33922,14 @@ function (_React$Component) {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
         movie: selectedMovie,
-        onClick: function onClick(movie) {
-          return _this3.onButtonClick();
+        onClick: function onClick(button) {
+          return _this3.getMainview();
         }
       }) : movies.map(function (movie) {
         return _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
           movie: movie,
-          onClick: function onClick(movie) {
+          onMovieClick: function onMovieClick(movie) {
             return _this3.onMovieClick(movie);
           }
         });
@@ -34142,7 +34098,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50972" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62570" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
