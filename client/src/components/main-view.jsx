@@ -38,11 +38,11 @@ export class MainView extends React.Component {
   }
 
   //button
-  onButtonClick() {
+  onButtonClick = () => {
     this.setState({
-      selectedMovie: ""
+      selectedMovie: null
     });
-  }
+  };
 
   //this overrides the render() method of the superclass
   render() {

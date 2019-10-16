@@ -33866,6 +33866,12 @@ function (_React$Component) {
     //constructor so react can initialize
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MainView).call(this)); //initialize the state to an empty objec so we can destructure it
 
+    _this.onButtonClick = function () {
+      _this.setState({
+        selectedMovie: null
+      });
+    };
+
     _this.state = {
       movies: [],
       selectedMovie: null
@@ -33896,15 +33902,8 @@ function (_React$Component) {
     } //button
 
   }, {
-    key: "onButtonClick",
-    value: function onButtonClick() {
-      this.setState({
-        selectedMovie: ""
-      });
-    } //this overrides the render() method of the superclass
-
-  }, {
     key: "render",
+    //this overrides the render() method of the superclass
     value: function render() {
       var _this3 = this;
 
@@ -34093,7 +34092,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62570" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50061" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
