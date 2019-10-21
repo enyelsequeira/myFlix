@@ -1,4 +1,8 @@
 import React from "react";
+
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+
 export class MovieView extends React.Component {
   constructor() {
     super();
@@ -9,7 +13,26 @@ export class MovieView extends React.Component {
 
     if (!movie) return null;
 
-    return (
+    retun(
+      <Card style={{ widht: "18rem" }}>
+        <Card.Img variant="top" src={movie.ImagePath} />
+        <Card.Body>
+          <Card.Title>Movie Title: {movie.title}</Card.Title>
+          <Card.Text>Movie Genre: {movie.genre.name}</Card.Text>
+          <Card.text>Movie Director: {movie.director.name}</Card.text>
+          <Card.text>Director Bio: {movie.director.bio}</Card.text>
+          <Button
+            variant="primary"
+            onClick={() => onClick()}
+            className="homebutton"
+          >
+            Go Back
+          </Button>
+        </Card.Body>
+      </Card>
+    );
+
+    /*return (
       <div className="movie-view">
         <div className="movie-tittle">
           <div className="label">Title</div>
@@ -32,6 +55,6 @@ export class MovieView extends React.Component {
           Back
         </button>
       </div>
-    );
+    );*/
   }
 }
