@@ -1,8 +1,12 @@
 import React from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
+
+//bootstrap imports
 
 import { MovieCard } from "./movie-card.jsx";
 import { MovieView } from "./movie-view.jsx";
+import LoginView from "./login-view";
 
 export class MainView extends React.Component {
   //of the hooks available in a react component
@@ -34,6 +38,12 @@ export class MainView extends React.Component {
   onMovieClick(movie) {
     this.setState({
       selectedMovie: movie
+    });
+  }
+  //loggedIn
+  onLoggedIn(user) {
+    this.setState({
+      user
     });
   }
 
