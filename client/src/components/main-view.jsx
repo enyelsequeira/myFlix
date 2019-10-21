@@ -1,15 +1,16 @@
 import React from "react";
 import axios from "axios";
+
+//bootstrap imports
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-//bootstrap imports
-
 import { MovieCard } from "./movie-card.jsx";
 import { MovieView } from "./movie-view.jsx";
 import LoginView from "./login-view";
+import { RegistrationView } from "./registration-view";
 
 export class MainView extends React.Component {
   //of the hooks available in a react component
