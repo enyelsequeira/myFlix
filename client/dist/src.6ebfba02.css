@@ -1,3 +1,10 @@
+background-color {
+  color: #e0ebeb;
+}
+
+.card.text {
+  color: #e0ebeb;
+}
 .my-flix {
   color: steelblue;
 }

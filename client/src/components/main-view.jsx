@@ -1,6 +1,9 @@
 import React from "react";
 import axios from "axios";
-import PropTypes from "prop-types";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 //bootstrap imports
 
@@ -18,7 +21,9 @@ export class MainView extends React.Component {
     //initialize the state to an empty objec so we can destructure it
     this.state = {
       movies: [],
-      selectedMovie: null
+      selectedMovie: null,
+      user: null,
+      register: false
     };
   }
   componentDidMount() {
@@ -53,16 +58,69 @@ export class MainView extends React.Component {
       selectedMovie: null
     });
   };
+  //testing
+  onSignedIn(user) {
+    this.setState({
+      user: user,
+      register: false
+    });
+  }
+  //testing
+  register() {
+    this.setState({
+      register: true
+    });
+  }
 
   //this overrides the render() method of the superclass
   render() {
-    const { movies, selectedMovie } = this.state;
+    const { movies, selectedMovie, user, register } = this.state;
+    if (!user && register === false)
+      return (
+        <LoginView
+          onClick={() => this.register()}
+          onLoggedIn={user => this.onLoggedIn(user)}
+        />
+      );
+
+    if (register)
+      return (
+        <RegistrationView
+          onClick={() => this.alreadyMember()}
+          onSignedIn={user => this.onSignedIn(user)}
+        />
+      );
 
     //before the movies have been loaded
     if (!movies) return <div className="main-view" />;
-
     return (
       <div className="main-view">
+        <Container>
+          <Row>
+            {selectedMovie ? (
+              <MovieView
+                movie={selectedMovie}
+                onClick={() => this.onButtonClick()}
+              />
+            ) : (
+              movies.map(movie => (
+                <Col key={movie._id} xs={12} sm={6} md={4}>
+                  <MovieCard
+                    key={movie._id}
+                    movie={movie}
+                    onClick={movie => this.onMovieClick(movie)}
+                  />
+                </Col>
+              ))
+            )}
+          </Row>
+        </Container>
+      </div>
+    );
+
+    /*return (
+      <div className="main-view">
+    
         {selectedMovie ? (
           <MovieView movie={selectedMovie} goBack={this.onButtonClick} />
         ) : (
@@ -75,6 +133,6 @@ export class MainView extends React.Component {
           ))
         )}
       </div>
-    );
+    );*/
   }
 }
