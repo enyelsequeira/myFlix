@@ -12,13 +12,15 @@ import { MovieView } from "./movie-view.jsx";
 import LoginView from "./login-view";
 import { RegistrationView } from "./registration-view";
 
+import "./main-view.scss";
+
 export class MainView extends React.Component {
   //of the hooks available in a react component
 
-  constructor() {
+  constructor(props) {
     //constructor so react can initialize
 
-    super();
+    super(props);
     //initialize the state to an empty objec so we can destructure it
     this.state = {
       movies: [],
@@ -53,12 +55,13 @@ export class MainView extends React.Component {
     });
   }
 
-  //button
-  onButtonClick = () => {
+  //button to retun back
+  onButtonClick() {
     this.setState({
-      selectedMovie: null
+      selectedMovie: ""
     });
-  };
+  }
+
   //testing
   onSignedIn(user) {
     this.setState({
@@ -109,7 +112,8 @@ export class MainView extends React.Component {
                   <MovieCard
                     key={movie._id}
                     movie={movie}
-                    onClick={movie => this.onMovieClick(movie)}
+                    onMovieClick={movie => this.onMovieClick(movie)}
+                    /*onClick={movie => this.onMovieClick(movie)}*/
                   />
                 </Col>
               ))

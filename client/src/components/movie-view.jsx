@@ -24,9 +24,9 @@ export class MovieView extends React.Component {
           <Button
             variant="primary"
             onClick={() => onClick()}
-            className="homebutton"
+            className="homeButton"
           >
-            Go Back
+            Go back
           </Button>
         </Card.Body>
       </Card>

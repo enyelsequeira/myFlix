@@ -35641,8 +35641,8 @@ function (_React$Component) {
         }(function () {
           return onClick();
         }),
-        className: "homebutton"
-      }, "Go Back"))));
+        className: "homeButton"
+      }, "Go back"))));
       /*return (
         <div className="movie-view">
           <div className="movie-tittle">
@@ -36653,7 +36653,12 @@ function RegistrationView(props) {
     variant: "primary"
   }, " already a member")));
 }
-},{"react":"node_modules/react/index.js","react-bootstrap/Form":"node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"src/components/main-view.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap/Form":"node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"src/components/main-view.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/components/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36681,6 +36686,8 @@ var _loginView = _interopRequireDefault(require("./login-view"));
 
 var _registrationView = require("./registration-view");
 
+require("./main-view.scss");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -36707,19 +36714,13 @@ function (_React$Component) {
   _inherits(MainView, _React$Component);
 
   //of the hooks available in a react component
-  function MainView() {
+  function MainView(props) {
     var _this;
 
     _classCallCheck(this, MainView);
 
     //constructor so react can initialize
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MainView).call(this)); //initialize the state to an empty objec so we can destructure it
-
-    _this.onButtonClick = function () {
-      _this.setState({
-        selectedMovie: null
-      });
-    };
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MainView).call(this, props)); //initialize the state to an empty objec so we can destructure it
 
     _this.state = {
       movies: [],
@@ -36758,11 +36759,18 @@ function (_React$Component) {
       this.setState({
         user: user
       });
-    } //button
+    } //button to retun back
+
+  }, {
+    key: "onButtonClick",
+    value: function onButtonClick() {
+      this.setState({
+        selectedMovie: ""
+      });
+    } //testing
 
   }, {
     key: "onSignedIn",
-    //testing
     value: function onSignedIn(user) {
       this.setState({
         user: user,
@@ -36824,9 +36832,11 @@ function (_React$Component) {
         }, _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
           movie: movie,
-          onClick: function onClick(movie) {
+          onMovieClick: function onMovieClick(movie) {
             return _this3.onMovieClick(movie);
           }
+          /*onClick={movie => this.onMovieClick(movie)}*/
+
         }));
       }))));
       /*return (
@@ -36852,7 +36862,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"node_modules/react/index.js","axios":"node_modules/axios/index.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","./movie-card.jsx":"src/components/movie-card.jsx","./movie-view.jsx":"src/components/movie-view.jsx","./login-view":"src/components/login-view.jsx","./registration-view":"src/components/registration-view.jsx"}],"src/index.scss":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","axios":"node_modules/axios/index.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","./movie-card.jsx":"src/components/movie-card.jsx","./movie-view.jsx":"src/components/movie-view.jsx","./login-view":"src/components/login-view.jsx","./registration-view":"src/components/registration-view.jsx","./main-view.scss":"src/components/main-view.scss"}],"src/index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -36942,7 +36952,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61037" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61188" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
