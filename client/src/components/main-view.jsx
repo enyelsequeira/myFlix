@@ -17,10 +17,10 @@ import "./main-view.scss";
 export class MainView extends React.Component {
   //of the hooks available in a react component
 
-  constructor(props) {
+  constructor() {
     //constructor so react can initialize
 
-    super(props);
+    super();
     //initialize the state to an empty objec so we can destructure it
     this.state = {
       movies: [],
@@ -43,11 +43,11 @@ export class MainView extends React.Component {
       });
   }
 
-  onMovieClick(movie) {
+  onMovieClick = movie => {
     this.setState({
       selectedMovie: movie
     });
-  }
+  };
   //loggedIn
   onLoggedIn(user) {
     this.setState({
@@ -113,7 +113,7 @@ export class MainView extends React.Component {
                     key={movie._id}
                     movie={movie}
                     onMovieClick={movie => this.onMovieClick(movie)}
-                    /*onClick={movie => this.onMovieClick(movie)}*/
+                    //*onClick={movie => this.onMovieClick(movie)}*/
                   />
                 </Col>
               ))

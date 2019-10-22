@@ -35542,7 +35542,7 @@ function (_React$Component) {
           return onMovieClick(movie);
         },
         variant: "success"
-      }, "Go Back")));
+      }, "view more")));
     }
   }]);
 
@@ -35628,19 +35628,9 @@ function (_React$Component) {
         src: movie.ImagePath
       }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.genre.name), _react.default.createElement(_Card.default.text, null, "Movie Director: ", movie.director.name), _react.default.createElement(_Card.default.text, null, "Director Bio: ", movie.director.bio), _react.default.createElement(_Button.default, {
         variant: "primary",
-        onClick: function (_onClick) {
-          function onClick() {
-            return _onClick.apply(this, arguments);
-          }
-
-          onClick.toString = function () {
-            return _onClick.toString();
-          };
-
-          return onClick;
-        }(function () {
-          return onClick();
-        }),
+        onClick: function onClick() {
+          return onMovieClick();
+        },
         className: "homeButton"
       }, "Go back"))));
       /*return (
@@ -36714,13 +36704,19 @@ function (_React$Component) {
   _inherits(MainView, _React$Component);
 
   //of the hooks available in a react component
-  function MainView(props) {
+  function MainView() {
     var _this;
 
     _classCallCheck(this, MainView);
 
     //constructor so react can initialize
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MainView).call(this, props)); //initialize the state to an empty objec so we can destructure it
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MainView).call(this)); //initialize the state to an empty objec so we can destructure it
+
+    _this.onMovieClick = function (movie) {
+      _this.setState({
+        selectedMovie: movie
+      });
+    };
 
     _this.state = {
       movies: [],
@@ -36746,15 +36742,8 @@ function (_React$Component) {
       });
     }
   }, {
-    key: "onMovieClick",
-    value: function onMovieClick(movie) {
-      this.setState({
-        selectedMovie: movie
-      });
-    } //loggedIn
-
-  }, {
     key: "onLoggedIn",
+    //loggedIn
     value: function onLoggedIn(user) {
       this.setState({
         user: user
@@ -36834,8 +36823,7 @@ function (_React$Component) {
           movie: movie,
           onMovieClick: function onMovieClick(movie) {
             return _this3.onMovieClick(movie);
-          }
-          /*onClick={movie => this.onMovieClick(movie)}*/
+          } //*onClick={movie => this.onMovieClick(movie)}*/
 
         }));
       }))));
@@ -36952,7 +36940,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61188" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62652" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -5,6 +5,9 @@ background-color {
 .card.text {
   color: #e0ebeb;
 }
+body {
+  background-image: linear-gradient(to right, rgba(25, 0, 5, 0), #190800);
+}
 .my-flix {
   color: steelblue;
 }

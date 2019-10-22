@@ -23,7 +23,7 @@ export class MovieView extends React.Component {
           <Card.text>Director Bio: {movie.director.bio}</Card.text>
           <Button
             variant="primary"
-            onClick={() => onClick()}
+            onClick={() => onMovieClick()}
             className="homeButton"
           >
             Go back
