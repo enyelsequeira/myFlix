@@ -35555,7 +35555,7 @@ MovieCard.propTypes = {
     Title: _propTypes.default.string,
     ImageUrl: _propTypes.default.string
   }).isRequired,
-  onClick: _propTypes.default.func.isRequired
+  onMovieClick: _propTypes.default.func.isRequired
 };
 /*export const MovieCard = ({ movie, onMovieClick }) => (
     <div onClick={() => onMovieClick(movie)} className="movie-card">
@@ -35569,7 +35569,7 @@ MovieCard.propTypes = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MovieView = void 0;
+exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -35579,91 +35579,86 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-var MovieView =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(MovieView, _React$Component);
-
-  function MovieView() {
-    var _this;
-
-    _classCallCheck(this, MovieView);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MovieView).call(this));
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass(MovieView, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          goBack = _this$props.goBack;
-      if (!movie) return null;
-      retun(_react.default.createElement(_Card.default, {
-        style: {
-          widht: "18rem"
-        }
-      }, _react.default.createElement(_Card.default.Img, {
-        variant: "top",
-        src: movie.ImagePath
-      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.genre.name), _react.default.createElement(_Card.default.text, null, "Movie Director: ", movie.director.name), _react.default.createElement(_Card.default.text, null, "Director Bio: ", movie.director.bio), _react.default.createElement(_Button.default, {
-        variant: "primary",
-        onClick: function onClick() {
-          return onMovieClick();
-        },
-        className: "homeButton"
-      }, "Go back"))));
-      /*return (
-        <div className="movie-view">
-          <div className="movie-tittle">
-            <div className="label">Title</div>
-            <div className="value">{movie.Title}</div>
-          </div>
-          <div className="movie-description">
-            <div className="label">Description</div>
-            <div className="value">{movie.Description}</div>
-          </div>
-          <img className="movie-poster" src={movie.ImagePath} />
-          <div className="movie-genre">
-            <div className="label">Genre</div>
-            <div className="value">{movie.Genre.Name}</div>
-          </div>
-          <div className="movie-director">
-            <div className="label">Director</div>
-            <div className="value">{movie.Director.Name}</div>
-          </div>
-          <button onClick={() => goBack()} className="back-button">
-            Back
-          </button>
-        </div>
-      );*/
+var MovieView = function MovieView(_ref) {
+  var movie = _ref.movie;
+  if (!movie) return null;
+  return _react.default.createElement(_Card.default, {
+    style: {
+      widht: "18rem"
     }
-  }]);
+  }, _react.default.createElement(_Card.default.Img, {
+    variant: "top",
+    src: movie.ImagePath
+  }), _react.default.createElement(_Card.default.Body, null, console.log(movie.Director.Name, movie.Director.Bio), _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.Title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.Genre.Name), _react.default.createElement(_Card.default.Text, null, "Movie Director: ", movie.Director.Name), _react.default.createElement(_Card.default.Text, null, "Director Bio: ", movie.Director.Bio), _react.default.createElement(_Button.default, {
+    variant: "primary",
+    className: "homeButton"
+  }, "Go back")));
+};
 
-  return MovieView;
-}(_react.default.Component);
+var _default = MovieView;
+/*import React from "react";
 
-exports.MovieView = MovieView;
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+
+export class MovieView extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+  render() {
+    const { movie, goBack } = this.props;
+
+    if (!movie) return null;
+
+    retun(
+      <Card style={{ widht: "18rem" }}>
+        <Card.Img variant="top" src={movie.ImagePath} />
+        <Card.Body>
+          <Card.Title>Movie Title: {movie.Title}</Card.Title>
+          <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
+          <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
+          <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
+          <Button
+            variant="primary"
+            onClick={() => onMovieClick()}
+            className="homeButton"
+          >
+            Go back
+          </Button>
+        </Card.Body>
+      </Card>
+    );
+
+    /*return (
+      <div className="movie-view">
+        <div className="movie-tittle">
+          <div className="label">Title</div>
+          <div className="value">{movie.Title}</div>
+        </div>
+        <div className="movie-description">
+          <div className="label">Description</div>
+          <div className="value">{movie.Description}</div>
+        </div>
+        <img className="movie-poster" src={movie.ImagePath} />
+        <div className="movie-genre">
+          <div className="label">Genre</div>
+          <div className="value">{movie.Genre.Name}</div>
+        </div>
+        <div className="movie-director">
+          <div className="label">Director</div>
+          <div className="value">{movie.Director.Name}</div>
+        </div>
+        <button onClick={() => goBack()} className="back-button">
+          Back
+        </button>
+      </div>
+    );
+  }
+}
+*/
+
+exports.default = _default;
 },{"react":"node_modules/react/index.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js":[function(require,module,exports) {
 'use strict';
 
@@ -36670,7 +36665,7 @@ var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 
 var _movieCard = require("./movie-card.jsx");
 
-var _movieView = require("./movie-view.jsx");
+var _movieView = _interopRequireDefault(require("./movie-view.jsx"));
 
 var _loginView = _interopRequireDefault(require("./login-view"));
 
@@ -36807,7 +36802,7 @@ function (_React$Component) {
       });
       return _react.default.createElement("div", {
         className: "main-view"
-      }, _react.default.createElement(_Container.default, null, _react.default.createElement(_Row.default, null, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
+      }, _react.default.createElement(_Container.default, null, _react.default.createElement(_Row.default, null, selectedMovie ? _react.default.createElement(_movieView.default, {
         movie: selectedMovie,
         onClick: function onClick() {
           return _this3.onButtonClick();
@@ -36823,7 +36818,8 @@ function (_React$Component) {
           movie: movie,
           onMovieClick: function onMovieClick(movie) {
             return _this3.onMovieClick(movie);
-          } //*onClick={movie => this.onMovieClick(movie)}*/
+          }
+          /*onClick={movie => this.onMovieClick(movie)}*/
 
         }));
       }))));
@@ -36940,7 +36936,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62652" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53918" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

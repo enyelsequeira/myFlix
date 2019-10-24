@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { MovieCard } from "./movie-card.jsx";
-import { MovieView } from "./movie-view.jsx";
+import MovieView from "./movie-view.jsx";
 import LoginView from "./login-view";
 import { RegistrationView } from "./registration-view";
 
@@ -113,7 +113,7 @@ export class MainView extends React.Component {
                     key={movie._id}
                     movie={movie}
                     onMovieClick={movie => this.onMovieClick(movie)}
-                    //*onClick={movie => this.onMovieClick(movie)}*/
+                    /*onClick={movie => this.onMovieClick(movie)}*/
                   />
                 </Col>
               ))

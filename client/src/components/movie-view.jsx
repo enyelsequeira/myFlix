@@ -3,6 +3,33 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 
+const MovieView = ({ movie }) => {
+  if (!movie) return null;
+
+  return (
+    <Card style={{ widht: "18rem" }}>
+      <Card.Img variant="top" src={movie.ImagePath} />
+      <Card.Body>
+        {console.log(movie.Director.Name, movie.Director.Bio)}
+        <Card.Title>Movie Title: {movie.Title}</Card.Title>
+        <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
+        <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
+        <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
+        <Button variant="primary" className="homeButton">
+          Go back
+        </Button>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export default MovieView;
+
+/*import React from "react";
+
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+
 export class MovieView extends React.Component {
   constructor() {
     super();
@@ -17,10 +44,10 @@ export class MovieView extends React.Component {
       <Card style={{ widht: "18rem" }}>
         <Card.Img variant="top" src={movie.ImagePath} />
         <Card.Body>
-          <Card.Title>Movie Title: {movie.title}</Card.Title>
-          <Card.Text>Movie Genre: {movie.genre.name}</Card.Text>
-          <Card.text>Movie Director: {movie.director.name}</Card.text>
-          <Card.text>Director Bio: {movie.director.bio}</Card.text>
+          <Card.Title>Movie Title: {movie.Title}</Card.Title>
+          <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
+          <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
+          <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
           <Button
             variant="primary"
             onClick={() => onMovieClick()}
@@ -55,6 +82,7 @@ export class MovieView extends React.Component {
           Back
         </button>
       </div>
-    );*/
+    );
   }
 }
+*/
