@@ -35401,7 +35401,37 @@ Button.displayName = 'Button';
 Button.defaultProps = defaultProps;
 var _default = Button;
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","classnames":"node_modules/classnames/index.js","react":"node_modules/react/index.js","./ThemeProvider":"node_modules/react-bootstrap/esm/ThemeProvider.js","./SafeAnchor":"node_modules/react-bootstrap/esm/SafeAnchor.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/extends":"node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","classnames":"node_modules/classnames/index.js","react":"node_modules/react/index.js","./ThemeProvider":"node_modules/react-bootstrap/esm/ThemeProvider.js","./SafeAnchor":"node_modules/react-bootstrap/esm/SafeAnchor.js"}],"node_modules/react-bootstrap/esm/CardDeck.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _createWithBsPrefix = _interopRequireDefault(require("./utils/createWithBsPrefix"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = (0, _createWithBsPrefix.default)('card-deck');
+
+exports.default = _default;
+},{"./utils/createWithBsPrefix":"node_modules/react-bootstrap/esm/utils/createWithBsPrefix.js"}],"node_modules/react-bootstrap/esm/CardColumns.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _createWithBsPrefix = _interopRequireDefault(require("./utils/createWithBsPrefix"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = (0, _createWithBsPrefix.default)('card-columns');
+
+exports.default = _default;
+},{"./utils/createWithBsPrefix":"node_modules/react-bootstrap/esm/utils/createWithBsPrefix.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -35489,6 +35519,10 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
+var _CardDeck = _interopRequireDefault(require("react-bootstrap/CardDeck"));
+
+var _CardColumns = _interopRequireDefault(require("react-bootstrap/CardColumns"));
+
 require("./movie-card.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35528,9 +35562,9 @@ function (_React$Component) {
       var _this$props = this.props,
           movie = _this$props.movie,
           onMovieClick = _this$props.onMovieClick;
-      return _react.default.createElement(_Card.default, {
+      return _react.default.createElement(_CardColumns.default, null, _react.default.createElement(_Card.default, {
         bg: "primary",
-        text: "white",
+        text: "warning",
         style: {
           width: "18rem"
         }
@@ -35542,7 +35576,7 @@ function (_React$Component) {
           return onMovieClick(movie);
         },
         variant: "success"
-      }, "view more")));
+      }, "view more"))));
     }
   }]);
 
@@ -35563,7 +35597,7 @@ MovieCard.propTypes = {
     </div>
   );
 */
-},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","./movie-card.scss":"src/components/movie-card.scss"}],"src/components/movie-view.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/CardDeck":"node_modules/react-bootstrap/esm/CardDeck.js","react-bootstrap/CardColumns":"node_modules/react-bootstrap/esm/CardColumns.js","./movie-card.scss":"src/components/movie-card.scss"}],"src/components/movie-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35575,6 +35609,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
+var _CardColumns = _interopRequireDefault(require("react-bootstrap/CardColumns"));
+
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35582,7 +35618,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MovieView = function MovieView(_ref) {
   var movie = _ref.movie;
   if (!movie) return null;
-  return _react.default.createElement(_Card.default, {
+  return _react.default.createElement(_CardColumns.default, null, _react.default.createElement(_Card.default, {
+    border: "danger",
     style: {
       widht: "18rem"
     }
@@ -35592,7 +35629,7 @@ var MovieView = function MovieView(_ref) {
   }), _react.default.createElement(_Card.default.Body, null, console.log(movie.Director.Name, movie.Director.Bio), _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.Title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.Genre.Name), _react.default.createElement(_Card.default.Text, null, "Movie Director: ", movie.Director.Name), _react.default.createElement(_Card.default.Text, null, "Director Bio: ", movie.Director.Bio), _react.default.createElement(_Button.default, {
     variant: "primary",
     className: "homeButton"
-  }, "Go back")));
+  }, "Go back"))));
 };
 
 var _default = MovieView;
@@ -35659,7 +35696,7 @@ export class MovieView extends React.Component {
 */
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/CardColumns":"node_modules/react-bootstrap/esm/CardColumns.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

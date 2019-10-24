@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import CardDeck from "react-bootstrap/CardDeck";
+import CardColumns from "react-bootstrap/CardColumns";
 import "./movie-card.scss";
 
 export class MovieCard extends React.Component {
@@ -9,17 +11,19 @@ export class MovieCard extends React.Component {
     const { movie, onMovieClick } = this.props;
 
     return (
-      <Card bg="primary" text="white" style={{ width: "18rem" }}>
-        {" "}
-        <Card.Img variant="top" src={movie.ImagePath} />
-        <Card.Body>
-          <Card.Title>{movie.Title}</Card.Title>
-          <Card.Text>{movie.Description}</Card.Text>
-          <Button onClick={() => onMovieClick(movie)} variant="success">
-            view more
-          </Button>
-        </Card.Body>
-      </Card>
+      <CardColumns>
+        <Card bg="primary" text="warning" style={{ width: "18rem" }}>
+          {" "}
+          <Card.Img variant="top" src={movie.ImagePath} />
+          <Card.Body>
+            <Card.Title>{movie.Title}</Card.Title>
+            <Card.Text>{movie.Description}</Card.Text>
+            <Button onClick={() => onMovieClick(movie)} variant="success">
+              view more
+            </Button>
+          </Card.Body>
+        </Card>
+      </CardColumns>
     );
   }
 }

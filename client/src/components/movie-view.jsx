@@ -1,25 +1,28 @@
 import React from "react";
 
 import Card from "react-bootstrap/Card";
+import CardColumns from "react-bootstrap/CardColumns";
 import Button from "react-bootstrap/Button";
 
 const MovieView = ({ movie }) => {
   if (!movie) return null;
 
   return (
-    <Card style={{ widht: "18rem" }}>
-      <Card.Img variant="top" src={movie.ImagePath} />
-      <Card.Body>
-        {console.log(movie.Director.Name, movie.Director.Bio)}
-        <Card.Title>Movie Title: {movie.Title}</Card.Title>
-        <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
-        <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
-        <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
-        <Button variant="primary" className="homeButton">
-          Go back
-        </Button>
-      </Card.Body>
-    </Card>
+    <CardColumns>
+      <Card border="danger" style={{ widht: "18rem" }}>
+        <Card.Img variant="top" src={movie.ImagePath} />
+        <Card.Body>
+          {console.log(movie.Director.Name, movie.Director.Bio)}
+          <Card.Title>Movie Title: {movie.Title}</Card.Title>
+          <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
+          <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
+          <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
+          <Button variant="primary" className="homeButton">
+            Go back
+          </Button>
+        </Card.Body>
+      </Card>
+    </CardColumns>
   );
 };
 
