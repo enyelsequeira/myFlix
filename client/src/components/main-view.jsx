@@ -56,11 +56,11 @@ export class MainView extends React.Component {
   }
 
   //button to retun back
-  onButtonClick() {
+  onButtonClick = () => {
     this.setState({
       selectedMovie: ""
     });
-  }
+  };
 
   //testing
   onSignedIn(user) {
@@ -104,7 +104,8 @@ export class MainView extends React.Component {
             {selectedMovie ? (
               <MovieView
                 movie={selectedMovie}
-                onClick={() => this.onButtonClick()}
+                onButtonClick={this.onButtonClick}
+                /* onClick={() => this.onButtonClick()}*/
               />
             ) : (
               movies.map(movie => (
@@ -112,7 +113,8 @@ export class MainView extends React.Component {
                   <MovieCard
                     key={movie._id}
                     movie={movie}
-                    onMovieClick={movie => this.onMovieClick(movie)}
+                    onMovieClick={this.onMovieClick}
+                    /*onMovieClick={movie => this.onMovieClick(movie)}*/
                     /*onClick={movie => this.onMovieClick(movie)}*/
                   />
                 </Col>

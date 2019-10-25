@@ -35616,7 +35616,8 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MovieView = function MovieView(_ref) {
-  var movie = _ref.movie;
+  var movie = _ref.movie,
+      onButtonClick = _ref.onButtonClick;
   if (!movie) return null;
   return _react.default.createElement(_CardColumns.default, null, _react.default.createElement(_Card.default, {
     border: "danger",
@@ -35628,7 +35629,10 @@ var MovieView = function MovieView(_ref) {
     src: movie.ImagePath
   }), _react.default.createElement(_Card.default.Body, null, console.log(movie.Director.Name, movie.Director.Bio), _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.Title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.Genre.Name), _react.default.createElement(_Card.default.Text, null, "Movie Director: ", movie.Director.Name), _react.default.createElement(_Card.default.Text, null, "Director Bio: ", movie.Director.Bio), _react.default.createElement(_Button.default, {
     variant: "primary",
-    className: "homeButton"
+    className: "homeButton",
+    onClick: function onClick() {
+      return onButtonClick();
+    }
   }, "Go back"))));
 };
 
@@ -36750,6 +36754,12 @@ function (_React$Component) {
       });
     };
 
+    _this.onButtonClick = function () {
+      _this.setState({
+        selectedMovie: ""
+      });
+    };
+
     _this.state = {
       movies: [],
       selectedMovie: null,
@@ -36783,15 +36793,8 @@ function (_React$Component) {
     } //button to retun back
 
   }, {
-    key: "onButtonClick",
-    value: function onButtonClick() {
-      this.setState({
-        selectedMovie: ""
-      });
-    } //testing
-
-  }, {
     key: "onSignedIn",
+    //testing
     value: function onSignedIn(user) {
       this.setState({
         user: user,
@@ -36841,9 +36844,9 @@ function (_React$Component) {
         className: "main-view"
       }, _react.default.createElement(_Container.default, null, _react.default.createElement(_Row.default, null, selectedMovie ? _react.default.createElement(_movieView.default, {
         movie: selectedMovie,
-        onClick: function onClick() {
-          return _this3.onButtonClick();
-        }
+        onButtonClick: this.onButtonClick
+        /* onClick={() => this.onButtonClick()}*/
+
       }) : movies.map(function (movie) {
         return _react.default.createElement(_Col.default, {
           key: movie._id,
@@ -36853,9 +36856,9 @@ function (_React$Component) {
         }, _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
           movie: movie,
-          onMovieClick: function onMovieClick(movie) {
-            return _this3.onMovieClick(movie);
-          }
+          onMovieClick: _this3.onMovieClick
+          /*onMovieClick={movie => this.onMovieClick(movie)}*/
+
           /*onClick={movie => this.onMovieClick(movie)}*/
 
         }));
@@ -36973,7 +36976,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53918" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61541" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

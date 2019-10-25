@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import CardColumns from "react-bootstrap/CardColumns";
 import Button from "react-bootstrap/Button";
 
-const MovieView = ({ movie }) => {
+const MovieView = ({ movie, onButtonClick }) => {
   if (!movie) return null;
 
   return (
@@ -17,7 +17,11 @@ const MovieView = ({ movie }) => {
           <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
           <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
           <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
-          <Button variant="primary" className="homeButton">
+          <Button
+            variant="primary"
+            className="homeButton"
+            onClick={() => onButtonClick()}
+          >
             Go back
           </Button>
         </Card.Body>
