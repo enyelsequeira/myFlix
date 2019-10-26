@@ -36578,7 +36578,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RegistrationView = RegistrationView;
+exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -36600,7 +36600,10 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function RegistrationView(props) {
+var RegistrationView = function RegistrationView(_ref) {
+  var alreadyMember = _ref.alreadyMember,
+      onSignedIn = _ref.onSignedIn;
+
   var _useState = (0, _react.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
       username = _useState2[0],
@@ -36622,11 +36625,12 @@ function RegistrationView(props) {
       createDob = _useState8[1];
 
   var handleSubmit = function handleSubmit(e) {
+    console.log(alreadyMember, "-", onSignedIn);
     e.preventDefault();
     console.log(username, password);
   };
 
-  return _react.default.createElement(_Form.default, null, _react.default.createElement(_Form.default, {
+  return _react.default.createElement(_Form.default, {
     className: "registrationForm"
   }, _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicEmail"
@@ -36677,8 +36681,11 @@ function RegistrationView(props) {
     onClick: handleSubmit
   }, "REGISTER"), _react.default.createElement(_Button.default, {
     variant: "primary"
-  }, " already a member")));
-}
+  }, " already a member"));
+};
+
+var _default = RegistrationView;
+exports.default = _default;
 },{"react":"node_modules/react/index.js","react-bootstrap/Form":"node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"src/components/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -36710,7 +36717,7 @@ var _movieView = _interopRequireDefault(require("./movie-view.jsx"));
 
 var _loginView = _interopRequireDefault(require("./login-view"));
 
-var _registrationView = require("./registration-view");
+var _registrationView = _interopRequireDefault(require("./registration-view"));
 
 require("./main-view.scss");
 
@@ -36749,14 +36756,20 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MainView).call(this)); //initialize the state to an empty objec so we can destructure it
 
     _this.onMovieClick = function (movie) {
-      _this.setState({
+      return _this.setState({
         selectedMovie: movie
       });
     };
 
     _this.onButtonClick = function () {
-      _this.setState({
+      return _this.setState({
         selectedMovie: ""
+      });
+    };
+
+    _this.register = function () {
+      return _this.setState({
+        register: true
       });
     };
 
@@ -36803,15 +36816,8 @@ function (_React$Component) {
     } //testing
 
   }, {
-    key: "register",
-    value: function register() {
-      this.setState({
-        register: true
-      });
-    } //this overrides the render() method of the superclass
-
-  }, {
     key: "render",
+    //this overrides the render() method of the superclass
     value: function render() {
       var _this3 = this;
 
@@ -36828,8 +36834,8 @@ function (_React$Component) {
           return _this3.onLoggedIn(user);
         }
       });
-      if (register) return _react.default.createElement(_registrationView.RegistrationView, {
-        onClick: function onClick() {
+      if (register) return _react.default.createElement(_registrationView.default, {
+        alreadyMember: function alreadyMember() {
           return _this3.alreadyMember();
         },
         onSignedIn: function onSignedIn(user) {

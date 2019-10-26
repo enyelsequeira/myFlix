@@ -10,7 +10,7 @@ import Col from "react-bootstrap/Col";
 import { MovieCard } from "./movie-card.jsx";
 import MovieView from "./movie-view.jsx";
 import LoginView from "./login-view";
-import { RegistrationView } from "./registration-view";
+import RegistrationView from "./registration-view";
 
 import "./main-view.scss";
 
@@ -43,11 +43,8 @@ export class MainView extends React.Component {
       });
   }
 
-  onMovieClick = movie => {
-    this.setState({
-      selectedMovie: movie
-    });
-  };
+  onMovieClick = movie => this.setState({ selectedMovie: movie });
+
   //loggedIn
   onLoggedIn(user) {
     this.setState({
@@ -56,11 +53,7 @@ export class MainView extends React.Component {
   }
 
   //button to retun back
-  onButtonClick = () => {
-    this.setState({
-      selectedMovie: ""
-    });
-  };
+  onButtonClick = () => this.setState({ selectedMovie: "" });
 
   //testing
   onSignedIn(user) {
@@ -69,12 +62,9 @@ export class MainView extends React.Component {
       register: false
     });
   }
+
   //testing
-  register() {
-    this.setState({
-      register: true
-    });
-  }
+  register = () => this.setState({ register: true });
 
   //this overrides the render() method of the superclass
   render() {
@@ -90,7 +80,7 @@ export class MainView extends React.Component {
     if (register)
       return (
         <RegistrationView
-          onClick={() => this.alreadyMember()}
+          alreadyMember={() => this.alreadyMember()}
           onSignedIn={user => this.onSignedIn(user)}
         />
       );
