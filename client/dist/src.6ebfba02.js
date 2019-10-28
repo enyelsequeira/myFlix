@@ -36537,7 +36537,7 @@ var LoginView = function LoginView(props) {
   }, _react.default.createElement(_Form.default.Text, null, "New User? Click", " ", _react.default.createElement(_Button.default, {
     id: "registerButton",
     onClick: function onClick() {
-      return props.onClick();
+      return props.register();
     }
   }, " ", "Here!", " ")))));
   /*
@@ -36568,7 +36568,7 @@ var LoginView = function LoginView(props) {
 
 LoginView.propTypes = {
   onLoggedIn: _propTypes.default.func.isRequired,
-  onClick: _propTypes.default.func.isRequired
+  register: _propTypes.default.func.isRequired
 };
 var _default = LoginView;
 exports.default = _default;
@@ -36761,9 +36761,22 @@ function (_React$Component) {
       });
     };
 
+    _this.onLoggedIn = function (user) {
+      _this.setState({
+        user: user
+      });
+    };
+
     _this.onButtonClick = function () {
       return _this.setState({
         selectedMovie: ""
+      });
+    };
+
+    _this.onSignedIn = function (user) {
+      _this.setState({
+        user: user,
+        register: false
       });
     };
 
@@ -36795,25 +36808,16 @@ function (_React$Component) {
       }).catch(function (error) {
         console.log(error);
       });
-    }
-  }, {
-    key: "onLoggedIn",
-    //loggedIn
-    value: function onLoggedIn(user) {
-      this.setState({
-        user: user
-      });
-    } //button to retun back
+    } //loggedIn
 
-  }, {
-    key: "onSignedIn",
-    //testing
-    value: function onSignedIn(user) {
+    /*onLoggedIn(user) {
       this.setState({
-        user: user,
-        register: false
+        user
       });
-    } //testing
+    }*/
+    //button to retun back
+    //testing
+    //testing
 
   }, {
     key: "render",
@@ -36827,20 +36831,19 @@ function (_React$Component) {
           user = _this$state.user,
           register = _this$state.register;
       if (!user && register === false) return _react.default.createElement(_loginView.default, {
-        onClick: function onClick() {
-          return _this3.register();
-        },
-        onLoggedIn: function onLoggedIn(user) {
-          return _this3.onLoggedIn(user);
-        }
+        register: this.register
+        /* onClick={() => this.register()}*/
+        ,
+        onLoggedIn: this.onLoggedIn
+        /*onLoggedIn={user => this.onLoggedIn(user)}*/
+
       });
       if (register) return _react.default.createElement(_registrationView.default, {
-        alreadyMember: function alreadyMember() {
-          return _this3.alreadyMember();
-        },
-        onSignedIn: function onSignedIn(user) {
-          return _this3.onSignedIn(user);
-        }
+        alreadyMember: this.alreadyMember,
+        onSignedIn: this.onSignedIn
+        /*alreadyMember={() => this.alreadyMember()}
+        onSignedIn={user => this.onSignedIn(user)}*/
+
       }); //before the movies have been loaded
 
       if (!movies) return _react.default.createElement("div", {
@@ -36982,7 +36985,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61541" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52129" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

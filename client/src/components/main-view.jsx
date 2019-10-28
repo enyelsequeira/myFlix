@@ -46,22 +46,27 @@ export class MainView extends React.Component {
   onMovieClick = movie => this.setState({ selectedMovie: movie });
 
   //loggedIn
-  onLoggedIn(user) {
+  onLoggedIn = user => {
     this.setState({
       user
     });
-  }
+  };
+  /*onLoggedIn(user) {
+    this.setState({
+      user
+    });
+  }*/
 
   //button to retun back
   onButtonClick = () => this.setState({ selectedMovie: "" });
 
   //testing
-  onSignedIn(user) {
+  onSignedIn = user => {
     this.setState({
       user: user,
       register: false
     });
-  }
+  };
 
   //testing
   register = () => this.setState({ register: true });
@@ -72,16 +77,20 @@ export class MainView extends React.Component {
     if (!user && register === false)
       return (
         <LoginView
-          onClick={() => this.register()}
-          onLoggedIn={user => this.onLoggedIn(user)}
+          register={this.register}
+          /* onClick={() => this.register()}*/
+          onLoggedIn={this.onLoggedIn}
+          /*onLoggedIn={user => this.onLoggedIn(user)}*/
         />
       );
 
     if (register)
       return (
         <RegistrationView
-          alreadyMember={() => this.alreadyMember()}
-          onSignedIn={user => this.onSignedIn(user)}
+          alreadyMember={this.alreadyMember}
+          onSignedIn={this.onSignedIn}
+          /*alreadyMember={() => this.alreadyMember()}
+          onSignedIn={user => this.onSignedIn(user)}*/
         />
       );
 

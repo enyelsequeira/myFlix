@@ -46,7 +46,7 @@ const LoginView = props => {
         <Form.Group controlId="newUser">
           <Form.Text>
             New User? Click{" "}
-            <Button id="registerButton" onClick={() => props.onClick()}>
+            <Button id="registerButton" onClick={() => props.register()}>
               {" "}
               Here!{" "}
             </Button>
@@ -83,6 +83,6 @@ const LoginView = props => {
 
 LoginView.propTypes = {
   onLoggedIn: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired
 };
 export default LoginView;
