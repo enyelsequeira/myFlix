@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
+import axios from "axios";
+
 const RegistrationView = ({ alreadyMember, onSignedIn }) => {
   const [username, createUsername] = useState("");
   const [password, createPassword] = useState("");
@@ -13,6 +15,21 @@ const RegistrationView = ({ alreadyMember, onSignedIn }) => {
     console.log(alreadyMember, "-", onSignedIn);
     e.preventDefault();
     console.log(username, password);
+
+    axios
+      .post("https://sheltered-scrubland-70732.herokuapp.com/Users", {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday
+      })
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log("no such user [REGISTRATION]");
+      });
   };
 
   return (

@@ -36475,6 +36475,8 @@ var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -36502,10 +36504,26 @@ var LoginView = function LoginView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    console.log(username, password); //send a request to the server fro auth and call props.onloggedin(usernam)
+    /* Send a request to the server for authentication */
 
+    _axios.default.post("https://sheltered-scrubland-70732.herokuapp.com/login", {
+      Username: username,
+      Password: password
+    }).then(function (response) {
+      var data = response.data;
+      props.onLoggedIn(data);
+    }).catch(function (e) {
+      console.log("no such user [LOGIN]");
+    });
+  };
+  /* const handleSubmit = e => {
+    e.preventDefault();
+    console.log(username, password);
+    //send a request to the server fro auth and call props.onloggedin(usernam)
     props.onLoggedIn(username);
   };
+  */
+
 
   return _react.default.createElement(_Container.default, {
     className: "loginContainer"
@@ -36572,7 +36590,7 @@ LoginView.propTypes = {
 };
 var _default = LoginView;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-bootstrap/Form":"node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","prop-types":"node_modules/prop-types/index.js"}],"src/components/registration-view.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap/Form":"node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","prop-types":"node_modules/prop-types/index.js","axios":"node_modules/axios/index.js"}],"src/components/registration-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36585,6 +36603,8 @@ var _react = _interopRequireWildcard(require("react"));
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+
+var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36628,6 +36648,18 @@ var RegistrationView = function RegistrationView(_ref) {
     console.log(alreadyMember, "-", onSignedIn);
     e.preventDefault();
     console.log(username, password);
+
+    _axios.default.post("https://sheltered-scrubland-70732.herokuapp.com/Users", {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
+    }).then(function (response) {
+      var data = response.data;
+      props.onLoggedIn(data);
+    }).catch(function (e) {
+      console.log("no such user [REGISTRATION]");
+    });
   };
 
   return _react.default.createElement(_Form.default, {
@@ -36686,7 +36718,7 @@ var RegistrationView = function RegistrationView(_ref) {
 
 var _default = RegistrationView;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-bootstrap/Form":"node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"src/components/main-view.scss":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap/Form":"node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","axios":"node_modules/axios/index.js"}],"src/components/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -36761,10 +36793,18 @@ function (_React$Component) {
       });
     };
 
-    _this.onLoggedIn = function (user) {
+    _this.onLoggedIn = function (authData) {
+      console.log("DATAAAAA", authData);
+      console.log("INFOOOOO", _this.state.user, _this.state.register, _this.state.movies);
+
       _this.setState({
-        user: user
+        user: authData.user.Username
       });
+
+      localStorage.setItem("token", authData.token);
+      localStorage.setItem("user", authData.user.Username);
+
+      _this.getMovies(authData.token);
     };
 
     _this.onButtonClick = function () {
@@ -36810,12 +36850,37 @@ function (_React$Component) {
       });
     } //loggedIn
 
+  }, {
+    key: "getMovies",
+
+    /* use this
+    onLoggedIn = user => {
+      this.setState({
+        user
+      });
+    };*/
+
     /*onLoggedIn(user) {
       this.setState({
         user
       });
     }*/
-    //button to retun back
+    value: function getMovies(token) {
+      var _this3 = this;
+
+      _axios.default.get("https://sheltered-scrubland-70732.herokuapp.com/movies", {
+        headers: {
+          Authorization: "Bearer ".concat(authData.token)
+        }
+      }).then(function (response) {
+        //asing the results to the state
+        _this3.setState({
+          movies: response.data
+        });
+      }).catch(function (error) {
+        console.log(error);
+      });
+    } //button to retun back
     //testing
     //testing
 
@@ -36823,13 +36888,14 @@ function (_React$Component) {
     key: "render",
     //this overrides the render() method of the superclass
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$state = this.state,
           movies = _this$state.movies,
           selectedMovie = _this$state.selectedMovie,
           user = _this$state.user,
           register = _this$state.register;
+      console.log(user, register, movies);
       if (!user && register === false) return _react.default.createElement(_loginView.default, {
         register: this.register
         /* onClick={() => this.register()}*/
@@ -36844,7 +36910,7 @@ function (_React$Component) {
         /*alreadyMember={() => this.alreadyMember()}
         onSignedIn={user => this.onSignedIn(user)}*/
 
-      }); //before the movies have been loaded
+      }); //before the movies have been loaded //check this///////////////
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
@@ -36865,7 +36931,7 @@ function (_React$Component) {
         }, _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
           movie: movie,
-          onMovieClick: _this3.onMovieClick
+          onMovieClick: _this4.onMovieClick
           /*onMovieClick={movie => this.onMovieClick(movie)}*/
 
           /*onClick={movie => this.onMovieClick(movie)}*/
@@ -36985,7 +37051,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52129" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61897" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

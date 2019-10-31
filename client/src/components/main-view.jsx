@@ -46,16 +46,50 @@ export class MainView extends React.Component {
   onMovieClick = movie => this.setState({ selectedMovie: movie });
 
   //loggedIn
+  onLoggedIn = authData => {
+    console.log("DATAAAAA", authData);
+    console.log(
+      "INFOOOOO",
+      this.state.user,
+      this.state.register,
+      this.state.movies
+    );
+
+    this.setState({
+      user: authData.user.Username
+    });
+
+    localStorage.setItem("token", authData.token);
+    localStorage.setItem("user", authData.user.Username);
+
+    this.getMovies(authData.token);
+  };
+  /* use this
   onLoggedIn = user => {
     this.setState({
       user
     });
-  };
+  };*/
   /*onLoggedIn(user) {
     this.setState({
       user
     });
   }*/
+  getMovies(token) {
+    axios
+      .get("https://sheltered-scrubland-70732.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer ${authData.token}` }
+      })
+      .then(response => {
+        //asing the results to the state
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
   //button to retun back
   onButtonClick = () => this.setState({ selectedMovie: "" });
@@ -74,6 +108,9 @@ export class MainView extends React.Component {
   //this overrides the render() method of the superclass
   render() {
     const { movies, selectedMovie, user, register } = this.state;
+
+    console.log(user, register, movies);
+
     if (!user && register === false)
       return (
         <LoginView
@@ -94,8 +131,9 @@ export class MainView extends React.Component {
         />
       );
 
-    //before the movies have been loaded
+    //before the movies have been loaded //check this///////////////
     if (!movies) return <div className="main-view" />;
+
     return (
       <div className="main-view">
         <Container>

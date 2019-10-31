@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 const LoginView = props => {
   const [username, setUsername] = useState("");
@@ -10,11 +11,27 @@ const LoginView = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    /* Send a request to the server for authentication */
+    axios
+      .post("https://sheltered-scrubland-70732.herokuapp.com/login", {
+        Username: username,
+        Password: password
+      })
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log("no such user [LOGIN]");
+      });
+  };
+  /* const handleSubmit = e => {
+    e.preventDefault();
     console.log(username, password);
     //send a request to the server fro auth and call props.onloggedin(usernam)
     props.onLoggedIn(username);
   };
-
+*/
   return (
     <Container className="loginContainer">
       <h1>Movies E!</h1>
