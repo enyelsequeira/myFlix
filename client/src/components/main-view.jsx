@@ -76,18 +76,19 @@ export class MainView extends React.Component {
     });
   }*/
   getMovies(token) {
+    console.log("[1]");
+
     axios
       .get("https://sheltered-scrubland-70732.herokuapp.com/movies", {
-        headers: { Authorization: `Bearer ${authData.token}` }
+        x: console.log(token, "[3]"),
+        headers: { Authorization: `Bearer ${token}` } /*authData.*/
       })
       .then(response => {
         //asing the results to the state
-        this.setState({
-          movies: response.data
-        });
+        this.setState({ movies: response.data });
       })
       .catch(function(error) {
-        console.log(error);
+        console.log(error, "[2]");
       });
   }
 

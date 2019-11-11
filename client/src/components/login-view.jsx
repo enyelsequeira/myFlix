@@ -12,6 +12,8 @@ const LoginView = props => {
   const handleSubmit = e => {
     e.preventDefault();
     /* Send a request to the server for authentication */
+    console.log(username, password);
+
     axios
       .post("https://sheltered-scrubland-70732.herokuapp.com/login", {
         Username: username,
@@ -19,10 +21,12 @@ const LoginView = props => {
       })
       .then(response => {
         const data = response.data;
+
+        console.log("[1] - login");
         props.onLoggedIn(data);
       })
       .catch(e => {
-        console.log("no such user [LOGIN]");
+        console.log(e);
       });
   };
   /* const handleSubmit = e => {

@@ -36506,14 +36506,17 @@ var LoginView = function LoginView(props) {
     e.preventDefault();
     /* Send a request to the server for authentication */
 
+    console.log(username, password);
+
     _axios.default.post("https://sheltered-scrubland-70732.herokuapp.com/login", {
       Username: username,
       Password: password
     }).then(function (response) {
       var data = response.data;
+      console.log("[1] - login");
       props.onLoggedIn(data);
     }).catch(function (e) {
-      console.log("no such user [LOGIN]");
+      console.log(e);
     });
   };
   /* const handleSubmit = e => {
@@ -36868,9 +36871,14 @@ function (_React$Component) {
     value: function getMovies(token) {
       var _this3 = this;
 
+      console.log("[1]");
+
       _axios.default.get("https://sheltered-scrubland-70732.herokuapp.com/movies", {
+        x: console.log(token, "[3]"),
         headers: {
-          Authorization: "Bearer ".concat(authData.token)
+          Authorization: "Bearer ".concat(token)
+          /*authData.*/
+
         }
       }).then(function (response) {
         //asing the results to the state
@@ -36878,7 +36886,7 @@ function (_React$Component) {
           movies: response.data
         });
       }).catch(function (error) {
-        console.log(error);
+        console.log(error, "[2]");
       });
     } //button to retun back
     //testing
@@ -37051,7 +37059,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61897" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61193" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
