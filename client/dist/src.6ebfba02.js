@@ -36508,7 +36508,7 @@ var LoginView = function LoginView(props) {
 
     console.log(username, password);
 
-    _axios.default.post("https://sheltered-scrubland-70732.herokuapp.com/login", {
+    _axios.default.post("https://immense-springs-16706.herokuapp.com/login", {
       Username: username,
       Password: password
     }).then(function (response) {
@@ -36652,7 +36652,7 @@ var RegistrationView = function RegistrationView(_ref) {
     e.preventDefault();
     console.log(username, password);
 
-    _axios.default.post("https://sheltered-scrubland-70732.herokuapp.com/Users", {
+    _axios.default.post("https://immense-springs-16706.herokuapp.com/Users", {
       Username: username,
       Password: password,
       Email: email,
@@ -36843,7 +36843,7 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      _axios.default.get("https://sheltered-scrubland-70732.herokuapp.com/movies").then(function (res) {
+      _axios.default.get("https://immense-springs-16706.herokuapp.com/movies").then(function (res) {
         //assing result to the state
         _this2.setState({
           movies: res.data
@@ -36873,7 +36873,7 @@ function (_React$Component) {
 
       console.log("[1]");
 
-      _axios.default.get("https://sheltered-scrubland-70732.herokuapp.com/movies", {
+      _axios.default.get("https://immense-springs-16706.herokuapp.com/movies", {
         x: console.log(token, "[3]"),
         headers: {
           Authorization: "Bearer ".concat(token)
@@ -37059,7 +37059,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53820" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55391" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

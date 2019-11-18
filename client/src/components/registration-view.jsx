@@ -17,7 +17,7 @@ const RegistrationView = ({ alreadyMember, onSignedIn }) => {
     console.log(username, password);
 
     axios
-      .post("https://sheltered-scrubland-70732.herokuapp.com/Users", {
+      .post("https://immense-springs-16706.herokuapp.com/Users", {
         Username: username,
         Password: password,
         Email: email,

@@ -66,7 +66,8 @@ app.use(morgan("common"));
 
 
 //importing auth.js file
-var auth = require("./auth")(app);
+var auth = require('./auth')(app)
+//var auth = require("./auth")(app);
 
 //error hanglding middleware
 app.use(function (err, req, res, next) {
@@ -464,7 +465,43 @@ app.delete(
 //GET requests
 
 //listening for request
-var port = process.env.PORT || 2000;
+var port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function () {
   console.log("Listening on Port 3000");
 });
+
+
+/* POST login 
+module.exports = (router) => {
+  console.log('this')
+  router.post('/login', (req, res, next) => {
+    console.log(req.body);
+
+    passport.authenticate('local', {
+      session: false
+    }, (error, user, info) => {
+      console.log(user, 1);
+      if (error || !user) {
+        return res.status(400).json({
+          message: 'Something is not right',
+          user: user
+        });
+      }
+      req.login(user, {
+        x: console.log(user, 2),
+        session: false
+      }, (error) => {
+        if (error) {
+          console.log(error, 'error1')
+          res.send(error);
+        }
+        var token = generateJWTToken(user.toJSON());
+        console.log('end', user, token)
+        return res.json({
+          user,
+          token
+        });
+      });
+    })(req, res, next);
+  });
+   */

@@ -31,7 +31,7 @@ export class MainView extends React.Component {
   }
   componentDidMount() {
     axios
-      .get("https://sheltered-scrubland-70732.herokuapp.com/movies")
+      .get("https://immense-springs-16706.herokuapp.com/movies")
       .then(res => {
         //assing result to the state
         this.setState({
@@ -79,7 +79,7 @@ export class MainView extends React.Component {
     console.log("[1]");
 
     axios
-      .get("https://sheltered-scrubland-70732.herokuapp.com/movies", {
+      .get("https://immense-springs-16706.herokuapp.com/movies", {
         x: console.log(token, "[3]"),
         headers: { Authorization: `Bearer ${token}` } /*authData.*/
       })
