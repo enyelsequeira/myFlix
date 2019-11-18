@@ -30,17 +30,13 @@ export class MainView extends React.Component {
     };
   }
   componentDidMount() {
-    axios
-      .get("https://immense-springs-16706.herokuapp.com/movies")
-      .then(res => {
-        //assing result to the state
-        this.setState({
-          movies: res.data
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
+    let accessToken = localStorage.getItem("token");
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem("user")
       });
+      this.getMovies(accessToken);
+    }
   }
 
   onMovieClick = movie => this.setState({ selectedMovie: movie });
@@ -48,12 +44,7 @@ export class MainView extends React.Component {
   //loggedIn
   onLoggedIn = authData => {
     console.log("DATAAAAA", authData);
-    console.log(
-      "INFOOOOO",
-      this.state.user,
-      this.state.register,
-      this.state.movies
-    );
+    console.log("INFOOOOO");
 
     this.setState({
       user: authData.user.Username
@@ -76,8 +67,7 @@ export class MainView extends React.Component {
     });
   }*/
   getMovies(token) {
-    console.log("[1]");
-
+    //console.log("[1]");
     axios
       .get("https://immense-springs-16706.herokuapp.com/movies", {
         x: console.log(token, "[3]"),
@@ -88,7 +78,7 @@ export class MainView extends React.Component {
         this.setState({ movies: response.data });
       })
       .catch(function(error) {
-        console.log(error, "[2]");
+        console.log(error);
       });
   }
 
@@ -162,22 +152,5 @@ export class MainView extends React.Component {
         </Container>
       </div>
     );
-
-    /*return (
-      <div className="main-view">
-    
-        {selectedMovie ? (
-          <MovieView movie={selectedMovie} goBack={this.onButtonClick} />
-        ) : (
-          movies.map(movie => (
-            <MovieCard
-              key={movie._id}
-              movie={movie}
-              onMovieClick={movie => this.onMovieClick(movie)}
-            />
-          ))
-        )}
-      </div>
-    );*/
   }
 }

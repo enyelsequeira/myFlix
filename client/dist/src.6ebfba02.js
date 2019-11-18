@@ -36798,7 +36798,7 @@ function (_React$Component) {
 
     _this.onLoggedIn = function (authData) {
       console.log("DATAAAAA", authData);
-      console.log("INFOOOOO", _this.state.user, _this.state.register, _this.state.movies);
+      console.log("INFOOOOO");
 
       _this.setState({
         user: authData.user.Username
@@ -36841,16 +36841,14 @@ function (_React$Component) {
   _createClass(MainView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
+      var accessToken = localStorage.getItem("token");
 
-      _axios.default.get("https://immense-springs-16706.herokuapp.com/movies").then(function (res) {
-        //assing result to the state
-        _this2.setState({
-          movies: res.data
+      if (accessToken !== null) {
+        this.setState({
+          user: localStorage.getItem("user")
         });
-      }).catch(function (error) {
-        console.log(error);
-      });
+        this.getMovies(accessToken);
+      }
     } //loggedIn
 
   }, {
@@ -36869,10 +36867,9 @@ function (_React$Component) {
       });
     }*/
     value: function getMovies(token) {
-      var _this3 = this;
+      var _this2 = this;
 
-      console.log("[1]");
-
+      //console.log("[1]");
       _axios.default.get("https://immense-springs-16706.herokuapp.com/movies", {
         x: console.log(token, "[3]"),
         headers: {
@@ -36882,11 +36879,11 @@ function (_React$Component) {
         }
       }).then(function (response) {
         //asing the results to the state
-        _this3.setState({
+        _this2.setState({
           movies: response.data
         });
       }).catch(function (error) {
-        console.log(error, "[2]");
+        console.log(error);
       });
     } //button to retun back
     //testing
@@ -36896,7 +36893,7 @@ function (_React$Component) {
     key: "render",
     //this overrides the render() method of the superclass
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var _this$state = this.state,
           movies = _this$state.movies,
@@ -36939,29 +36936,13 @@ function (_React$Component) {
         }, _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
           movie: movie,
-          onMovieClick: _this4.onMovieClick
+          onMovieClick: _this3.onMovieClick
           /*onMovieClick={movie => this.onMovieClick(movie)}*/
 
           /*onClick={movie => this.onMovieClick(movie)}*/
 
         }));
       }))));
-      /*return (
-        <div className="main-view">
-      
-          {selectedMovie ? (
-            <MovieView movie={selectedMovie} goBack={this.onButtonClick} />
-          ) : (
-            movies.map(movie => (
-              <MovieCard
-                key={movie._id}
-                movie={movie}
-                onMovieClick={movie => this.onMovieClick(movie)}
-              />
-            ))
-          )}
-        </div>
-      );*/
     }
   }]);
 
@@ -37059,7 +37040,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55391" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60183" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
