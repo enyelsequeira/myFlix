@@ -36797,9 +36797,6 @@ function (_React$Component) {
     };
 
     _this.onLoggedIn = function (authData) {
-      console.log("DATAAAAA", authData);
-      console.log("INFOOOOO");
-
       _this.setState({
         user: authData.user.Username
       });
@@ -36853,25 +36850,12 @@ function (_React$Component) {
 
   }, {
     key: "getMovies",
-
-    /* use this
-    onLoggedIn = user => {
-      this.setState({
-        user
-      });
-    };*/
-
-    /*onLoggedIn(user) {
-      this.setState({
-        user
-      });
-    }*/
     value: function getMovies(token) {
       var _this2 = this;
 
       //console.log("[1]");
       _axios.default.get("https://immense-springs-16706.herokuapp.com/movies", {
-        x: console.log(token, "[3]"),
+        // x: console.log(token, "[3]"),
         headers: {
           Authorization: "Bearer ".concat(token)
           /*authData.*/
@@ -36899,22 +36883,17 @@ function (_React$Component) {
           movies = _this$state.movies,
           selectedMovie = _this$state.selectedMovie,
           user = _this$state.user,
-          register = _this$state.register;
-      console.log(user, register, movies);
+          register = _this$state.register; // console.log(user, register, movies);
+
       if (!user && register === false) return _react.default.createElement(_loginView.default, {
         register: this.register
         /* onClick={() => this.register()}*/
         ,
         onLoggedIn: this.onLoggedIn
-        /*onLoggedIn={user => this.onLoggedIn(user)}*/
-
       });
       if (register) return _react.default.createElement(_registrationView.default, {
         alreadyMember: this.alreadyMember,
         onSignedIn: this.onSignedIn
-        /*alreadyMember={() => this.alreadyMember()}
-        onSignedIn={user => this.onSignedIn(user)}*/
-
       }); //before the movies have been loaded //check this///////////////
 
       if (!movies) return _react.default.createElement("div", {
@@ -36925,8 +36904,6 @@ function (_React$Component) {
       }, _react.default.createElement(_Container.default, null, _react.default.createElement(_Row.default, null, selectedMovie ? _react.default.createElement(_movieView.default, {
         movie: selectedMovie,
         onButtonClick: this.onButtonClick
-        /* onClick={() => this.onButtonClick()}*/
-
       }) : movies.map(function (movie) {
         return _react.default.createElement(_Col.default, {
           key: movie._id,
@@ -36937,10 +36914,6 @@ function (_React$Component) {
           key: movie._id,
           movie: movie,
           onMovieClick: _this3.onMovieClick
-          /*onMovieClick={movie => this.onMovieClick(movie)}*/
-
-          /*onClick={movie => this.onMovieClick(movie)}*/
-
         }));
       }))));
     }
@@ -37040,7 +37013,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60183" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53766" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

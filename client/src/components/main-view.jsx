@@ -43,9 +43,6 @@ export class MainView extends React.Component {
 
   //loggedIn
   onLoggedIn = authData => {
-    console.log("DATAAAAA", authData);
-    console.log("INFOOOOO");
-
     this.setState({
       user: authData.user.Username
     });
@@ -55,22 +52,12 @@ export class MainView extends React.Component {
 
     this.getMovies(authData.token);
   };
-  /* use this
-  onLoggedIn = user => {
-    this.setState({
-      user
-    });
-  };*/
-  /*onLoggedIn(user) {
-    this.setState({
-      user
-    });
-  }*/
+
   getMovies(token) {
     //console.log("[1]");
     axios
       .get("https://immense-springs-16706.herokuapp.com/movies", {
-        x: console.log(token, "[3]"),
+        // x: console.log(token, "[3]"),
         headers: { Authorization: `Bearer ${token}` } /*authData.*/
       })
       .then(response => {
@@ -100,7 +87,7 @@ export class MainView extends React.Component {
   render() {
     const { movies, selectedMovie, user, register } = this.state;
 
-    console.log(user, register, movies);
+    // console.log(user, register, movies);
 
     if (!user && register === false)
       return (
@@ -108,7 +95,6 @@ export class MainView extends React.Component {
           register={this.register}
           /* onClick={() => this.register()}*/
           onLoggedIn={this.onLoggedIn}
-          /*onLoggedIn={user => this.onLoggedIn(user)}*/
         />
       );
 
@@ -117,8 +103,6 @@ export class MainView extends React.Component {
         <RegistrationView
           alreadyMember={this.alreadyMember}
           onSignedIn={this.onSignedIn}
-          /*alreadyMember={() => this.alreadyMember()}
-          onSignedIn={user => this.onSignedIn(user)}*/
         />
       );
 
@@ -133,7 +117,6 @@ export class MainView extends React.Component {
               <MovieView
                 movie={selectedMovie}
                 onButtonClick={this.onButtonClick}
-                /* onClick={() => this.onButtonClick()}*/
               />
             ) : (
               movies.map(movie => (
@@ -142,8 +125,6 @@ export class MainView extends React.Component {
                     key={movie._id}
                     movie={movie}
                     onMovieClick={this.onMovieClick}
-                    /*onMovieClick={movie => this.onMovieClick(movie)}*/
-                    /*onClick={movie => this.onMovieClick(movie)}*/
                   />
                 </Col>
               ))
