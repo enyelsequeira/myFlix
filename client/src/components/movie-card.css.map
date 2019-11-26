@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAKA,AAAA,gBAAgB,CAAC;EACb,KAAK,EANG,OAAO;CAOlB;;AAED,AAAA,KAAK,AAAA,KAAK,CAAC;EACP,KAAK,EAVG,OAAO;CAWlB",
-    "sources": [
-        "movie-card.scss"
-    ],
-    "names": [],
-    "file": "movie-card.css"
-}

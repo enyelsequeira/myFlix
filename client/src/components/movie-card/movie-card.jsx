@@ -6,7 +6,7 @@ import CardDeck from "react-bootstrap/CardDeck";
 import CardColumns from "react-bootstrap/CardColumns";
 import "./movie-card.scss";
 
-export class MovieCard extends React.Component {
+class MovieCard extends React.Component {
   render() {
     const { movie, onMovieClick } = this.props;
 
@@ -41,3 +41,5 @@ MovieCard.propTypes = {
     </div>
   );
 */
+
+export default MovieCard;
