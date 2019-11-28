@@ -130,8 +130,38 @@ class MainView extends React.Component {
     const { movies, selectedMovie, user, register } = this.state;
 
     //new logiC?
-    if (!user) {
-      return (
+    if (!movies) return <div className="main-view" />;
+
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+
+    return (
+      <Router>
+        <div className="main-view">
+          <Route
+            exact
+            path="/"
+            render={() => {
+              if (!user)
+                return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+              return movies.map(m => (
+                <MovieCard key={m._id} movie={m} userInfo={userInfo} />
+              ));
+            }}
+          />
+          <Route
+            path="/movies/:movieId"
+            render={({ match }) => (
+              <MovieView
+                movie={movies.find(m => m._id === match.params.movieId)}
+              />
+            )}
+          />
+        </div>
+      </Router>
+    );
+  }
+}
+/*return (
         <Router>
           <Container className="main-view" fluid="true">
             <Row>
@@ -165,7 +195,13 @@ class MainView extends React.Component {
           </Navbar>
           <Container className="main-view" fluid="true">
             <Row>
-              <Route exact path="/" render={() => {}} />
+              <Route
+                exact
+                path="/"
+                render={() =>
+                  movies.map(m => <MovieCard key={m._id} movie={m} />)
+                }
+              />
               <Route
                 path="/profile"
                 render={() => (
@@ -179,17 +215,11 @@ class MainView extends React.Component {
                 )}
               />
               <Route
-                path="/movies/:Id"
+                path="/movies/:movieId"
                 render={({ match }) => (
-                  <Col>
-                    <MovieView
-                      user={this.state.user}
-                      movie={movies.find(
-                        movie => movie._id === match.params.Id
-                      )}
-                      updateProfile={this.updateProfile}
-                    />
-                  </Col>
+                  <MovieView
+                    movie={movies.find(m => m._id === match.params.movieId)}
+                  />
                 )}
               />
               <Route
@@ -202,13 +232,18 @@ class MainView extends React.Component {
                 )}
               />
               <Route
-                path="/director/:Director"
-                render={({ match }) => (
-                  <DirectorView
-                    movies={this.state.movies}
-                    directorName={match.params.Director}
-                  />
-                )}
+                path="/directors/:name"
+                render={({ match }) => {
+                  if (!movies) return <div className="main-view" />;
+                  return (
+                    <DirectorView
+                      director={
+                        movies.find(m => m.Director.Name === match.params.name)
+                          .Director
+                      }
+                    />
+                  );
+                }}
               />
             </Row>
           </Container>
@@ -216,7 +251,7 @@ class MainView extends React.Component {
       );
     }
   }
-}
+}*/
 /*  if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
 
     if (register)

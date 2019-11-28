@@ -42239,6 +42239,8 @@ var _CardColumns = _interopRequireDefault(require("react-bootstrap/CardColumns")
 
 require("./movie-card.scss");
 
+var _reactRouterDom = require("react-router-dom");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -42285,12 +42287,11 @@ function (_React$Component) {
       }, " ", _react.default.createElement(_Card.default.Img, {
         variant: "top",
         src: movie.ImagePath
-      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_Button.default, {
-        onClick: function onClick() {
-          return onMovieClick(movie);
-        },
-        variant: "success"
-      }, "view more"))));
+      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/movies/".concat(movie._id)
+      }, _react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "Open")))));
     }
   }]);
 
@@ -42313,7 +42314,7 @@ MovieCard.propTypes = {
 
 var _default = MovieCard;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/CardDeck":"node_modules/react-bootstrap/esm/CardDeck.js","react-bootstrap/CardColumns":"node_modules/react-bootstrap/esm/CardColumns.js","./movie-card.scss":"src/components/movie-card/movie-card.scss"}],"src/components/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/CardDeck":"node_modules/react-bootstrap/esm/CardDeck.js","react-bootstrap/CardColumns":"node_modules/react-bootstrap/esm/CardColumns.js","./movie-card.scss":"src/components/movie-card/movie-card.scss","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"src/components/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54659,103 +54660,141 @@ function (_React$Component) {
           user = _this$state.user,
           register = _this$state.register; //new logiC?
 
-      if (!user) {
-        return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement(_Container.default, {
-          className: "main-view",
-          fluid: "true"
-        }, _react.default.createElement(_Row.default, null, _react.default.createElement(_reactRouterDom.Route, {
-          exact: true,
-          path: "/",
-          render: function render() {
-            return _react.default.createElement(_.LoginView, {
-              onLoggedIn: function onLoggedIn(user) {
-                return _this3.onLoggedIn(user);
-              }
+      if (!movies) return _react.default.createElement("div", {
+        className: "main-view"
+      });
+      if (!user) return _react.default.createElement(_.LoginView, {
+        onLoggedIn: function onLoggedIn(user) {
+          return _this3.onLoggedIn(user);
+        }
+      });
+      return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", {
+        className: "main-view"
+      }, _react.default.createElement(_reactRouterDom.Route, {
+        exact: true,
+        path: "/",
+        render: function render() {
+          if (!user) return _react.default.createElement(_.LoginView, {
+            onLoggedIn: function onLoggedIn(user) {
+              return _this3.onLoggedIn(user);
+            }
+          });
+          return movies.map(function (m) {
+            return _react.default.createElement(_.MovieCard, {
+              key: m._id,
+              movie: m,
+              userInfo: userInfo
             });
-          }
-        }), _react.default.createElement(_reactRouterDom.Route, {
-          path: "/register",
-          render: function render() {
-            return _react.default.createElement(_.RegistrationView, null);
-          }
-        }), _react.default.createElement(_reactRouterDom.Route, {
-          path: "/profile",
-          render: function render() {
-            return _react.default.createElement(_reactRouterDom.Redirect, {
-              to: "/"
-            });
-          }
-        }))));
-      } else {
-        return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement(_Navbar.default, {
-          sticky: "top",
-          bg: "dark",
-          variant: "dark"
-        }, _react.default.createElement(_Nav.default, {
-          className: "nav-bar"
-        }, _react.default.createElement(_reactRouterDom.Link, {
-          className: "nav-link",
-          to: "/"
-        }, "Home"), _react.default.createElement(_reactRouterDom.Link, {
-          className: "nav-link",
-          to: "/profile"
-        }, "Profile"))), _react.default.createElement(_Container.default, {
-          className: "main-view",
-          fluid: "true"
-        }, _react.default.createElement(_Row.default, null, _react.default.createElement(_reactRouterDom.Route, {
-          exact: true,
-          path: "/",
-          render: function render() {}
-        }), _react.default.createElement(_reactRouterDom.Route, {
-          path: "/profile",
-          render: function render() {
-            return _react.default.createElement(_profileView.ProfileView, {
-              movies: _this3.state.movies,
-              user: _this3.state.user,
-              updateProfile: _this3.updateProfile,
-              resetUserState: function resetUserState() {
-                return _this3.resetUserState();
-              },
-              onLoggedIn: _this3.onLoggedIn
-            });
-          }
-        }), _react.default.createElement(_reactRouterDom.Route, {
-          path: "/movies/:Id",
-          render: function render(_ref) {
-            var match = _ref.match;
-            return _react.default.createElement(_Col.default, null, _react.default.createElement(_.MovieView, {
-              user: _this3.state.user,
-              movie: movies.find(function (movie) {
-                return movie._id === match.params.Id;
-              }),
-              updateProfile: _this3.updateProfile
-            }));
-          }
-        }), _react.default.createElement(_reactRouterDom.Route, {
-          path: "/genre/:Genre",
-          render: function render(_ref2) {
-            var match = _ref2.match;
-            return _react.default.createElement(GenreView, {
-              movies: _this3.state.movies,
-              genre: match.params.Genre
-            });
-          }
-        }), _react.default.createElement(_reactRouterDom.Route, {
-          path: "/director/:Director",
-          render: function render(_ref3) {
-            var match = _ref3.match;
-            return _react.default.createElement(_directorView.DirectorView, {
-              movies: _this3.state.movies,
-              directorName: match.params.Director
-            });
-          }
-        }))));
-      }
+          });
+        }
+      }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/movies/:movieId",
+        render: function render(_ref) {
+          var match = _ref.match;
+          return _react.default.createElement(_.MovieView, {
+            movie: movies.find(function (m) {
+              return m._id === match.params.movieId;
+            })
+          });
+        }
+      })));
     }
   }]);
 
   return MainView;
 }(_react.default.Component);
+/*return (
+        <Router>
+          <Container className="main-view" fluid="true">
+            <Row>
+              <Route
+                exact
+                path="/"
+                render={() => {
+                  return (
+                    <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                  );
+                }}
+              />
+              <Route path="/register" render={() => <RegistrationView />} />
+              <Route path="/profile" render={() => <Redirect to="/" />} />
+            </Row>
+          </Container>
+        </Router>
+      );
+    } else {
+      return (
+        <Router>
+          <Navbar sticky="top" bg="dark" variant="dark">
+            <Nav className="nav-bar">
+              <Link className="nav-link" to="/">
+                Home
+              </Link>
+              <Link className="nav-link" to="/profile">
+                Profile
+              </Link>
+            </Nav>
+          </Navbar>
+          <Container className="main-view" fluid="true">
+            <Row>
+              <Route
+                exact
+                path="/"
+                render={() =>
+                  movies.map(m => <MovieCard key={m._id} movie={m} />)
+                }
+              />
+              <Route
+                path="/profile"
+                render={() => (
+                  <ProfileView
+                    movies={this.state.movies}
+                    user={this.state.user}
+                    updateProfile={this.updateProfile}
+                    resetUserState={() => this.resetUserState()}
+                    onLoggedIn={this.onLoggedIn}
+                  />
+                )}
+              />
+              <Route
+                path="/movies/:movieId"
+                render={({ match }) => (
+                  <MovieView
+                    movie={movies.find(m => m._id === match.params.movieId)}
+                  />
+                )}
+              />
+              <Route
+                path="/genre/:Genre"
+                render={({ match }) => (
+                  <GenreView
+                    movies={this.state.movies}
+                    genre={match.params.Genre}
+                  />
+                )}
+              />
+              <Route
+                path="/directors/:name"
+                render={({ match }) => {
+                  if (!movies) return <div className="main-view" />;
+                  return (
+                    <DirectorView
+                      director={
+                        movies.find(m => m.Director.Name === match.params.name)
+                          .Director
+                      }
+                    />
+                  );
+                }}
+              />
+            </Row>
+          </Container>
+        </Router>
+      );
+    }
+  }
+}*/
+
 /*  if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
 
     if (register)
@@ -54955,7 +54994,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64609" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54821" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
