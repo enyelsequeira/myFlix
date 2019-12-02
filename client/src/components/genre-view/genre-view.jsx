@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+
 //import "./genre-view.scss";
 import axios from "axios";
 import ListGroup from "react-bootstrap/ListGroup";

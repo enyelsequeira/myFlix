@@ -3,6 +3,7 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import CardColumns from "react-bootstrap/CardColumns";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 const MovieView = ({ movie, onButtonClick }) => {
   if (!movie) return null;
@@ -15,7 +16,13 @@ const MovieView = ({ movie, onButtonClick }) => {
           {console.log(movie.Director.Name, movie.Director.Bio)}
           <Card.Title>Movie Title: {movie.Title}</Card.Title>
           <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
+          <Link to={`/genres/${movie.Genre.Name}`}>
+            <Button variant="link">Genre</Button>
+          </Link>
           <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
+          <Link to={`/directors/${movie.Director.Name}`}>
+            <Button variant="link">Director</Button>
+          </Link>
           <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
           <Button
             variant="primary"

@@ -104,7 +104,6 @@ const LoginView = props => {
 };
 
 LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired
+  onLoggedIn: PropTypes.func.isRequired
 };
 export default LoginView;

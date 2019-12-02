@@ -1,16 +1,19 @@
 export {
     default as LoginView
 }
+
 from "./login-view/login-view";
 
 export {
     default as Movieview
 }
+
 from "./movie-view/movie-view";
 
 export {
     default as RegistrationView
 }
+
 from "./registration-view/registration-view";
 
 export {

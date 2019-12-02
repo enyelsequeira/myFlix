@@ -41879,8 +41879,7 @@ var LoginView = function LoginView(props) {
 };
 
 LoginView.propTypes = {
-  onLoggedIn: _propTypes.default.func.isRequired,
-  register: _propTypes.default.func.isRequired
+  onLoggedIn: _propTypes.default.func.isRequired
 };
 var _default = LoginView;
 exports.default = _default;
@@ -41915,6 +41914,8 @@ var _CardColumns = _interopRequireDefault(require("react-bootstrap/CardColumns")
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
+var _reactRouterDom = require("react-router-dom");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MovieView = function MovieView(_ref) {
@@ -41929,7 +41930,15 @@ var MovieView = function MovieView(_ref) {
   }, _react.default.createElement(_Card.default.Img, {
     variant: "top",
     src: movie.ImagePath
-  }), _react.default.createElement(_Card.default.Body, null, console.log(movie.Director.Name, movie.Director.Bio), _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.Title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.Genre.Name), _react.default.createElement(_Card.default.Text, null, "Movie Director: ", movie.Director.Name), _react.default.createElement(_Card.default.Text, null, "Director Bio: ", movie.Director.Bio), _react.default.createElement(_Button.default, {
+  }), _react.default.createElement(_Card.default.Body, null, console.log(movie.Director.Name, movie.Director.Bio), _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.Title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.Genre.Name), _react.default.createElement(_reactRouterDom.Link, {
+    to: "/genres/".concat(movie.Genre.Name)
+  }, _react.default.createElement(_Button.default, {
+    variant: "link"
+  }, "Genre")), _react.default.createElement(_Card.default.Text, null, "Movie Director: ", movie.Director.Name), _react.default.createElement(_reactRouterDom.Link, {
+    to: "/directors/".concat(movie.Director.Name)
+  }, _react.default.createElement(_Button.default, {
+    variant: "link"
+  }, "Director")), _react.default.createElement(_Card.default.Text, null, "Director Bio: ", movie.Director.Bio), _react.default.createElement(_Button.default, {
     variant: "primary",
     className: "homeButton",
     onClick: function onClick() {
@@ -42002,7 +42011,7 @@ export class MovieView extends React.Component {
 */
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/CardColumns":"node_modules/react-bootstrap/esm/CardColumns.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js"}],"src/components/registration-view/registration-view.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/CardColumns":"node_modules/react-bootstrap/esm/CardColumns.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"src/components/registration-view/registration-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42275,9 +42284,7 @@ function (_React$Component) {
   _createClass(MovieCard, [{
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          movie = _this$props.movie,
-          onMovieClick = _this$props.onMovieClick;
+      var movie = this.props.movie;
       return _react.default.createElement(_CardColumns.default, null, _react.default.createElement(_Card.default, {
         bg: "primary",
         text: "warning",
@@ -42290,7 +42297,7 @@ function (_React$Component) {
       }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_reactRouterDom.Link, {
         to: "/movies/".concat(movie._id)
       }, _react.default.createElement(_Button.default, {
-        variant: "link"
+        variant: "info"
       }, "Open")))));
     }
   }]);
@@ -42302,8 +42309,7 @@ MovieCard.propTypes = {
   movie: _propTypes.default.shape({
     Title: _propTypes.default.string,
     ImageUrl: _propTypes.default.string
-  }).isRequired,
-  onMovieClick: _propTypes.default.func.isRequired
+  }).isRequired
 };
 /*export const MovieCard = ({ movie, onMovieClick }) => (
     <div onClick={() => onMovieClick(movie)} className="movie-card">
@@ -54162,7 +54168,7 @@ function (_React$Component) {
         className: "director-view"
       }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("div", null, _react.default.createElement("h3", {
         className: "label"
-      }, " DirectorView"), _react.default.createElement("p", {
+      }, " Director"), _react.default.createElement("p", {
         className: "value"
       }, this.props.directorName)), _react.default.createElement("div", null, _react.default.createElement("h3", {
         className: "label"
@@ -54620,7 +54626,7 @@ function (_React$Component) {
         user: null
       });
     }
-      getMovies(token) {
+    getMovies(token) {
       //console.log("[1]");
       axios
         .get("https://immense-springs-16706.herokuapp.com/movies", {
@@ -54637,14 +54643,14 @@ function (_React$Component) {
     }
     //button to retun back
     onButtonClick = () => this.setState({ selectedMovie: "" });
-      //testing
+    //testing
     onSignedIn = user => {
       this.setState({
         user: user,
         register: false
       });
     };
-      //testing
+    //testing
     register = () => this.setState({ register: true });
     */
     //this overrides the render() method of the superclass
@@ -54674,16 +54680,10 @@ function (_React$Component) {
         exact: true,
         path: "/",
         render: function render() {
-          if (!user) return _react.default.createElement(_.LoginView, {
-            onLoggedIn: function onLoggedIn(user) {
-              return _this3.onLoggedIn(user);
-            }
-          });
-          return movies.map(function (m) {
+          return movies.map(function (movie) {
             return _react.default.createElement(_.MovieCard, {
-              key: m._id,
-              movie: m,
-              userInfo: userInfo
+              key: movie._id,
+              movie: movie
             });
           });
         }
@@ -54697,210 +54697,33 @@ function (_React$Component) {
             })
           });
         }
+      }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/genre/:Genre",
+        render: function render(_ref2) {
+          var match = _ref2.match;
+          if (!movies) return _react.default.createElement("div", {
+            className: "main-view"
+          });
+          return _react.default.createElement(_genreView.GenreView, {
+            movie: _this3.state.movies,
+            genre: match.params.Genre
+          });
+        }
+      }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/director/:Director",
+        render: function render(_ref3) {
+          var match = _ref3.match;
+          return _react.default.createElement(_directorView.DirectorView, {
+            movies: _this3.state.movies,
+            directorName: match.params.Director
+          });
+        }
       })));
     }
   }]);
 
   return MainView;
 }(_react.default.Component);
-/*return (
-        <Router>
-          <Container className="main-view" fluid="true">
-            <Row>
-              <Route
-                exact
-                path="/"
-                render={() => {
-                  return (
-                    <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                  );
-                }}
-              />
-              <Route path="/register" render={() => <RegistrationView />} />
-              <Route path="/profile" render={() => <Redirect to="/" />} />
-            </Row>
-          </Container>
-        </Router>
-      );
-    } else {
-      return (
-        <Router>
-          <Navbar sticky="top" bg="dark" variant="dark">
-            <Nav className="nav-bar">
-              <Link className="nav-link" to="/">
-                Home
-              </Link>
-              <Link className="nav-link" to="/profile">
-                Profile
-              </Link>
-            </Nav>
-          </Navbar>
-          <Container className="main-view" fluid="true">
-            <Row>
-              <Route
-                exact
-                path="/"
-                render={() =>
-                  movies.map(m => <MovieCard key={m._id} movie={m} />)
-                }
-              />
-              <Route
-                path="/profile"
-                render={() => (
-                  <ProfileView
-                    movies={this.state.movies}
-                    user={this.state.user}
-                    updateProfile={this.updateProfile}
-                    resetUserState={() => this.resetUserState()}
-                    onLoggedIn={this.onLoggedIn}
-                  />
-                )}
-              />
-              <Route
-                path="/movies/:movieId"
-                render={({ match }) => (
-                  <MovieView
-                    movie={movies.find(m => m._id === match.params.movieId)}
-                  />
-                )}
-              />
-              <Route
-                path="/genre/:Genre"
-                render={({ match }) => (
-                  <GenreView
-                    movies={this.state.movies}
-                    genre={match.params.Genre}
-                  />
-                )}
-              />
-              <Route
-                path="/directors/:name"
-                render={({ match }) => {
-                  if (!movies) return <div className="main-view" />;
-                  return (
-                    <DirectorView
-                      director={
-                        movies.find(m => m.Director.Name === match.params.name)
-                          .Director
-                      }
-                    />
-                  );
-                }}
-              />
-            </Row>
-          </Container>
-        </Router>
-      );
-    }
-  }
-}*/
-
-/*  if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-
-    if (register)
-      return (
-        <RegistrationView
-          alreadyMember={this.alreadyMember}
-          onSignedIn={this.onSignedIn}
-        />
-      );
-
-    //before the movies have been loaded //check this///////////////
-    if (!movies) return <div className="main-view" />;
-
-    return (
-      <Router>
-        <Container className="main-view" fluid="true">
-          <Row>
-            <Route
-              exact
-              path="/"
-              render={() => {
-                if (!user) {
-                  return (
-                    <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                  );
-                } else {
-                  return movies.map(movie => (
-                    <Col xl={3} sm={6} md={4} xs={12}>
-                      <MovieCard user={user} key={movie._id} movie={movie} />
-                    </Col>
-                  ));
-                }
-              }}
-            />
-            <Route path="/register" render={() => <RegistrationView />} />
-            <Route
-              path="/profile"
-              render={() => (
-                <ProfileView
-                  movies={this.state.movies}
-                  user={this.state.user}
-                  updateProfile={this.updateProfile}
-                  onLoggedIn={this.onLoggedIn}
-                />
-              )}
-            />
-            <Route
-              path="/movies/:Id"
-              render={({ match }) => (
-                <Col>
-                  <MovieView
-                    user={this.state.user}
-                    movie={movies.find(movie => movie._id === match.params.Id)}
-                    updateProfile={this.updateProfile}
-                  />
-                </Col>
-              )}
-            />
-            <Route
-              path="/genre/:Genre"
-              render={({ match }) => (
-                <GenreView
-                  movies={this.state.movies}
-                  genre={match.params.Genre}
-                />
-              )}
-            />
-            <Route
-              path="/director/:Director"
-              render={({ match }) => (
-                <DirectorView
-                  movies={this.state.movies}
-                  directorName={match.params.Director}
-                />
-              )}
-            />
-          </Row>
-        </Container>
-      </Router>
-      /*
-      <div className="main-view">
-        <Container>
-          <Row>
-            {selectedMovie ? (
-              <MovieView
-                movie={selectedMovie}
-                onButtonClick={this.onButtonClick}
-              />
-            ) : (
-              movies.map(movie => (
-                <Col key={movie._id} xs={12} sm={6} md={4}>
-                  <MovieCard
-                    key={movie._id}
-                    movie={movie}
-                    onMovieClick={this.onMovieClick}
-                  />
-                </Col>
-              ))
-            )}
-          </Row>
-        </Container>
-      </div>
-    );
-  }
-}*/
-
 
 var _default = MainView;
 exports.default = _default;
@@ -54994,7 +54817,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54821" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50750" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -45,7 +45,7 @@ export class DirectorView extends React.Component {
         <Row>
           <Col>
             <div>
-              <h3 className="label"> DirectorView</h3>
+              <h3 className="label"> Director</h3>
               <p className="value">{this.props.directorName}</p>
             </div>
             <div>
