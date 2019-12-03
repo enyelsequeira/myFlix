@@ -12,7 +12,10 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 
 //importing components
-import { LoginView, RegistrationView, MovieView, MovieCard } from "../";
+import MovieView from "../movie-view/movie-view";
+import LoginView from "../login-view/login-view";
+import MovieCard from "../movie-card/movie-card";
+import RegistrationView from "../registration-view/registration-view";
 import { DirectorView } from "../director-view/director-view";
 import { GenreView } from "../genre-view/genre-view";
 import { ProfileView } from "../profile-view/profile-view";
@@ -118,9 +121,7 @@ class MainView extends React.Component {
     const { movies, selectedMovie, user, register } = this.state;
 
     //new logiC?
-    if (!movies) return <div className="main-view" />;
-
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+    if (movies.length === 0) return <div className="main-view" />;
 
     return (
       <Router>
@@ -129,11 +130,15 @@ class MainView extends React.Component {
             exact
             path="/"
             render={() => {
+              if (!user)
+                return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
               return movies.map(movie => (
                 <MovieCard key={movie._id} movie={movie} />
               ));
             }}
           />
+          <Route path="/register" render={() => <RegistrationView />} />
+          {/* you keep the rest routes here */}
           <Route
             path="/movies/:movieId"
             render={({ match }) => (
@@ -145,7 +150,7 @@ class MainView extends React.Component {
           <Route
             path="/genre/:Genre"
             render={({ match }) => {
-              if (!movies) return <div className="main-view" />;
+              if (movies.length === 0) return <div className="main-view" />;
               return (
                 <GenreView
                   movie={this.state.movies}
