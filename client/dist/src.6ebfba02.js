@@ -54226,14 +54226,11 @@ function (_React$Component) {
 
         _this2.setState({
           genre: data
-        });
+        }); // console.log(response.data);
 
-        console.log(response.data);
       }).catch(function (err) {
-        console.error(err + " this is the errro");
+        console.error(err + " this is the error");
       });
-
-      console.log(this.state.Description);
     }
   }, {
     key: "render",
@@ -54243,17 +54240,17 @@ function (_React$Component) {
       return (//console.log(this.state),
         _react.default.createElement(_Container.default, {
           className: "genre-view"
-        }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("div", null, _react.default.createElement("h3", {
+        }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("div", null, _react.default.createElement("h1", {
           className: "label"
-        }, "Genre"), _react.default.createElement("p", {
+        }, "Genre"), _react.default.createElement("h4", {
           className: "value"
-        }, this.state.genre.title)), _react.default.createElement("div", null, _react.default.createElement("h3", {
+        }, this.state.genre.Name)), _react.default.createElement("div", null, _react.default.createElement("h1", {
           className: "label"
-        }, "Description"), _react.default.createElement("p", {
+        }, "Description"), _react.default.createElement("h4", {
           className: "value"
-        }, this.state.genre.Description)))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("h3", {
+        }, this.state.genre.Description)))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("h1", {
           className: "label"
-        }, this.props.genre, " movies"), _react.default.createElement(_ListGroup.default, {
+        }, this.props.genre, " Movies"), _react.default.createElement(_ListGroup.default, {
           className: "movies-by-genre"
         }, this.props.movies.map(function (movie) {
           if (movie.Genre.Name === _this3.state.genre.Name) {
@@ -54783,7 +54780,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52115" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64367" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

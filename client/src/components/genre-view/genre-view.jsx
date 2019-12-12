@@ -36,12 +36,11 @@ export class GenreView extends React.Component {
       .then(response => {
         const data = response.data;
         this.setState({ genre: data });
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch(err => {
-        console.error(err + " this is the errro");
+        console.error(err + " this is the error");
       });
-    console.log(this.state.Description);
   }
 
   render() {
@@ -51,18 +50,18 @@ export class GenreView extends React.Component {
         <Row>
           <Col>
             <div>
-              <h3 className="label">Genre</h3>
-              <p className="value">{this.state.genre.title}</p>
+              <h1 className="label">Genre</h1>
+              <h4 className="value">{this.state.genre.Name}</h4>
             </div>
             <div>
-              <h3 className="label">Description</h3>
-              <p className="value">{this.state.genre.Description}</p>
+              <h1 className="label">Description</h1>
+              <h4 className="value">{this.state.genre.Description}</h4>
             </div>
           </Col>
         </Row>
         <Row>
           <Col>
-            <h3 className="label">{this.props.genre} movies</h3>
+            <h1 className="label">{this.props.genre} Movies</h1>
             <ListGroup className="movies-by-genre">
               {this.props.movies.map(movie => {
                 if (movie.Genre.Name === this.state.genre.Name) {
