@@ -114,13 +114,7 @@ app.get(
         if (movie) {
           res
             .status(201)
-            .send(
-              "Movie with the title : " +
-              movie.Title +
-              " is  a " +
-              movie.Genre.Name +
-              " ."
-            );
+            .json(movie.Genre)
         } else {
           res
             .status(404)
