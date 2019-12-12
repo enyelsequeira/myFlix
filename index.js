@@ -99,15 +99,16 @@ app.get(
   }
 );
 
-//returns data about genre by title
+//returns data about genre by MOVIE!!! title
 app.get(
+  // req.params;
   "/movies/genres/:Title",
   passport.authenticate("jwt", {
     session: false
   }),
   function (req, res) {
     Movies.findOne({
-        Title: req.params.Title
+        Title: req.params.Title,
       })
       .then(function (movie) {
         if (movie) {

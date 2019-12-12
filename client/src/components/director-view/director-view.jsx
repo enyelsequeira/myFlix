@@ -25,7 +25,7 @@ export class DirectorView extends React.Component {
   getDirectorInfo() {
     axios
       .get(
-        `https://immense-springs-16706.herokuapp.com/director/${this.props.directorName}`,
+        `https://immense-springs-16706.herokuapp.com/director/${this.props.Name}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` }
         }
@@ -46,11 +46,11 @@ export class DirectorView extends React.Component {
           <Col>
             <div>
               <h3 className="label"> Director</h3>
-              <p className="value">{this.props.directorName}</p>
+              <p className="value">{this.props.Director.Name}</p>
             </div>
             <div>
               <h3 className="label">Bio</h3>
-              <p className="value">{this.state.director.Bio}</p>
+              <p className="value">{this.state.Director.Bio}</p>
             </div>
             <div className="return-button">
               <Link to={"/"}>
@@ -61,10 +61,10 @@ export class DirectorView extends React.Component {
         </Row>
         <Row>
           <Col>
-            <h3 className="label">Movies by {this.props.directorName}</h3>
+            <h3 className="label">Movies by {this.props.Director.Name}</h3>
             <ListGroup className="movies-by-director">
               {this.props.movies.map(movie => {
-                if (movie.Director.Name === this.state.director.Name) {
+                if (movie.Director.Name === this.state.Director.Name) {
                   return (
                     <ListGroup.Item>
                       {movie.Title}

@@ -15,22 +15,24 @@ const MovieView = ({ movie, onButtonClick }) => {
         <Card.Body>
           {console.log(movie.Director.Name, movie.Director.Bio)}
           <Card.Title>Movie Title: {movie.Title}</Card.Title>
+
           <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
-          <Link to={`/genres/${movie.Genre.Name}`}>
-            <Button variant="link">Genre</Button>
+          <Link to={`/movies/genres/${movie.Title}`}>
+            <Button variant="outline-secondary">Genre</Button>
           </Link>
+
           <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
           <Link to={`/directors/${movie.Director.Name}`}>
-            <Button variant="link">Director</Button>
+            <Button variant="primary">Director</Button>
           </Link>
+
           <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
-          <Button
-            variant="primary"
-            className="homeButton"
-            onClick={() => onButtonClick()}
-          >
-            Go back
-          </Button>
+          <Link to="/">
+            {" "}
+            <Button variant="primary" className="homeButton">
+              Go back
+            </Button>
+          </Link>
         </Card.Body>
       </Card>
     </CardColumns>

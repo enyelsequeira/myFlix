@@ -27,29 +27,32 @@ export class GenreView extends React.Component {
   getGenreInfo() {
     axios
       .get(
-        `https://immense-springs-16706.herokuapp.com/genres/${this.props.genre}`,
+        // Silence of the Lambs
+        `https://immense-springs-16706.herokuapp.com/movies/genres/${this.props.movieTitle}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` }
         }
       )
-      .then(response =>
-        this.setState({
-          genre: response.data
-        })
-      )
+      .then(response => {
+        const data = response.data;
+        this.setState({ genre: data });
+        console.log(response.data);
+      })
       .catch(err => {
-        console.error(err);
+        console.error(err + " this is the errro");
       });
+    console.log(this.state.Description);
   }
 
   render() {
     return (
+      //console.log(this.state),
       <Container className="genre-view">
         <Row>
           <Col>
             <div>
               <h3 className="label">Genre</h3>
-              <p className="value">{this.props.genre}</p>
+              <p className="value">{this.state.genre.title}</p>
             </div>
             <div>
               <h3 className="label">Description</h3>
@@ -64,7 +67,7 @@ export class GenreView extends React.Component {
               {this.props.movies.map(movie => {
                 if (movie.Genre.Name === this.state.genre.Name) {
                   return (
-                    <ListGroup.Item>
+                    <ListGroup.Item key={movie._id}>
                       {movie.Title}
                       <Link to={`/movies/${movie._id}`}>
                         {" "}

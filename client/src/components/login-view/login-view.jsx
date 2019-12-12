@@ -77,32 +77,8 @@ const LoginView = props => {
       </form>
     </Container>
   );
-  /*
-  return (
-    <form>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={e => setUsername(e.targe.value)}
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-      </label>
-      <button type="button" onClick={handleSubmit}>
-        Submit
-      </button>
-    </form>
-  );*/
 };
-
+console.log(LoginView);
 LoginView.propTypes = {
   onLoggedIn: PropTypes.func.isRequired
 };

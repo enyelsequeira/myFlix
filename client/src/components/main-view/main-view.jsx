@@ -104,8 +104,7 @@ class MainView extends React.Component {
         console.log(error);
       });
   }
-  //button to retun back
-  onButtonClick = () => this.setState({ selectedMovie: "" });
+  
   //testing
   onSignedIn = user => {
     this.setState({
@@ -116,20 +115,26 @@ class MainView extends React.Component {
   //testing
   register = () => this.setState({ register: true });
 */
+  //button to retun back
+  onButtonClick = () => this.setState({ selectedMovie: "" });
   //this overrides the render() method of the superclass
   render() {
     const { movies, selectedMovie, user, register } = this.state;
 
     //new logiC?
-    if (movies.length === 0) return <div className="main-view" />;
 
     return (
       <Router>
+        <header>
+          <h1 className="appName"> MOVIE FLIX BY: E</h1>
+        </header>
+
         <div className="main-view">
           <Route
             exact
             path="/"
             render={() => {
+              console.log(user);
               if (!user)
                 return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
               return movies.map(movie => (
@@ -148,13 +153,13 @@ class MainView extends React.Component {
             )}
           />
           <Route
-            path="/genre/:Genre"
+            path="/movies/genres/:Title"
             render={({ match }) => {
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <GenreView
-                  movie={this.state.movies}
-                  genre={match.params.Genre}
+                  movies={this.state.movies}
+                  movieTitle={match.params.Title}
                 />
               );
             }}

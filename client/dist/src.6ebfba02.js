@@ -41126,20 +41126,19 @@ var MovieView = function MovieView(_ref) {
     variant: "top",
     src: movie.ImagePath
   }), _react.default.createElement(_Card.default.Body, null, console.log(movie.Director.Name, movie.Director.Bio), _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.Title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.Genre.Name), _react.default.createElement(_reactRouterDom.Link, {
-    to: "/genres/".concat(movie.Genre.Name)
+    to: "/movies/genres/".concat(movie.Title)
   }, _react.default.createElement(_Button.default, {
-    variant: "link"
+    variant: "outline-secondary"
   }, "Genre")), _react.default.createElement(_Card.default.Text, null, "Movie Director: ", movie.Director.Name), _react.default.createElement(_reactRouterDom.Link, {
     to: "/directors/".concat(movie.Director.Name)
   }, _react.default.createElement(_Button.default, {
-    variant: "link"
-  }, "Director")), _react.default.createElement(_Card.default.Text, null, "Director Bio: ", movie.Director.Bio), _react.default.createElement(_Button.default, {
+    variant: "primary"
+  }, "Director")), _react.default.createElement(_Card.default.Text, null, "Director Bio: ", movie.Director.Bio), _react.default.createElement(_reactRouterDom.Link, {
+    to: "/"
+  }, " ", _react.default.createElement(_Button.default, {
     variant: "primary",
-    className: "homeButton",
-    onClick: function onClick() {
-      return onButtonClick();
-    }
-  }, "Go back"))));
+    className: "homeButton"
+  }, "Go back")))));
 };
 
 var _default = MovieView;
@@ -41980,32 +41979,9 @@ var LoginView = function LoginView(props) {
       return props.register();
     }
   }, " ", "Here!", " ")))));
-  /*
-  return (
-    <form>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={e => setUsername(e.targe.value)}
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-      </label>
-      <button type="button" onClick={handleSubmit}>
-        Submit
-      </button>
-    </form>
-  );*/
 };
 
+console.log(LoginView);
 LoginView.propTypes = {
   onLoggedIn: _propTypes.default.func.isRequired
 };
@@ -54109,7 +54085,7 @@ function (_React$Component) {
     value: function getDirectorInfo() {
       var _this2 = this;
 
-      _axios.default.get("https://immense-springs-16706.herokuapp.com/director/".concat(this.props.directorName), {
+      _axios.default.get("https://immense-springs-16706.herokuapp.com/director/".concat(this.props.Name), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.token)
         }
@@ -54132,11 +54108,11 @@ function (_React$Component) {
         className: "label"
       }, " Director"), _react.default.createElement("p", {
         className: "value"
-      }, this.props.directorName)), _react.default.createElement("div", null, _react.default.createElement("h3", {
+      }, this.props.Director.Name)), _react.default.createElement("div", null, _react.default.createElement("h3", {
         className: "label"
       }, "Bio"), _react.default.createElement("p", {
         className: "value"
-      }, this.state.director.Bio)), _react.default.createElement("div", {
+      }, this.state.Director.Bio)), _react.default.createElement("div", {
         className: "return-button"
       }, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
@@ -54144,10 +54120,10 @@ function (_React$Component) {
         variant: "primary"
       }, "Return"))))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("h3", {
         className: "label"
-      }, "Movies by ", this.props.directorName), _react.default.createElement(_reactBootstrap.default, {
+      }, "Movies by ", this.props.Director.Name), _react.default.createElement(_reactBootstrap.default, {
         className: "movies-by-director"
       }, this.props.movies.map(function (movie) {
-        if (movie.Director.Name === _this3.state.director.Name) {
+        if (movie.Director.Name === _this3.state.Director.Name) {
           return _react.default.createElement(_reactBootstrap.default.Item, null, movie.Title, _react.default.createElement(_reactRouterDom.Link, {
             to: "/movies/".concat(movie._id)
           }, _react.default.createElement(_Button.default, {
@@ -54240,49 +54216,60 @@ function (_React$Component) {
     value: function getGenreInfo() {
       var _this2 = this;
 
-      _axios.default.get("https://immense-springs-16706.herokuapp.com/genres/".concat(this.props.genre), {
+      _axios.default.get( // Silence of the Lambs
+      "https://immense-springs-16706.herokuapp.com/movies/genres/".concat(this.props.movieTitle), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.token)
         }
       }).then(function (response) {
-        return _this2.setState({
-          genre: response.data
+        var data = response.data;
+
+        _this2.setState({
+          genre: data
         });
+
+        console.log(response.data);
       }).catch(function (err) {
-        console.error(err);
+        console.error(err + " this is the errro");
       });
+
+      console.log(this.state.Description);
     }
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      return _react.default.createElement(_Container.default, {
-        className: "genre-view"
-      }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("div", null, _react.default.createElement("h3", {
-        className: "label"
-      }, "Genre"), _react.default.createElement("p", {
-        className: "value"
-      }, this.props.genre)), _react.default.createElement("div", null, _react.default.createElement("h3", {
-        className: "label"
-      }, "Description"), _react.default.createElement("p", {
-        className: "value"
-      }, this.state.genre.Description)))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("h3", {
-        className: "label"
-      }, this.props.genre, " movies"), _react.default.createElement(_ListGroup.default, {
-        className: "movies-by-genre"
-      }, this.props.movies.map(function (movie) {
-        if (movie.Genre.Name === _this3.state.genre.Name) {
-          return _react.default.createElement(_ListGroup.default.Item, null, movie.Title, _react.default.createElement(_reactRouterDom.Link, {
-            to: "/movies/".concat(movie._id)
-          }, " ", _react.default.createElement(_Button.default, {
-            variant: "primary",
-            size: "sm"
-          }, "View")));
-        } else {
-          return null;
-        }
-      })))));
+      return (//console.log(this.state),
+        _react.default.createElement(_Container.default, {
+          className: "genre-view"
+        }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("div", null, _react.default.createElement("h3", {
+          className: "label"
+        }, "Genre"), _react.default.createElement("p", {
+          className: "value"
+        }, this.state.genre.title)), _react.default.createElement("div", null, _react.default.createElement("h3", {
+          className: "label"
+        }, "Description"), _react.default.createElement("p", {
+          className: "value"
+        }, this.state.genre.Description)))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("h3", {
+          className: "label"
+        }, this.props.genre, " movies"), _react.default.createElement(_ListGroup.default, {
+          className: "movies-by-genre"
+        }, this.props.movies.map(function (movie) {
+          if (movie.Genre.Name === _this3.state.genre.Name) {
+            return _react.default.createElement(_ListGroup.default.Item, {
+              key: movie._id
+            }, movie.Title, _react.default.createElement(_reactRouterDom.Link, {
+              to: "/movies/".concat(movie._id)
+            }, " ", _react.default.createElement(_Button.default, {
+              variant: "primary",
+              size: "sm"
+            }, "View")));
+          } else {
+            return null;
+          }
+        })))))
+      );
     }
   }]);
 
@@ -54524,6 +54511,12 @@ function (_React$Component) {
       _this.getMovies(authData.token);
     };
 
+    _this.onButtonClick = function () {
+      return _this.setState({
+        selectedMovie: ""
+      });
+    };
+
     _this.state = {
       movies: [],
       user: null
@@ -54609,8 +54602,7 @@ function (_React$Component) {
           console.log(error);
         });
     }
-    //button to retun back
-    onButtonClick = () => this.setState({ selectedMovie: "" });
+    
     //testing
     onSignedIn = user => {
       this.setState({
@@ -54621,10 +54613,11 @@ function (_React$Component) {
     //testing
     register = () => this.setState({ register: true });
     */
-    //this overrides the render() method of the superclass
+    //button to retun back
 
   }, {
     key: "render",
+    //this overrides the render() method of the superclass
     value: function render() {
       var _this3 = this;
 
@@ -54634,15 +54627,15 @@ function (_React$Component) {
           user = _this$state.user,
           register = _this$state.register; //new logiC?
 
-      if (movies.length === 0) return _react.default.createElement("div", {
-        className: "main-view"
-      });
-      return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", {
+      return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("header", null, _react.default.createElement("h1", {
+        className: "appName"
+      }, " MOVIE FLIX BY: E")), _react.default.createElement("div", {
         className: "main-view"
       }, _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
+          console.log(user);
           if (!user) return _react.default.createElement(_loginView.default, {
             onLoggedIn: function onLoggedIn(user) {
               return _this3.onLoggedIn(user);
@@ -54671,15 +54664,15 @@ function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/genre/:Genre",
+        path: "/movies/genres/:Title",
         render: function render(_ref2) {
           var match = _ref2.match;
           if (movies.length === 0) return _react.default.createElement("div", {
             className: "main-view"
           });
           return _react.default.createElement(_genreView.GenreView, {
-            movie: _this3.state.movies,
-            genre: match.params.Genre
+            movies: _this3.state.movies,
+            movieTitle: match.params.Title
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
@@ -54790,7 +54783,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51349" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52115" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
