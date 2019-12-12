@@ -165,13 +165,16 @@ class MainView extends React.Component {
             }}
           />
           <Route
-            path="/director/:Director"
-            render={({ match }) => (
-              <DirectorView
-                movies={this.state.movies}
-                directorName={match.params.Director}
-              />
-            )}
+            path="movies/director/:Name"
+            render={({ match }) => {
+              if (movies.length === 0) return <div className="main-view" />;
+              return (
+                <DirectorView
+                  movies={this.state.movies}
+                  directorName={match.params.Director}
+                />
+              );
+            }}
           />
         </div>
       </Router>

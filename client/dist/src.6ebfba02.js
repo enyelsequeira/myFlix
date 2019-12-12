@@ -41125,12 +41125,12 @@ var MovieView = function MovieView(_ref) {
   }, _react.default.createElement(_Card.default.Img, {
     variant: "top",
     src: movie.ImagePath
-  }), _react.default.createElement(_Card.default.Body, null, console.log(movie.Director.Name, movie.Director.Bio), _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.Title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.Genre.Name), _react.default.createElement(_reactRouterDom.Link, {
+  }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, "Movie Title: ", movie.Title), _react.default.createElement(_Card.default.Text, null, "Movie Genre: ", movie.Genre.Name), _react.default.createElement(_reactRouterDom.Link, {
     to: "/movies/genres/".concat(movie.Title)
   }, _react.default.createElement(_Button.default, {
     variant: "outline-secondary"
   }, "Genre")), _react.default.createElement(_Card.default.Text, null, "Movie Director: ", movie.Director.Name), _react.default.createElement(_reactRouterDom.Link, {
-    to: "/directors/".concat(movie.Director.Name)
+    to: "/movies/director/".concat(movie.Director.Name)
   }, _react.default.createElement(_Button.default, {
     variant: "primary"
   }, "Director")), _react.default.createElement(_Card.default.Text, null, "Director Bio: ", movie.Director.Bio), _react.default.createElement(_reactRouterDom.Link, {
@@ -54016,7 +54016,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DirectorView = void 0;
+exports.xDirectorView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -54056,26 +54056,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var DirectorView =
+var xDirectorView =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(DirectorView, _React$Component);
+  _inherits(xDirectorView, _React$Component);
 
-  function DirectorView(props) {
+  function xDirectorView(props) {
     var _this;
 
-    _classCallCheck(this, DirectorView);
+    _classCallCheck(this, xDirectorView);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(DirectorView).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(xDirectorView).call(this, props));
     _this.state = {
       director: {
         Bio: ""
       }
     };
+    console.log(props);
     return _this;
   }
 
-  _createClass(DirectorView, [{
+  _createClass(xDirectorView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.getDirectorInfo();
@@ -54085,14 +54086,18 @@ function (_React$Component) {
     value: function getDirectorInfo() {
       var _this2 = this;
 
-      _axios.default.get("https://immense-springs-16706.herokuapp.com/director/".concat(this.props.Name), {
+      _axios.default.get("https://immense-springs-16706.herokuapp.com/movies/directors/".concat(this.props.Director), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.token)
         }
       }).then(function (response) {
-        return _this2.setState({
-          director: response.data
+        var directorData = response.data;
+
+        _this2.setState({
+          director: data
         });
+
+        console.log(data);
       }).catch(function (err) {
         console.log(err);
       });
@@ -54137,10 +54142,10 @@ function (_React$Component) {
     }
   }]);
 
-  return DirectorView;
+  return xDirectorView;
 }(_react.default.Component);
 
-exports.DirectorView = DirectorView;
+exports.xDirectorView = xDirectorView;
 },{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","axios":"node_modules/axios/index.js","react-bootstrap":"node_modules/react-bootstrap/esm/index.js"}],"src/components/genre-view/genre-view.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -54673,9 +54678,12 @@ function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/director/:Director",
+        path: "movies/director/:Name",
         render: function render(_ref3) {
           var match = _ref3.match;
+          if (movies.length === 0) return _react.default.createElement("div", {
+            className: "main-view"
+          });
           return _react.default.createElement(_directorView.DirectorView, {
             movies: _this3.state.movies,
             directorName: match.params.Director

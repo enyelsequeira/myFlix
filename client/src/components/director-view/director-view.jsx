@@ -10,12 +10,13 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import ListGroup from "react-bootstrap";
 
-export class DirectorView extends React.Component {
+export class xDirectorView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       director: { Bio: "" }
     };
+    console.log(props);
   }
 
   componentDidMount() {
@@ -25,16 +26,16 @@ export class DirectorView extends React.Component {
   getDirectorInfo() {
     axios
       .get(
-        `https://immense-springs-16706.herokuapp.com/director/${this.props.Name}`,
+        `https://immense-springs-16706.herokuapp.com/movies/directors/${this.props.Director}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` }
         }
       )
-      .then(response =>
-        this.setState({
-          director: response.data
-        })
-      )
+      .then(response => {
+        const directorData = response.data;
+        this.setState({ director: data });
+        console.log(data);
+      })
       .catch(err => {
         console.log(err);
       });

@@ -140,8 +140,8 @@ app.get(
     Movies.findOne({
         "Director.Name": req.params.Name
       })
-      .then(function (movies) {
-        res.json(movies.Director);
+      .then(function (movie) {
+        res.json(movie.Director);
       })
       .catch(function (err) {
         console.error(err);

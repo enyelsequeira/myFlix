@@ -13,19 +13,18 @@ const MovieView = ({ movie, onButtonClick }) => {
       <Card border="danger" style={{ widht: "18rem" }}>
         <Card.Img variant="top" src={movie.ImagePath} />
         <Card.Body>
-          {console.log(movie.Director.Name, movie.Director.Bio)}
+          {/* {console.log(movie.Director.Name, movie.Director.Bio)} */}
           <Card.Title>Movie Title: {movie.Title}</Card.Title>
-
+          {/* //Genre */}
           <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
           <Link to={`/movies/genres/${movie.Title}`}>
             <Button variant="outline-secondary">Genre</Button>
           </Link>
-
+          {/* //Directors */}
           <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
-          <Link to={`/directors/${movie.Director.Name}`}>
+          <Link to={`/movies/director/${movie.Director.Name}`}>
             <Button variant="primary">Director</Button>
           </Link>
-
           <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
           <Link to="/">
             {" "}
