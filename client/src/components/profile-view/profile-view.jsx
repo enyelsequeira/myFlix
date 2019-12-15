@@ -5,8 +5,7 @@ import { Redirect } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
-//import "./profile-view.scss";
+import { ListGroup, ListGroupItem } from "react-bootstrap"; //import "./profile-view.scss";
 
 export class ProfileView extends React.Component {
   constructor(props) {
@@ -27,7 +26,7 @@ export class ProfileView extends React.Component {
   getUserInfo() {
     axios
       .get(
-        `https://immense-springs-16706.herokuapp.com/movies/users/${localStorage.user}`,
+        `https://immense-springs-16706.herokuapp.com/users/${localStorage.user}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` }
         }
@@ -39,6 +38,7 @@ export class ProfileView extends React.Component {
           birthday: response.data.Birthday,
           favoriteMovies: response.data.FavoriteMovies
         });
+        //console.log(this.setState);
       })
       .catch(err => {
         console.error(err);
@@ -49,7 +49,7 @@ export class ProfileView extends React.Component {
     if (!localStorage.user) {
       return <Redirect to="/" />;
     } else {
-      console.log(this.props.movies);
+      console.log(this.props);
       return (
         <Container className="profile-view">
           <Row>
@@ -78,7 +78,7 @@ export class ProfileView extends React.Component {
                     mov._id ===
                     this.state.favoriteMovies.find(favMov => favMov === mov._id)
                   ) {
-                    return <ListGroup.Item>{mov.Title}</ListGroup.Item>;
+                    return <ListGroupItem>{mov.Title}</ListGroupItem>;
                   } else {
                     return null;
                   }

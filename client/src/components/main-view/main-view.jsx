@@ -10,6 +10,7 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Button from "react-bootstrap/Button";
 
 //importing components
 import MovieView from "../movie-view/movie-view";
@@ -126,15 +127,23 @@ class MainView extends React.Component {
     return (
       <Router>
         <header>
-          <h1 className="appName"> MOVIE FLIX BY: E</h1>
+          <Link to={"/"}>
+            <h1 className="appName"> MOVIE FLIX BY: E</h1>
+          </Link>
         </header>
+        <div className="btn-group"></div>
+        <Link to={`/users/${user}`}>
+          <Button className="profile-view" variant="primary">
+            Profile
+          </Button>
+        </Link>
 
         <div className="main-view">
           <Route
             exact
             path="/"
             render={() => {
-              console.log(user);
+              //console.log(user);
               if (!user)
                 return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
               return movies.map(movie => (
@@ -174,6 +183,12 @@ class MainView extends React.Component {
                   movies={this.state.movies}
                 />
               );
+            }}
+          />
+          <Route
+            path="/users/:Username"
+            render={({ match }) => {
+              return <ProfileView movies={this.state.movies} />;
             }}
           />
         </div>
