@@ -54016,7 +54016,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.xDirectorView = void 0;
+exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -54032,9 +54032,9 @@ var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
-var _axios = _interopRequireDefault(require("axios"));
+var _reactBootstrap = require("react-bootstrap");
 
-var _reactBootstrap = _interopRequireDefault(require("react-bootstrap"));
+var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54056,29 +54056,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var xDirectorView =
+var DirectorView =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(xDirectorView, _React$Component);
+  _inherits(DirectorView, _React$Component);
 
-  function xDirectorView(props) {
+  function DirectorView() {
+    var _getPrototypeOf2;
+
     var _this;
 
-    _classCallCheck(this, xDirectorView);
+    var _temp;
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(xDirectorView).call(this, props));
-    _this.state = {
-      director: {
+    _classCallCheck(this, DirectorView);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _possibleConstructorReturn(_this, (_temp = _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(DirectorView)).call.apply(_getPrototypeOf2, [this].concat(args))), _this.state = {
+      Director: {
+        Name: "",
         Bio: ""
       }
-    };
-    console.log(props);
-    return _this;
+    }, _temp));
   }
 
-  _createClass(xDirectorView, [{
+  _createClass(DirectorView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      console.log("[PROPS]", this.props);
+      console.log("[STATE]", this.state); // ROUTES => Differentiate Backend/Server/API routes from the CLIENT/BROWSER/FRONTEND ones.
+
       this.getDirectorInfo();
     }
   }, {
@@ -54086,7 +54095,7 @@ function (_React$Component) {
     value: function getDirectorInfo() {
       var _this2 = this;
 
-      _axios.default.get("https://immense-springs-16706.herokuapp.com/movies/directors/".concat(this.props.Director), {
+      _axios.default.get("https://immense-springs-16706.herokuapp.com/movies/director/".concat(this.props.directorName), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.token)
         }
@@ -54094,10 +54103,8 @@ function (_React$Component) {
         var directorData = response.data;
 
         _this2.setState({
-          director: data
+          Director: directorData
         });
-
-        console.log(data);
       }).catch(function (err) {
         console.log(err);
       });
@@ -54107,17 +54114,22 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      //if (!this.props.Director) return <div>...loading</div>;
       return _react.default.createElement(_Container.default, {
         className: "director-view"
       }, _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("div", null, _react.default.createElement("h3", {
         className: "label"
-      }, " Director"), _react.default.createElement("p", {
+      }, "Director"), _react.default.createElement("p", {
         className: "value"
-      }, this.props.Director.Name)), _react.default.createElement("div", null, _react.default.createElement("h3", {
+      }, this.state.Director.Name)), _react.default.createElement("div", null, _react.default.createElement("h3", {
         className: "label"
       }, "Bio"), _react.default.createElement("p", {
         className: "value"
-      }, this.state.Director.Bio)), _react.default.createElement("div", {
+      }, this.state.Director.Bio), _react.default.createElement("p", {
+        className: "value"
+      }, "Birth: ", this.state.Director.Birth), _react.default.createElement("p", {
+        className: "value"
+      }, "Death: ", this.state.Director.Death)), _react.default.createElement("div", {
         className: "return-button"
       }, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
@@ -54125,11 +54137,13 @@ function (_React$Component) {
         variant: "primary"
       }, "Return"))))), _react.default.createElement(_Row.default, null, _react.default.createElement(_Col.default, null, _react.default.createElement("h3", {
         className: "label"
-      }, "Movies by ", this.props.Director.Name), _react.default.createElement(_reactBootstrap.default, {
+      }, "Movies by ", this.props.directorName), _react.default.createElement(_reactBootstrap.ListGroup, {
         className: "movies-by-director"
       }, this.props.movies.map(function (movie) {
         if (movie.Director.Name === _this3.state.Director.Name) {
-          return _react.default.createElement(_reactBootstrap.default.Item, null, movie.Title, _react.default.createElement(_reactRouterDom.Link, {
+          return _react.default.createElement(_reactBootstrap.ListGroupItem, {
+            key: movie._id
+          }, movie.Title, _react.default.createElement(_reactRouterDom.Link, {
             to: "/movies/".concat(movie._id)
           }, _react.default.createElement(_Button.default, {
             variant: "primary",
@@ -54142,11 +54156,12 @@ function (_React$Component) {
     }
   }]);
 
-  return xDirectorView;
+  return DirectorView;
 }(_react.default.Component);
 
-exports.xDirectorView = xDirectorView;
-},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","axios":"node_modules/axios/index.js","react-bootstrap":"node_modules/react-bootstrap/esm/index.js"}],"src/components/genre-view/genre-view.jsx":[function(require,module,exports) {
+var _default = DirectorView;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","react-bootstrap":"node_modules/react-bootstrap/esm/index.js","axios":"node_modules/axios/index.js"}],"src/components/genre-view/genre-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54460,7 +54475,7 @@ var _movieCard = _interopRequireDefault(require("../movie-card/movie-card"));
 
 var _registrationView = _interopRequireDefault(require("../registration-view/registration-view"));
 
-var _directorView = require("../director-view/director-view");
+var _directorView = _interopRequireDefault(require("../director-view/director-view"));
 
 var _genreView = require("../genre-view/genre-view");
 
@@ -54678,15 +54693,13 @@ function (_React$Component) {
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "movies/director/:Name",
+        path: "/movies/director/:Director",
         render: function render(_ref3) {
           var match = _ref3.match;
-          if (movies.length === 0) return _react.default.createElement("div", {
-            className: "main-view"
-          });
-          return _react.default.createElement(_directorView.DirectorView, {
-            movies: _this3.state.movies,
-            directorName: match.params.Director
+          console.log("this is rendering now", match);
+          return _react.default.createElement(_directorView.default, {
+            directorName: match.params.Director,
+            movies: _this3.state.movies
           });
         }
       })));
@@ -54788,7 +54801,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64367" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64076" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

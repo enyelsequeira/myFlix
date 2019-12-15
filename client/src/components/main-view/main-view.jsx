@@ -16,7 +16,7 @@ import MovieView from "../movie-view/movie-view";
 import LoginView from "../login-view/login-view";
 import MovieCard from "../movie-card/movie-card";
 import RegistrationView from "../registration-view/registration-view";
-import { DirectorView } from "../director-view/director-view";
+import DirectorView from "../director-view/director-view";
 import { GenreView } from "../genre-view/genre-view";
 import { ProfileView } from "../profile-view/profile-view";
 import "./main-view.scss";
@@ -165,13 +165,13 @@ class MainView extends React.Component {
             }}
           />
           <Route
-            path="movies/director/:Name"
+            path="/movies/director/:Director"
             render={({ match }) => {
-              if (movies.length === 0) return <div className="main-view" />;
+              console.log("this is rendering now", match);
               return (
                 <DirectorView
-                  movies={this.state.movies}
                   directorName={match.params.Director}
+                  movies={this.state.movies}
                 />
               );
             }}
