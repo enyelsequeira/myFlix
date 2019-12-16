@@ -20,6 +20,7 @@ import RegistrationView from "../registration-view/registration-view";
 import DirectorView from "../director-view/director-view";
 import { GenreView } from "../genre-view/genre-view";
 import { ProfileView } from "../profile-view/profile-view";
+import { ProfileUpdate } from "../profile-view/profile-update";
 import "./main-view.scss";
 
 class MainView extends React.Component {
@@ -30,7 +31,10 @@ class MainView extends React.Component {
     //initialize the state to an empty objec so we can destructure it
     this.state = {
       movies: [],
-      user: null
+      user: null,
+      email: "",
+      birthday: "",
+      userInfo: {}
     };
     this.updateProfile = this.updateProfile.bind(this);
   }
@@ -58,6 +62,20 @@ class MainView extends React.Component {
         console.log(error);
       });
   }
+
+  getUser(token) {
+    axios
+      .get("https://immense-springs-16706.herokuapp.com/users", {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        this.props.setLoggedUser(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   //onMovieClick = movie => this.setState({ selectedMovie: movie });
   //loggedIn
   onLoggedIn = authData => {
@@ -82,14 +100,24 @@ class MainView extends React.Component {
       user: ""
     });
   }
-  /*login out
-  onLoggedOut() {
+  ///???????????
+  updateUser(data) {
+    this.setState({
+      userInfo: data
+    });
+    localStorage.setItem("user", data.Username);
+  }
+  //login out
+
+  onLogout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     this.setState({
       user: null
     });
   }
+  /*login out
+ 
   getMovies(token) {
     //console.log("[1]");
     axios
@@ -120,7 +148,14 @@ class MainView extends React.Component {
   onButtonClick = () => this.setState({ selectedMovie: "" });
   //this overrides the render() method of the superclass
   render() {
-    const { movies, selectedMovie, user, register } = this.state;
+    const {
+      movies,
+      selectedMovie,
+      user,
+      register,
+      userInfo,
+      token
+    } = this.state;
 
     //new logiC?
 
@@ -135,6 +170,13 @@ class MainView extends React.Component {
         <Link to={`/users/${user}`}>
           <Button className="profile-view" variant="primary">
             Profile
+          </Button>
+          <Button
+            className="logout"
+            variant="info"
+            onClick={() => this.onLogout()}
+          >
+            Log out
           </Button>
         </Link>
 
@@ -190,6 +232,17 @@ class MainView extends React.Component {
             render={({ match }) => {
               return <ProfileView movies={this.state.movies} />;
             }}
+          />
+          <Route
+            path="/update/:Username"
+            render={() => (
+              <ProfileUpdate
+                userInfo={userInfo}
+                user={user}
+                token={token}
+                updateUser={data => this.updateUser(data)}
+              />
+            )}
           />
         </div>
       </Router>

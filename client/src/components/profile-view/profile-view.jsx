@@ -5,7 +5,10 @@ import { Redirect } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { ListGroup, ListGroupItem } from "react-bootstrap"; //import "./profile-view.scss";
+import { ListGroup, ListGroupItem, Button } from "react-bootstrap"; //import "./profile-view.scss";
+
+import { Link } from "react-router-dom";
+import { ProfileUpdate } from "../profile-view/profile-update";
 
 export class ProfileView extends React.Component {
   constructor(props) {
@@ -45,6 +48,29 @@ export class ProfileView extends React.Component {
       });
   }
 
+  // deleteMovieFromFavs(event, favoriteMovie) {
+  //   event.preventDefault();
+  //   console.log(favoriteMovie);
+  //   axios
+  //     .delete(
+  //       `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem(
+  //         "user"
+  //       )}/Favorite/${favoriteMovie}`,
+  //       {
+  //         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  //       }
+  //     )
+  //     .then(response => {
+  //       this.getUser(localStorage.getItem("token"));
+  //     })
+  //     .catch(event => {
+  //       alert("Oops... something went wrong...");
+  //     });
+  // }
+  // handleChange(e) {
+  //   this.setState({ [e.target.name]: e.target.value });
+  // }
+
   render() {
     if (!localStorage.user) {
       return <Redirect to="/" />;
@@ -54,7 +80,7 @@ export class ProfileView extends React.Component {
         <Container className="profile-view">
           <Row>
             <Col>
-              <h2>User profile</h2>
+              <h1>User profile</h1>
               <div className="user-username">
                 <h3 className="label">Username</h3>
                 <p className="value">{this.state.username}</p>
@@ -84,6 +110,21 @@ export class ProfileView extends React.Component {
                   }
                 })}
               </ListGroup>
+              <div className="text-center">
+                <Link to={`/`}>
+                  <Button className="button-back" variant="outline-info">
+                    MOVIES
+                  </Button>
+                </Link>
+                <Link to={`/update/:Username`}>
+                  <Button className="button-update" variant="outline-secondary">
+                    Update profile
+                  </Button>
+                </Link>
+                <Link to={"/"}>
+                  <Button variant="outline-secondary">Return</Button>
+                </Link>
+              </div>
             </Col>
           </Row>
         </Container>

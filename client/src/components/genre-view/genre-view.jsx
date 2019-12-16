@@ -57,6 +57,9 @@ export class GenreView extends React.Component {
               <h1 className="label">Description</h1>
               <h4 className="value">{this.state.genre.Description}</h4>
             </div>
+            <Link to={"/"}>
+              <Button variant="primary">Return</Button>
+            </Link>
           </Col>
         </Row>
         <Row>

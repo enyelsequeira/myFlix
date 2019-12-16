@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const LoginView = props => {
   const [username, setUsername] = useState("");
@@ -68,17 +69,18 @@ const LoginView = props => {
         <Form.Group controlId="newUser">
           <Form.Text>
             New User? Click{" "}
-            <Button id="registerButton" onClick={() => props.register()}>
-              {" "}
-              Here!{" "}
-            </Button>
+            <Link to={`/register`}>
+              <Button className="btn-register" variant="secondary">
+                Register
+              </Button>
+            </Link>
           </Form.Text>
         </Form.Group>
       </form>
     </Container>
   );
 };
-console.log(LoginView);
+//console.log(LoginView);
 LoginView.propTypes = {
   onLoggedIn: PropTypes.func.isRequired
 };
