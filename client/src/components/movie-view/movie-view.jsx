@@ -9,11 +9,7 @@ import axios from "axios";
 const MovieView = ({ movie, onButtonClick }) => {
   if (!movie) return null;
 
-  // axios.post(`https://my-flix-1098.herokuapp.com/users/${localStorage.getItem('user')}/Favourites/${movie._id}`, {
-  //     Username: localStorage.getItem('user')
-  //   }, {
-  //     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-  //   })
+  //trying to get favorit movies
 
   function handleSubmit(event) {
     event.preventDefault();
