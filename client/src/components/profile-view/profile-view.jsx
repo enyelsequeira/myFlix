@@ -18,7 +18,8 @@ export class ProfileView extends React.Component {
       username: null,
       email: null,
       birthday: null,
-      favoriteMovies: []
+      favoriteMovies: [],
+      userData: null
     };
   }
 
@@ -48,34 +49,34 @@ export class ProfileView extends React.Component {
       });
   }
 
-  // deleteMovieFromFavs(event, favoriteMovie) {
-  //   event.preventDefault();
-  //   console.log(favoriteMovie);
-  //   axios
-  //     .delete(
-  //       `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem(
-  //         "user"
-  //       )}/Favorite/${favoriteMovie}`,
-  //       {
-  //         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-  //       }
-  //     )
-  //     .then(response => {
-  //       this.getUser(localStorage.getItem("token"));
-  //     })
-  //     .catch(event => {
-  //       alert("Oops... something went wrong...");
-  //     });
-  // }
-  // handleChange(e) {
-  //   this.setState({ [e.target.name]: e.target.value });
-  // }
+  deleteMovieFromFavorite(event, favoriteMovie) {
+    event.preventDefault();
+    console.log(favoriteMovie);
+    axios
+      .delete(
+        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem(
+          "user"
+        )}/Favorite/${favoriteMovie}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        }
+      )
+      .then(response => {
+        this.getUser(localStorage.getItem("token"));
+      })
+      .catch(event => {
+        alert("Oops... something went wrong...");
+      });
+  }
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
   render() {
     if (!localStorage.user) {
       return <Redirect to="/" />;
     } else {
-      console.log(this.props);
+      //console.log(this.props);
       return (
         <Container className="profile-view">
           <Row>
@@ -97,7 +98,7 @@ export class ProfileView extends React.Component {
           </Row>
           <Row>
             <Col>
-              <h3 className="label">Favorite Movies</h3>
+              <h3 className="label">My Favorite Movies</h3>
               <ListGroup className="user-favorite-movies">
                 {this.props.movies.map(mov => {
                   if (

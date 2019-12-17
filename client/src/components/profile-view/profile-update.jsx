@@ -45,7 +45,7 @@ export function ProfileUpdate(props) {
       )
       .then(response => {
         props.updateUser(userInfo);
-        alert("Your profile was updated successfully");
+        alert("Your profile has been update");
       })
       .catch(e => {
         const errors = e.response.data.errors || [];
@@ -53,8 +53,8 @@ export function ProfileUpdate(props) {
         errors.forEach(err => {
           errorMessage += err.msg;
         });
-        alert(`Oops there was an error ${errorMessage}`);
-        console.log(`Error updating the user info.`);
+        alert(`there was an error ${errorMessage}`);
+        console.log(`updating unsuccesful.`);
       });
   };
 
@@ -68,7 +68,7 @@ export function ProfileUpdate(props) {
         }
       )
       .then(response => {
-        alert("Your account has been deleted");
+        alert("You have deleted your account");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         window.open("/", "_self");
@@ -81,7 +81,7 @@ export function ProfileUpdate(props) {
   return (
     <Form className="update-form">
       <div className="text-center">
-        <p className="update-title">Please update your information below:</p>
+        <p className="update-title">Please update your info:</p>
       </div>
       <Form.Group controlId="formNewUsername">
         <Form.Label>Username</Form.Label>

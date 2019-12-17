@@ -4,9 +4,42 @@ import Card from "react-bootstrap/Card";
 import CardColumns from "react-bootstrap/CardColumns";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const MovieView = ({ movie, onButtonClick }) => {
   if (!movie) return null;
+
+  // axios.post(`https://my-flix-1098.herokuapp.com/users/${localStorage.getItem('user')}/Favourites/${movie._id}`, {
+  //     Username: localStorage.getItem('user')
+  //   }, {
+  //     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+  //   })
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    axios
+      .post(
+        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem(
+          "user"
+        )}/Favorite/${movie._id}`,
+        {
+          Username: localStorage.getItem("user")
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        }
+      )
+
+      .then(response => {
+        console.log(response);
+        alert("The movie Has been Added to Favorite");
+      })
+      .catch(event => {
+        console.log("error couldnt add to movie list");
+        alert("something went wrong");
+      });
+  }
+  console.log(handleSubmit);
 
   return (
     <CardColumns>
@@ -32,6 +65,20 @@ const MovieView = ({ movie, onButtonClick }) => {
               Go back
             </Button>
           </Link>
+          <div className="text-center">
+            <Button
+              variant="outline-secondary"
+              onClick={event => handleSubmit(event)}
+            >
+              {" "}
+              Add to Favorites{" "}
+            </Button>
+            <Link to={`/`}>
+              <Button className="button-back" variant="outline-info">
+                MOVIES
+              </Button>
+            </Link>
+          </div>
         </Card.Body>
       </Card>
     </CardColumns>
