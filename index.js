@@ -267,7 +267,7 @@ app.post(
 
     const updatedUser = Users.findOneAndUpdate({ "Username": Username }, { $addToSet: { FavoriteMovies: MovieID } }, { new: true });
   
-    return updatedUser;
+    res.json(updatedUser);
   }
   // function (req, res) {
   //   const { params: { Username, MovieID } } = req;

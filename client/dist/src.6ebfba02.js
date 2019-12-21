@@ -41124,7 +41124,7 @@ var MovieView = function MovieView(_ref) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    _axios.default.post("https://localhost3000/users/".concat(localStorage.getItem("user"), "/Favorite/").concat(movie._id), {
+    _axios.default.post("https://immense-springs-16706.herokuapp.com/users/".concat(localStorage.getItem("user"), "/Favorite/").concat(movie._id), {
       Username: localStorage.getItem("user")
     }, {
       headers: {
@@ -55127,7 +55127,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62488" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63263" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
