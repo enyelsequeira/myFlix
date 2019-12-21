@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { ListGroup, ListGroupItem, Button } from "react-bootstrap"; //import "./profile-view.scss";
+import equal from 'fast-deep-equal'
 
 import { Link } from "react-router-dom";
 import { ProfileUpdate } from "../profile-view/profile-update";
@@ -42,7 +43,6 @@ export class ProfileView extends React.Component {
           birthday: response.data.Birthday,
           favoriteMovies: response.data.FavoriteMovies
         });
-        //console.log(this.setState);
       })
       .catch(err => {
         console.error(err);
@@ -61,8 +61,7 @@ export class ProfileView extends React.Component {
         }
       )
       .then(response => {
-        console.log(response.data)
-        // this.getUser(localStorage.getItem("token"));
+        this.setState({ favoriteMovies: response.data.FavoriteMovies});
       })
       .catch(event => {
         alert("Oops... something went wrong...");
@@ -75,6 +74,16 @@ export class ProfileView extends React.Component {
   render() {
     const {favoriteMovies} =this.state;
     const movies = JSON.parse(localStorage.getItem(movies));
+
+    const favoriteMovieComponents = this.props.movies.map((mov) => 
+      mov._id === this.state.favoriteMovies.find(favMovId => favMovId === mov._id) 
+        ? <ListGroupItem key={mov._id} > 
+          {mov.Title}                      
+          <Button onClick={event => this.deleteMovieFromFavorite(event, mov._id)}>REMOVE</Button>
+          </ListGroupItem> 
+        : null
+    );
+
     if (!localStorage.user) {
       return <Redirect to="/" />;
     } else {
@@ -101,16 +110,7 @@ export class ProfileView extends React.Component {
           <Row>
             <Col>
               <h3 className="label">My Favorite Movies</h3>
-              <ListGroup className="user-favorite-movies">
-                {this.props.movies.map((mov) => 
-                  mov._id === this.state.favoriteMovies.find(favMovId => favMovId === mov._id) 
-                    ? <ListGroupItem>
-                      {mov.Title}                      
-                      <Button onClick={event => this.deleteMovieFromFavorite(event, mov._id)} >REMOVE</Button>
-                      </ListGroupItem> 
-                    : null
-                )}
-              </ListGroup>
+              <ListGroup className="user-favorite-movies" >{favoriteMovieComponents}</ListGroup>
               <div className="text-center">
                 <Link to={`/`}>
                   <Button className="button-back" variant="outline-info">

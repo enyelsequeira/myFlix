@@ -54336,7 +54336,55 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.GenreView = GenreView;
-},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","axios":"node_modules/axios/index.js","react-bootstrap/ListGroup":"node_modules/react-bootstrap/esm/ListGroup.js"}],"src/components/profile-view/profile-update.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","axios":"node_modules/axios/index.js","react-bootstrap/ListGroup":"node_modules/react-bootstrap/esm/ListGroup.js"}],"node_modules/fast-deep-equal/index.js":[function(require,module,exports) {
+'use strict';
+
+// do not edit .js files directly - edit src/index.jst
+
+
+
+module.exports = function equal(a, b) {
+  if (a === b) return true;
+
+  if (a && b && typeof a == 'object' && typeof b == 'object') {
+    if (a.constructor !== b.constructor) return false;
+
+    var length, i, keys;
+    if (Array.isArray(a)) {
+      length = a.length;
+      if (length != b.length) return false;
+      for (i = length; i-- !== 0;)
+        if (!equal(a[i], b[i])) return false;
+      return true;
+    }
+
+
+
+    if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags;
+    if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
+    if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
+
+    keys = Object.keys(a);
+    length = keys.length;
+    if (length !== Object.keys(b).length) return false;
+
+    for (i = length; i-- !== 0;)
+      if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
+
+    for (i = length; i-- !== 0;) {
+      var key = keys[i];
+
+      if (!equal(a[key], b[key])) return false;
+    }
+
+    return true;
+  }
+
+  // true if both NaN, false otherwise
+  return a!==a && b!==b;
+};
+
+},{}],"src/components/profile-view/profile-update.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54529,6 +54577,8 @@ var _Col = _interopRequireDefault(require("react-bootstrap/Col"));
 
 var _reactBootstrap = require("react-bootstrap");
 
+var _fastDeepEqual = _interopRequireDefault(require("fast-deep-equal"));
+
 var _profileUpdate = require("../profile-view/profile-update");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -54594,8 +54644,7 @@ function (_React$Component) {
           email: response.data.Email,
           birthday: response.data.Birthday,
           favoriteMovies: response.data.FavoriteMovies
-        }); //console.log(this.setState);
-
+        });
       }).catch(function (err) {
         console.error(err);
       });
@@ -54603,6 +54652,8 @@ function (_React$Component) {
   }, {
     key: "deleteMovieFromFavorite",
     value: function deleteMovieFromFavorite(event, favoriteMovieId) {
+      var _this3 = this;
+
       event.preventDefault();
       console.log(localStorage.getItem("user"));
       console.log(favoriteMovieId);
@@ -54612,7 +54663,9 @@ function (_React$Component) {
           Authorization: "Bearer ".concat(localStorage.getItem("token"))
         }
       }).then(function (response) {
-        console.log(response.data); // this.getUser(localStorage.getItem("token"));
+        _this3.setState({
+          favoriteMovies: response.data.FavoriteMovies
+        });
       }).catch(function (event) {
         alert("Oops... something went wrong...");
       });
@@ -54625,10 +54678,21 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var favoriteMovies = this.state.favoriteMovies;
       var movies = JSON.parse(localStorage.getItem(movies));
+      var favoriteMovieComponents = this.props.movies.map(function (mov) {
+        return mov._id === _this4.state.favoriteMovies.find(function (favMovId) {
+          return favMovId === mov._id;
+        }) ? _react.default.createElement(_reactBootstrap.ListGroupItem, {
+          key: mov._id
+        }, mov.Title, _react.default.createElement(_reactBootstrap.Button, {
+          onClick: function onClick(event) {
+            return _this4.deleteMovieFromFavorite(event, mov._id);
+          }
+        }, "REMOVE")) : null;
+      });
 
       if (!localStorage.user) {
         return _react.default.createElement(_reactRouterDom.Redirect, {
@@ -54660,15 +54724,7 @@ function (_React$Component) {
           className: "label"
         }, "My Favorite Movies"), _react.default.createElement(_reactBootstrap.ListGroup, {
           className: "user-favorite-movies"
-        }, this.props.movies.map(function (mov) {
-          return mov._id === _this3.state.favoriteMovies.find(function (favMovId) {
-            return favMovId === mov._id;
-          }) ? _react.default.createElement(_reactBootstrap.ListGroupItem, null, mov.Title, _react.default.createElement(_reactBootstrap.Button, {
-            onClick: function onClick(event) {
-              return _this3.deleteMovieFromFavorite(event, mov._id);
-            }
-          }, "REMOVE")) : null;
-        })), _react.default.createElement("div", {
+        }, favoriteMovieComponents), _react.default.createElement("div", {
           className: "text-center"
         }, _react.default.createElement(_reactRouterDom.Link, {
           to: "/"
@@ -54693,7 +54749,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.ProfileView = ProfileView;
-},{"react":"node_modules/react/index.js","axios":"node_modules/axios/index.js","../movie-card/movie-card":"src/components/movie-card/movie-card.jsx","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","react-bootstrap":"node_modules/react-bootstrap/esm/index.js","../profile-view/profile-update":"src/components/profile-view/profile-update.jsx"}],"src/components/main-view/main-view.scss":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","axios":"node_modules/axios/index.js","../movie-card/movie-card":"src/components/movie-card/movie-card.jsx","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","react-bootstrap":"node_modules/react-bootstrap/esm/index.js","fast-deep-equal":"node_modules/fast-deep-equal/index.js","../profile-view/profile-update":"src/components/profile-view/profile-update.jsx"}],"src/components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -55131,7 +55187,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63685" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54594" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
