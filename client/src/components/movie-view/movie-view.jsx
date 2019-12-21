@@ -60,7 +60,7 @@ const MovieView = ({ movie, onButtonClick }) => {
           <div className="text-center">
             <Button
               variant="outline-secondary"
-              onClick={event => handleSubmit(event)}
+              onClick={event => handleSubmit(event)}  // isAlreadyInFavorites? 
             >
               {" "}
               Add to Favorites{" "}

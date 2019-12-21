@@ -263,7 +263,7 @@ app.post(
     session: false
   }),
   function (req, res) {
-    const { params: { Username, MovieID } } = req;
+    const { params: { Username, MovieID }} = req;
 
     Users.findOneAndUpdate({ Username }, { $addToSet: { FavoriteMovies: MovieID } }, { new: true },
       function (err, updatedUser) {
@@ -280,15 +280,8 @@ app.post(
 
 //delete from favorites //cant get postman
 app.delete("/users/:Username/Favorite/:MovieID", function (req, res) {
-  Users.findOneAndUpdate({
-      Username: req.params.Username
-    }, {
-      $pull: {
-        Favorites: req.params.MovieID
-      }
-    }, {
-      new: true
-    },
+  const {params: {Username, MovieID}}=req
+  Users.findOneAndUpdate({ Username }, { $pull: {FavoriteMovies :MovieID }}, {new: true },
     function (err, updatedUser) {
       if (err) {
         console.error(err);

@@ -41167,7 +41167,8 @@ var MovieView = function MovieView(_ref) {
     variant: "outline-secondary",
     onClick: function onClick(event) {
       return handleSubmit(event);
-    }
+    } // isAlreadyInFavorites? 
+
   }, " ", "Add to Favorites", " "), _react.default.createElement(_reactRouterDom.Link, {
     to: "/"
   }, _react.default.createElement(_Button.default, {
@@ -54601,18 +54602,17 @@ function (_React$Component) {
     }
   }, {
     key: "deleteMovieFromFavorite",
-    value: function deleteMovieFromFavorite(event, favoriteMovie) {
-      var _this3 = this;
-
+    value: function deleteMovieFromFavorite(event, favoriteMovieId) {
       event.preventDefault();
-      console.log(favoriteMovie);
+      console.log(localStorage.getItem("user"));
+      console.log(favoriteMovieId);
 
-      _axios.default.delete("https://immense-springs-16706.herokuapp.com/users/".concat(localStorage.getItem("user"), "/Favorite/").concat(favoriteMovie), {
+      _axios.default.delete("https://immense-springs-16706.herokuapp.com/users/".concat(localStorage.getItem("user"), "/Favorite/").concat(favoriteMovieId), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem("token"))
         }
       }).then(function (response) {
-        _this3.getUser(localStorage.getItem("token"));
+        console.log(response.data); // this.getUser(localStorage.getItem("token"));
       }).catch(function (event) {
         alert("Oops... something went wrong...");
       });
@@ -54625,7 +54625,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var favoriteMovies = this.state.favoriteMovies;
       var movies = JSON.parse(localStorage.getItem(movies));
@@ -54661,9 +54661,13 @@ function (_React$Component) {
         }, "My Favorite Movies"), _react.default.createElement(_reactBootstrap.ListGroup, {
           className: "user-favorite-movies"
         }, this.props.movies.map(function (mov) {
-          return mov._id === _this4.state.favoriteMovies.find(function (favMov) {
-            return favMov === mov._id;
-          }) ? _react.default.createElement(_reactBootstrap.ListGroupItem, null, mov.Title) : null;
+          return mov._id === _this3.state.favoriteMovies.find(function (favMovId) {
+            return favMovId === mov._id;
+          }) ? _react.default.createElement(_reactBootstrap.ListGroupItem, null, mov.Title, _react.default.createElement(_reactBootstrap.Button, {
+            onClick: function onClick(event) {
+              return _this3.deleteMovieFromFavorite(event, mov._id);
+            }
+          }, "REMOVE")) : null;
         })), _react.default.createElement("div", {
           className: "text-center"
         }, _react.default.createElement(_reactRouterDom.Link, {

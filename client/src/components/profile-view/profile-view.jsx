@@ -49,20 +49,20 @@ export class ProfileView extends React.Component {
       });
   }
 
-  deleteMovieFromFavorite(event, favoriteMovie) {
+  deleteMovieFromFavorite(event, favoriteMovieId) {
     event.preventDefault();
-    console.log(favoriteMovie);
+    console.log(localStorage.getItem("user"));
+    console.log(favoriteMovieId);
     axios
       .delete(
-        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem(
-          "user"
-        )}/Favorite/${favoriteMovie}`,
+        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem("user")}/Favorite/${favoriteMovieId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         }
       )
       .then(response => {
-        this.getUser(localStorage.getItem("token"));
+        console.log(response.data)
+        // this.getUser(localStorage.getItem("token"));
       })
       .catch(event => {
         alert("Oops... something went wrong...");
@@ -103,8 +103,11 @@ export class ProfileView extends React.Component {
               <h3 className="label">My Favorite Movies</h3>
               <ListGroup className="user-favorite-movies">
                 {this.props.movies.map((mov) => 
-                  mov._id === this.state.favoriteMovies.find(favMov => favMov === mov._id) 
-                    ? <ListGroupItem>{mov.Title}</ListGroupItem> 
+                  mov._id === this.state.favoriteMovies.find(favMovId => favMovId === mov._id) 
+                    ? <ListGroupItem>
+                      {mov.Title}                      
+                      <Button onClick={event => this.deleteMovieFromFavorite(event, mov._id)} >REMOVE</Button>
+                      </ListGroupItem> 
                     : null
                 )}
               </ListGroup>
