@@ -41118,23 +41118,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MovieView = function MovieView(_ref) {
   var movie = _ref.movie,
       onButtonClick = _ref.onButtonClick;
-  if (!movie) return null; // axios.post(`https://my-flix-1098.herokuapp.com/users/${localStorage.getItem('user')}/Favourites/${movie._id}`, {
-  //     Username: localStorage.getItem('user')
-  //   }, {
-  //     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-  //   })
+  if (!movie) return null; // console.log(movie)
+  //trying to get favorite movies
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    _axios.default.post("https://immense-springs-16706.herokuapp.com/users/".concat(localStorage.getItem("user"), "/Favorite/").concat(movie._id), {
+    _axios.default.post("https://localhost3000/users/".concat(localStorage.getItem("user"), "/Favorite/").concat(movie._id), {
       Username: localStorage.getItem("user")
     }, {
       headers: {
         Authorization: "Bearer ".concat(localStorage.getItem("token"))
       }
     }).then(function (response) {
-      console.log(response);
+      console.log(response.data);
       alert("The movie Has been Added to Favorite");
     }).catch(function (event) {
       console.log("error couldnt add to movie list");
@@ -54630,6 +54627,9 @@ function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
+      var favoriteMovies = this.state.favoriteMovies;
+      var movies = JSON.parse(localStorage.getItem(movies));
+
       if (!localStorage.user) {
         return _react.default.createElement(_reactRouterDom.Redirect, {
           to: "/"
@@ -54661,13 +54661,9 @@ function (_React$Component) {
         }, "My Favorite Movies"), _react.default.createElement(_reactBootstrap.ListGroup, {
           className: "user-favorite-movies"
         }, this.props.movies.map(function (mov) {
-          if (mov._id === _this4.state.favoriteMovies.find(function (favMov) {
+          return mov._id === _this4.state.favoriteMovies.find(function (favMov) {
             return favMov === mov._id;
-          })) {
-            return _react.default.createElement(_reactBootstrap.ListGroupItem, null, mov.Title);
-          } else {
-            return null;
-          }
+          }) ? _react.default.createElement(_reactBootstrap.ListGroupItem, null, mov.Title) : null;
         })), _react.default.createElement("div", {
           className: "text-center"
         }, _react.default.createElement(_reactRouterDom.Link, {
@@ -55016,7 +55012,8 @@ function (_React$Component) {
         render: function render(_ref4) {
           var match = _ref4.match;
           return _react.default.createElement(_profileView.ProfileView, {
-            movies: _this4.state.movies
+            movies: _this4.state.movies,
+            movieTitle: match.params.Title
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
@@ -55130,7 +55127,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59514" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62488" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

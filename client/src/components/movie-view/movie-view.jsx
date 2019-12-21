@@ -8,14 +8,14 @@ import axios from "axios";
 
 const MovieView = ({ movie, onButtonClick }) => {
   if (!movie) return null;
-
-  //trying to get favorit movies
+// console.log(movie)
+  //trying to get favorite movies
 
   function handleSubmit(event) {
     event.preventDefault();
     axios
       .post(
-        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem(
+        `https://localhost3000/users/${localStorage.getItem(
           "user"
         )}/Favorite/${movie._id}`,
         {
@@ -24,10 +24,8 @@ const MovieView = ({ movie, onButtonClick }) => {
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         }
-      )
-
-      .then(response => {
-        console.log(response);
+      ).then(response => {
+        console.log(response.data);
         alert("The movie Has been Added to Favorite");
       })
       .catch(event => {

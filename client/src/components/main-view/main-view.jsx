@@ -230,7 +230,7 @@ class MainView extends React.Component {
           <Route
             path="/users/:Username"
             render={({ match }) => {
-              return <ProfileView movies={this.state.movies} />;
+              return <ProfileView movies={this.state.movies}  movieTitle={match.params.Title}/>;
             }}
           />
           <Route

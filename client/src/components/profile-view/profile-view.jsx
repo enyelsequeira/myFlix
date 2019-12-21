@@ -73,6 +73,8 @@ export class ProfileView extends React.Component {
   }
 
   render() {
+    const {favoriteMovies} =this.state;
+    const movies = JSON.parse(localStorage.getItem(movies));
     if (!localStorage.user) {
       return <Redirect to="/" />;
     } else {
@@ -100,16 +102,11 @@ export class ProfileView extends React.Component {
             <Col>
               <h3 className="label">My Favorite Movies</h3>
               <ListGroup className="user-favorite-movies">
-                {this.props.movies.map(mov => {
-                  if (
-                    mov._id ===
-                    this.state.favoriteMovies.find(favMov => favMov === mov._id)
-                  ) {
-                    return <ListGroupItem>{mov.Title}</ListGroupItem>;
-                  } else {
-                    return null;
-                  }
-                })}
+                {this.props.movies.map((mov) => 
+                  mov._id === this.state.favoriteMovies.find(favMov => favMov === mov._id) 
+                    ? <ListGroupItem>{mov.Title}</ListGroupItem> 
+                    : null
+                )}
               </ListGroup>
               <div className="text-center">
                 <Link to={`/`}>

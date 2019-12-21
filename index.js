@@ -263,25 +263,26 @@ app.post(
     session: false
   }),
   function (req, res) {
-    Users.findOneAndUpdate({
-        Username: req.params.Username
-      }, {
-        $addToSet: {
-          Favorites: req.params.MovieID
-        }
-      }, {
-        new: true
-      },
-      function (err, updatedUser) {
-        if (err) {
-          console.error(err);
-          res.status(500).send("Error:" + err);
-        } else {
-          res.json(updatedUser);
-        }
-      }
-    );
+    const { params: { Username, MovieID } } = req;
+
+    const updatedUser = Users.findOneAndUpdate({ "Username": Username }, { $addToSet: { FavoriteMovies: MovieID } }, { new: true });
+  
+    return updatedUser;
   }
+  // function (req, res) {
+  //   const { params: { Username, MovieID } } = req;
+
+  //   Users.findOneAndUpdate({ "Username": Username }, { $addToSet: { FavoriteMovies: MovieID } }, { new: true },
+  //     function (err, updatedUser) {
+  //       if (err) {
+  //         console.error(err);
+  //         res.status(500).send("Error:" + err);
+  //       } else {
+  //         res.json(updatedUser);
+  //       }
+  //     }
+  //   );
+  // }
 );
 
 //delete from favorites //cant get postman
