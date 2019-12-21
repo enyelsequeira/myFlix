@@ -15,9 +15,7 @@ const MovieView = ({ movie, onButtonClick }) => {
     event.preventDefault();
     axios
       .post(
-        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem(
-          "user"
-        )}/Favorite/${movie._id}`,
+        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem("user")}/Favorite/${movie._id}`,
         {
           Username: localStorage.getItem("user")
         },

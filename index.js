@@ -265,24 +265,17 @@ app.post(
   function (req, res) {
     const { params: { Username, MovieID } } = req;
 
-    const updatedUser = Users.findOneAndUpdate({ "Username": Username }, { $addToSet: { FavoriteMovies: MovieID } }, { new: true });
-  
-    res.json(updatedUser);
+    Users.findOneAndUpdate({ "Username": Username }, { $addToSet: { FavoriteMovies: MovieID } }, { new: true },
+      function (err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error:" + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
   }
-  // function (req, res) {
-  //   const { params: { Username, MovieID } } = req;
-
-  //   Users.findOneAndUpdate({ "Username": Username }, { $addToSet: { FavoriteMovies: MovieID } }, { new: true },
-  //     function (err, updatedUser) {
-  //       if (err) {
-  //         console.error(err);
-  //         res.status(500).send("Error:" + err);
-  //       } else {
-  //         res.json(updatedUser);
-  //       }
-  //     }
-  //   );
-  // }
 );
 
 //delete from favorites //cant get postman
