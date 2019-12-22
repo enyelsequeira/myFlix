@@ -37,11 +37,11 @@ mongoose.connect(
 
 
 // servers documentation.html file from public folder
-app.use(express.static("public"));
-app.use("/client", express.static(path.join(__dirname, "dist")));
-app.get("/client/*", (req, res)=>{
-  res.sendFile(path.join(__dirname, "dist", "index.html"))
-})
+app.use(express.static('public'));
+app.use('/client', express.static(path.join(__dirname, 'dist')));
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 
 
