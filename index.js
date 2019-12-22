@@ -232,7 +232,8 @@ app.put(
     session: false
   }),
   function (req, res) {
-    var hashedPassword = Users.hashPassword(req.body.password);
+    var hashedPassword = Users.hashPassword(req.body.Password);
+ 
     Users.findOneAndUpdate({
         Username: req.params.Username
       }, {
