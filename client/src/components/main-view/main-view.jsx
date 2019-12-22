@@ -1,5 +1,8 @@
 import React from "react";
 import axios from "axios";
+import {connect} from 'react-redux';
+
+import {setMovies} from '../../actions/actions'
 
 //import bootstrap and routing
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
