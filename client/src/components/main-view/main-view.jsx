@@ -166,7 +166,7 @@ class MainView extends React.Component {
     //new logiC?
 
     return (
-      <Router>
+      <Router basename="/client">
         <header>
           <Link to={"/"}>
             <h1 className="appName"> MOVIE FLIX BY: E</h1>

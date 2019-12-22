@@ -26,7 +26,7 @@ const RegistrationView = ({ alreadyMember, onSignedIn }) => {
       .then(response => {
         const data = response.data;
         console.log(data);
-        window.open("/", "_self");
+        window.open("/client", "_self");
         props.onLoggedIn(data);
       })
       .catch(e => {
