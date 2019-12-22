@@ -57223,9 +57223,8 @@ function (_React$Component) {
         }
       }).then(function (response) {
         //asing the results to the state
-        _this2.setState({
-          movies: response.data
-        });
+        _this2.props.setMovies(response.data); // localStorage.setItem('movies', JSON.stringify(response.data))
+
       }).catch(function (error) {
         console.log(error);
       });
@@ -57321,12 +57320,12 @@ function (_React$Component) {
       var _this4 = this;
 
       var _this$state = this.state,
-          movies = _this$state.movies,
           selectedMovie = _this$state.selectedMovie,
-          user = _this$state.user,
           register = _this$state.register,
           userInfo = _this$state.userInfo,
-          token = _this$state.token; //new logiC?
+          token = _this$state.token;
+      var movies = this.props.movies;
+      var user = this.state.user; //new logiC?
 
       return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("header", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
@@ -57429,7 +57428,17 @@ function (_React$Component) {
   return MainView;
 }(_react.default.Component);
 
-var _default = MainView;
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    movies: state.movies
+  };
+}; // #4
+
+
+var _default = (0, _reactRedux.connect)(mapStateToProps, {
+  setMovies: _actions.setMovies
+})(MainView);
+
 exports.default = _default;
 },{"react":"node_modules/react/index.js","axios":"node_modules/axios/index.js","react-redux":"node_modules/react-redux/es/index.js","../../actions/actions":"src/actions/actions.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Card":"node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Container":"node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Row":"node_modules/react-bootstrap/esm/Row.js","react-bootstrap/Col":"node_modules/react-bootstrap/esm/Col.js","react-bootstrap/Navbar":"node_modules/react-bootstrap/esm/Navbar.js","react-bootstrap/Nav":"node_modules/react-bootstrap/esm/Nav.js","react-bootstrap/Button":"node_modules/react-bootstrap/esm/Button.js","../movie-view/movie-view":"src/components/movie-view/movie-view.jsx","../login-view/login-view":"src/components/login-view/login-view.jsx","../movie-card/movie-card":"src/components/movie-card/movie-card.jsx","../registration-view/registration-view":"src/components/registration-view/registration-view.jsx","../director-view/director-view":"src/components/director-view/director-view.jsx","../genre-view/genre-view":"src/components/genre-view/genre-view.jsx","../profile-view/profile-view":"src/components/profile-view/profile-view.jsx","../profile-view/profile-update":"src/components/profile-view/profile-update.jsx","./main-view.scss":"src/components/main-view/main-view.scss"}],"src/reducers/reducers.js":[function(require,module,exports) {
 "use strict";
@@ -57541,7 +57550,9 @@ function (_React$Component) {
   _createClass(MyFlixApplication, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement(_mainView.default, null);
+      return _react.default.createElement(_reactRedux.Provider, {
+        store: store
+      }, _react.default.createElement(_mainView.default, null));
     }
   }]);
 

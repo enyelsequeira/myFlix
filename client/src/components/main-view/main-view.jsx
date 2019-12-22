@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import {connect} from 'react-redux';
 
-import {setMovies} from '../../actions/actions'
+import {setMovies} from '../../actions/actions';
 
 //import bootstrap and routing
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
@@ -59,7 +59,8 @@ class MainView extends React.Component {
       })
       .then(response => {
         //asing the results to the state
-        this.setState({ movies: response.data });
+        this.props.setMovies( response.data );
+        // localStorage.setItem('movies', JSON.stringify(response.data))
       })
       .catch(function(error) {
         console.log(error);
@@ -152,13 +153,15 @@ class MainView extends React.Component {
   //this overrides the render() method of the superclass
   render() {
     const {
-      movies,
+      // movies,
       selectedMovie,
-      user,
+      // user,
       register,
       userInfo,
       token
     } = this.state;
+    let {movies} = this.props;
+    let {user } = this.state
 
     //new logiC?
 
@@ -252,4 +255,10 @@ class MainView extends React.Component {
     );
   }
 }
-export default MainView;
+
+let mapStateToProps = state => {
+  return { movies: state.movies }
+}
+
+// #4
+export default connect(mapStateToProps, { setMovies } )(MainView);
