@@ -228,7 +228,7 @@ class MainView extends React.Component {
               return (
                 <DirectorView
                   directorName={match.params.Director}
-                  movies={this.state.movies}
+                  movies={movies}
                 />
               );
             }}
@@ -236,7 +236,7 @@ class MainView extends React.Component {
           <Route
             path="/users/:Username"
             render={({ match }) => {
-              return <ProfileView movies={this.state.movies}  movieTitle={match.params.Title}/>;
+              return <ProfileView movies={movies}  movieTitle={match.params.Title}/>;
             }}
           />
           <Route
