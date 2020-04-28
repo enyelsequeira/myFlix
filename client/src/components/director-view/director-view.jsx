@@ -5,52 +5,61 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import { ListGroup, ListGroupItem } from "react-bootstrap";
 //csss
 
 import axios from "axios";
-import ListGroup from "react-bootstrap";
 
-export class DirectorView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      director: { Bio: "" }
-    };
-  }
+class DirectorView extends React.Component {
+  state = {
+    Director: {
+      Name: "",
+      Bio: ""
+    }
+  };
 
   componentDidMount() {
+    console.log("[PROPS]", this.props);
+    console.log("[STATE]", this.state);
+
+    // ROUTES => Differentiate Backend/Server/API routes from the CLIENT/BROWSER/FRONTEND ones.
+
     this.getDirectorInfo();
   }
 
   getDirectorInfo() {
     axios
       .get(
-        `https://immense-springs-16706.herokuapp.com/director/${this.props.directorName}`,
+        `https://immense-springs-16706.herokuapp.com/movies/director/${this.props.directorName}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` }
         }
       )
-      .then(response =>
-        this.setState({
-          director: response.data
-        })
-      )
+      .then(response => {
+        const directorData = response.data;
+
+        this.setState({ Director: directorData });
+      })
       .catch(err => {
         console.log(err);
       });
   }
+
   render() {
+    //if (!this.props.Director) return <div>...loading</div>;
     return (
       <Container className="director-view">
         <Row>
           <Col>
             <div>
-              <h3 className="label"> Director</h3>
-              <p className="value">{this.props.directorName}</p>
+              <h3 className="label">Director</h3>
+              <p className="value">{this.state.Director.Name}</p>
             </div>
             <div>
               <h3 className="label">Bio</h3>
-              <p className="value">{this.state.director.Bio}</p>
+              <p className="value">{this.state.Director.Bio}</p>
+              <p className="value">Birth: {this.state.Director.Birth}</p>
+              <p className="value">Death: {this.state.Director.Death}</p>
             </div>
             <div className="return-button">
               <Link to={"/"}>
@@ -64,16 +73,16 @@ export class DirectorView extends React.Component {
             <h3 className="label">Movies by {this.props.directorName}</h3>
             <ListGroup className="movies-by-director">
               {this.props.movies.map(movie => {
-                if (movie.Director.Name === this.state.director.Name) {
+                if (movie.Director.Name === this.state.Director.Name) {
                   return (
-                    <ListGroup.Item>
+                    <ListGroupItem key={movie._id}>
                       {movie.Title}
                       <Link to={`/movies/${movie._id}`}>
                         <Button variant="primary" size="sm">
                           View
                         </Button>
                       </Link>
-                    </ListGroup.Item>
+                    </ListGroupItem>
                   );
                 } else {
                   return null;
@@ -86,3 +95,5 @@ export class DirectorView extends React.Component {
     );
   }
 }
+
+export default DirectorView;

@@ -5,8 +5,11 @@ import { Redirect } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
-//import "./profile-view.scss";
+import { ListGroup, ListGroupItem, Button } from "react-bootstrap"; //import "./profile-view.scss";
+import equal from 'fast-deep-equal'
+
+import { Link } from "react-router-dom";
+import { ProfileUpdate } from "../profile-view/profile-update";
 
 export class ProfileView extends React.Component {
   constructor(props) {
@@ -16,7 +19,8 @@ export class ProfileView extends React.Component {
       username: null,
       email: null,
       birthday: null,
-      favoriteMovies: []
+      favoriteMovies: [],
+      userData: null
     };
   }
 
@@ -32,7 +36,7 @@ export class ProfileView extends React.Component {
   getUserInfo() {
     axios
       .get(
-        `https://immense-springs-16706.herokuapp.com/movies/users/${localStorage.user}`,
+        `https://immense-springs-16706.herokuapp.com/users/${localStorage.user}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` }
         }
@@ -50,17 +54,54 @@ export class ProfileView extends React.Component {
       });
   }
 
+<<<<<<< HEAD
   
+=======
+  deleteMovieFromFavorite(event, favoriteMovieId) {
+    event.preventDefault();
+    console.log(localStorage.getItem("user"));
+    console.log(favoriteMovieId);
+    axios
+      .delete(
+        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem("user")}/Favorite/${favoriteMovieId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        }
+      )
+      .then(response => {
+        this.setState({ favoriteMovies: response.data.FavoriteMovies});
+      })
+      .catch(event => {
+        alert("Oops... something went wrong...");
+      });
+  }
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+>>>>>>> 3f6eb26a885c3d035ebb3f53b9abc7fdd837ef0e
   render() {
+    const {favoriteMovies} =this.state;
+    const movies = JSON.parse(localStorage.getItem(movies));
+
+    const favoriteMovieComponents = this.props.movies.map((mov) => 
+      mov._id === this.state.favoriteMovies.find(favMovId => favMovId === mov._id) 
+        ? <ListGroupItem key={mov._id} > 
+          {mov.Title}                      
+          <Button onClick={event => this.deleteMovieFromFavorite(event, mov._id)}>REMOVE</Button>
+          </ListGroupItem> 
+        : null
+    );
+
     if (!localStorage.user) {
       return <Redirect to="/" />;
     } else {
-      console.log(this.props.movies);
+      //console.log(this.props);
       return (
         <Container className="profile-view">
           <Row>
             <Col>
-              <h2>User profile</h2>
+              <h1>User profile</h1>
               <div className="user-username">
                 <h3 className="label">Username</h3>
                 <p className="value">{this.state.username}</p>
@@ -77,19 +118,23 @@ export class ProfileView extends React.Component {
           </Row>
           <Row>
             <Col>
-              <h3 className="label">Favorite Movies</h3>
-              <ListGroup className="user-favorite-movies">
-                {this.props.movies.map(mov => {
-                  if (
-                    mov._id ===
-                    this.state.favoriteMovies.find(favMov => favMov === mov._id)
-                  ) {
-                    return <ListGroup.Item>{mov.Title}</ListGroup.Item>;
-                  } else {
-                    return null;
-                  }
-                })}
-              </ListGroup>
+              <h3 className="label">My Favorite Movies</h3>
+              <ListGroup className="user-favorite-movies" >{favoriteMovieComponents}</ListGroup>
+              <div className="text-center">
+                <Link to={`/`}>
+                  <Button className="button-back" variant="outline-info">
+                    MOVIES
+                  </Button>
+                </Link>
+                <Link to={`/update/:Username`}>
+                  <Button className="button-update" variant="outline-secondary">
+                    Update profile
+                  </Button>
+                </Link>
+                <Link to={"/"}>
+                  <Button variant="outline-secondary">Return</Button>
+                </Link>
+              </div>
             </Col>
           </Row>
         </Container>

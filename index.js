@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const uuid = require("uuid");
+const path = require ('path')
 //Importing mongoose
 const mongoose = require("mongoose");
 const Models = require("./models");
@@ -37,7 +38,11 @@ mongoose.connect(
 
 
 // servers documentation.html file from public folder
-app.use(express.static("public"));
+app.use(express.static('public'));
+app.use("/client", express.static(path.join(__dirname, "client", "dist")));
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 
 
@@ -130,27 +135,22 @@ app.get(
   }
 );
 
-//returns data about genre by title
+//returns data about genre by MOVIE!!! title
 app.get(
+  // req.params;
   "/movies/genres/:Title",
   passport.authenticate("jwt", {
     session: false
   }),
   function (req, res) {
     Movies.findOne({
-        Title: req.params.Title
+        Title: req.params.Title,
       })
       .then(function (movie) {
         if (movie) {
           res
             .status(201)
-            .send(
-              "Movie with the title : " +
-              movie.Title +
-              " is  a " +
-              movie.Genre.Name +
-              " ."
-            );
+            .json(movie.Genre)
         } else {
           res
             .status(404)
@@ -176,8 +176,8 @@ app.get(
     Movies.findOne({
         "Director.Name": req.params.Name
       })
-      .then(function (movies) {
-        res.json(movies.Director);
+      .then(function (movie) {
+        res.json(movie.Director);
       })
       .catch(function (err) {
         console.error(err);
@@ -351,12 +351,14 @@ app.put(
     session: false
   }),
   function (req, res) {
+    var hashedPassword = Users.hashPassword(req.body.Password);
+ 
     Users.findOneAndUpdate({
         Username: req.params.Username
       }, {
         $set: {
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
           Birthday: req.body.Birthday
         }
@@ -413,15 +415,9 @@ app.post(
     session: false
   }),
   function (req, res) {
-    Users.findOneAndUpdate({
-        Username: req.params.Username
-      }, {
-        $addToSet: {
-          Favorites: req.params.MovieID
-        }
-      }, {
-        new: true
-      },
+    const { params: { Username, MovieID }} = req;
+
+    Users.findOneAndUpdate({ Username }, { $addToSet: { FavoriteMovies: MovieID } }, { new: true },
       function (err, updatedUser) {
         if (err) {
           console.error(err);
@@ -467,15 +463,8 @@ app.post(
 */
 //delete from favorites //cant get postman
 app.delete("/users/:Username/Favorite/:MovieID", function (req, res) {
-  Users.findOneAndUpdate({
-      Username: req.params.Username
-    }, {
-      $pull: {
-        Favorites: req.params.MovieID
-      }
-    }, {
-      new: true
-    },
+  const {params: {Username, MovieID}}=req
+  Users.findOneAndUpdate({ Username }, { $pull: {FavoriteMovies :MovieID }}, {new: true },
     function (err, updatedUser) {
       if (err) {
         console.error(err);

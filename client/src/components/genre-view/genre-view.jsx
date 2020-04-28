@@ -27,44 +27,49 @@ export class GenreView extends React.Component {
   getGenreInfo() {
     axios
       .get(
-        `https://immense-springs-16706.herokuapp.com/genres/${this.props.genre}`,
+        // Silence of the Lambs
+        `https://immense-springs-16706.herokuapp.com/movies/genres/${this.props.movieTitle}`,
         {
           headers: { Authorization: `Bearer ${localStorage.token}` }
         }
       )
-      .then(response =>
-        this.setState({
-          genre: response.data
-        })
-      )
+      .then(response => {
+        const data = response.data;
+        this.setState({ genre: data });
+        // console.log(response.data);
+      })
       .catch(err => {
-        console.error(err);
+        console.error(err + " this is the error");
       });
   }
 
   render() {
     return (
+      //console.log(this.state),
       <Container className="genre-view">
         <Row>
           <Col>
             <div>
-              <h3 className="label">Genre</h3>
-              <p className="value">{this.props.genre}</p>
+              <h1 className="label">Genre</h1>
+              <h4 className="value">{this.state.genre.Name}</h4>
             </div>
             <div>
-              <h3 className="label">Description</h3>
-              <p className="value">{this.state.genre.Description}</p>
+              <h1 className="label">Description</h1>
+              <h4 className="value">{this.state.genre.Description}</h4>
             </div>
+            <Link to={"/"}>
+              <Button variant="primary">Return</Button>
+            </Link>
           </Col>
         </Row>
         <Row>
           <Col>
-            <h3 className="label">{this.props.genre} movies</h3>
+            <h1 className="label">{this.props.genre} Movies</h1>
             <ListGroup className="movies-by-genre">
               {this.props.movies.map(movie => {
                 if (movie.Genre.Name === this.state.genre.Name) {
                   return (
-                    <ListGroup.Item>
+                    <ListGroup.Item key={movie._id}>
                       {movie.Title}
                       <Link to={`/movies/${movie._id}`}>
                         {" "}

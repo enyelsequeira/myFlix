@@ -1,5 +1,8 @@
 import React from "react";
 import axios from "axios";
+import {connect} from 'react-redux';
+
+import {setMovies} from '../../actions/actions';
 
 //import bootstrap and routing
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
@@ -10,15 +13,17 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Button from "react-bootstrap/Button";
 
 //importing components
 import MovieView from "../movie-view/movie-view";
 import LoginView from "../login-view/login-view";
 import MovieCard from "../movie-card/movie-card";
 import RegistrationView from "../registration-view/registration-view";
-import { DirectorView } from "../director-view/director-view";
+import DirectorView from "../director-view/director-view";
 import { GenreView } from "../genre-view/genre-view";
 import { ProfileView } from "../profile-view/profile-view";
+import { ProfileUpdate } from "../profile-view/profile-update";
 import "./main-view.scss";
 
 class MainView extends React.Component {
@@ -29,7 +34,10 @@ class MainView extends React.Component {
     //initialize the state to an empty objec so we can destructure it
     this.state = {
       movies: [],
-      user: null
+      user: null,
+      email: "",
+      birthday: "",
+      userInfo: {}
     };
     this.updateProfile = this.updateProfile.bind(this);
   }
@@ -51,12 +59,27 @@ class MainView extends React.Component {
       })
       .then(response => {
         //asing the results to the state
-        this.setState({ movies: response.data });
+        this.props.setMovies( response.data );
+        // localStorage.setItem('movies', JSON.stringify(response.data))
       })
       .catch(function(error) {
         console.log(error);
       });
   }
+
+  getUser(token) {
+    axios
+      .get("https://immense-springs-16706.herokuapp.com/users", {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        this.props.setLoggedUser(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   //onMovieClick = movie => this.setState({ selectedMovie: movie });
   //loggedIn
   onLoggedIn = authData => {
@@ -81,14 +104,24 @@ class MainView extends React.Component {
       user: ""
     });
   }
-  /*login out
-  onLoggedOut() {
+  ///???????????
+  updateUser(data) {
+    this.setState({
+      userInfo: data
+    });
+    localStorage.setItem("user", data.Username);
+  }
+  //login out
+
+  onLogout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     this.setState({
       user: null
     });
   }
+  /*login out
+ 
   getMovies(token) {
     //console.log("[1]");
     axios
@@ -104,8 +137,7 @@ class MainView extends React.Component {
         console.log(error);
       });
   }
-  //button to retun back
-  onButtonClick = () => this.setState({ selectedMovie: "" });
+  
   //testing
   onSignedIn = user => {
     this.setState({
@@ -116,20 +148,50 @@ class MainView extends React.Component {
   //testing
   register = () => this.setState({ register: true });
 */
+  //button to retun back
+  onButtonClick = () => this.setState({ selectedMovie: "" });
   //this overrides the render() method of the superclass
   render() {
-    const { movies, selectedMovie, user, register } = this.state;
+    const {
+      // movies,
+      selectedMovie,
+      // user,
+      register,
+      userInfo,
+      token
+    } = this.state;
+    let {movies} = this.props;
+    let {user } = this.state
 
     //new logiC?
-    if (movies.length === 0) return <div className="main-view" />;
 
     return (
-      <Router>
+      <Router basename="/client">
+        <header>
+          <Link to={"/"}>
+            <h1 className="appName"> MOVIE FLIX BY: E</h1>
+          </Link>
+        </header>
+        <div className="btn-group"></div>
+        <Link to={`/users/${user}`}>
+          <Button className="profile-view" variant="primary">
+            Profile
+          </Button>
+          <Button
+            className="logout"
+            variant="info"
+            onClick={() => this.onLogout()}
+          >
+            Log out
+          </Button>
+        </Link>
+
         <div className="main-view">
           <Route
             exact
             path="/"
             render={() => {
+              //console.log(user);
               if (!user)
                 return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
               return movies.map(movie => (
@@ -148,23 +210,43 @@ class MainView extends React.Component {
             )}
           />
           <Route
-            path="/genre/:Genre"
+            path="/movies/genres/:Title"
             render={({ match }) => {
               if (movies.length === 0) return <div className="main-view" />;
               return (
                 <GenreView
-                  movie={this.state.movies}
-                  genre={match.params.Genre}
+                  movies={this.state.movies}
+                  movieTitle={match.params.Title}
                 />
               );
             }}
           />
           <Route
-            path="/director/:Director"
-            render={({ match }) => (
-              <DirectorView
-                movies={this.state.movies}
-                directorName={match.params.Director}
+            path="/movies/director/:Director"
+            render={({ match }) => {
+              console.log("this is rendering now", match);
+              return (
+                <DirectorView
+                  directorName={match.params.Director}
+                  movies={movies}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/users/:Username"
+            render={({ match }) => {
+              return <ProfileView movies={movies}  movieTitle={match.params.Title}/>;
+            }}
+          />
+          <Route
+            path="/update/:Username"
+            render={() => (
+              <ProfileUpdate
+                userInfo={userInfo}
+                user={user}
+                token={token}
+                updateUser={data => this.updateUser(data)}
               />
             )}
           />
@@ -173,4 +255,10 @@ class MainView extends React.Component {
     );
   }
 }
-export default MainView;
+
+let mapStateToProps = state => {
+  return { movies: state.movies }
+}
+
+// #4
+export default connect(mapStateToProps, { setMovies } )(MainView);

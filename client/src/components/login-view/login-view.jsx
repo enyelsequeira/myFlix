@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const LoginView = props => {
   const [username, setUsername] = useState("");
@@ -68,41 +69,18 @@ const LoginView = props => {
         <Form.Group controlId="newUser">
           <Form.Text>
             New User? Click{" "}
-            <Button id="registerButton" onClick={() => props.register()}>
-              {" "}
-              Here!{" "}
-            </Button>
+            <Link to={`/register`}>
+              <Button className="btn-register" variant="secondary">
+                Register
+              </Button>
+            </Link>
           </Form.Text>
         </Form.Group>
       </form>
     </Container>
   );
-  /*
-  return (
-    <form>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={e => setUsername(e.targe.value)}
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-      </label>
-      <button type="button" onClick={handleSubmit}>
-        Submit
-      </button>
-    </form>
-  );*/
 };
-
+//console.log(LoginView);
 LoginView.propTypes = {
   onLoggedIn: PropTypes.func.isRequired
 };

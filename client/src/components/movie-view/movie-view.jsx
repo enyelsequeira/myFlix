@@ -4,33 +4,73 @@ import Card from "react-bootstrap/Card";
 import CardColumns from "react-bootstrap/CardColumns";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const MovieView = ({ movie, onButtonClick }) => {
   if (!movie) return null;
+// console.log(movie)
+  //trying to get favorite movies
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    axios
+      .post(
+        `https://immense-springs-16706.herokuapp.com/users/${localStorage.getItem("user")}/Favorite/${movie._id}`,
+        {
+          Username: localStorage.getItem("user")
+        },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        }
+      ).then(response => {
+        console.log(response.data);
+        alert("The movie Has been Added to Favorite");
+      })
+      .catch(event => {
+        console.log("error couldnt add to movie list");
+        alert("something went wrong");
+      });
+  }
+  console.log(handleSubmit);
 
   return (
     <CardColumns>
       <Card border="danger" style={{ widht: "18rem" }}>
         <Card.Img variant="top" src={movie.ImagePath} />
         <Card.Body>
-          {console.log(movie.Director.Name, movie.Director.Bio)}
+          {/* {console.log(movie.Director.Name, movie.Director.Bio)} */}
           <Card.Title>Movie Title: {movie.Title}</Card.Title>
+          {/* //Genre */}
           <Card.Text>Movie Genre: {movie.Genre.Name}</Card.Text>
-          <Link to={`/genres/${movie.Genre.Name}`}>
-            <Button variant="link">Genre</Button>
+          <Link to={`/movies/genres/${movie.Title}`}>
+            <Button variant="outline-secondary">Genre</Button>
           </Link>
+          {/* //Directors */}
           <Card.Text>Movie Director: {movie.Director.Name}</Card.Text>
-          <Link to={`/directors/${movie.Director.Name}`}>
-            <Button variant="link">Director</Button>
+          <Link to={`/movies/director/${movie.Director.Name}`}>
+            <Button variant="primary">Director</Button>
           </Link>
           <Card.Text>Director Bio: {movie.Director.Bio}</Card.Text>
-          <Button
-            variant="primary"
-            className="homeButton"
-            onClick={() => onButtonClick()}
-          >
-            Go back
-          </Button>
+          <Link to="/">
+            {" "}
+            <Button variant="primary" className="homeButton">
+              Go back
+            </Button>
+          </Link>
+          <div className="text-center">
+            <Button
+              variant="outline-secondary"
+              onClick={event => handleSubmit(event)}  // isAlreadyInFavorites? 
+            >
+              {" "}
+              Add to Favorites{" "}
+            </Button>
+            <Link to={`/`}>
+              <Button className="button-back" variant="outline-info">
+                MOVIES
+              </Button>
+            </Link>
+          </div>
         </Card.Body>
       </Card>
     </CardColumns>
