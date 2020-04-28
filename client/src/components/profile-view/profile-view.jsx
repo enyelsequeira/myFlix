@@ -28,6 +28,11 @@ export class ProfileView extends React.Component {
     this.getUserInfo();
   }
 
+    /**
+     * gets user information for display and sets the state with it.
+     * @param {*} token 
+     */
+
   getUserInfo() {
     axios
       .get(
@@ -49,6 +54,9 @@ export class ProfileView extends React.Component {
       });
   }
 
+<<<<<<< HEAD
+  
+=======
   deleteMovieFromFavorite(event, favoriteMovieId) {
     event.preventDefault();
     console.log(localStorage.getItem("user"));
@@ -71,6 +79,7 @@ export class ProfileView extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+>>>>>>> 3f6eb26a885c3d035ebb3f53b9abc7fdd837ef0e
   render() {
     const {favoriteMovies} =this.state;
     const movies = JSON.parse(localStorage.getItem(movies));
