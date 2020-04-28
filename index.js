@@ -60,6 +60,37 @@ app.use(function (err, req, res, next) {
   next();
 });
 
+/**
+*endpoint  returns a list of all movies
+*endpoint URL: /movies
+*GET request
+*no required params
+*example request:
+*@function getMovies(token) {
+*  axios
+*    .get("https://immense-springs-16706.herokuapp.com/movies", {
+*      headers: { Authorization: `Bearer ${token}` }
+*    })
+*    .then(response => {
+*      this.props.setMovies(response.data);
+*    })
+*    .catch(function(error) {
+*      console.log(error);
+*    });
+*}
+*example response:
+*@param {string} _id
+*@param {string}title
+*@param {string}description
+*@param {object} director
+*@param {object} genre
+*/
+
+
+
+
+
+
 //default response
 app.get("/", function (req, res) {
   res.send("Welcome to my favorite movies");
@@ -155,6 +186,43 @@ app.get(
   }
 );
 
+/**
+*endpoint allow users to register
+*endpoint URL: /users
+*POST request
+*params required:
+*@params {string} username
+*@params {string} password
+*@params {string} email
+*@params {date} birthday
+*@constant handleSubmit
+*example request:
+*@function handleSubmit = (e) => {
+*  e.preventDefault();
+*  axios.post('https://immense-springs-16706.herokuapp.com/users', {
+*      username: username,
+*      email: email,
+*      birthday: birthday,
+*      password: password,
+*      confirmPassword: confirmPassword
+*  })
+*  .then(response =>{
+*    const data = response.data;
+*    console.log(data);
+*    window.location.assign('/');
+*  })
+*  .catch(e => {
+*    console.log('error registering the user')
+*  });
+*}
+*example response:
+*@param {object} user
+*@params {string} username
+*@params {string} password
+*@params {string} email
+*@params {date} birthday
+*/
+
 //Allows new users to register
 app.post(
   "/Users",
@@ -230,6 +298,52 @@ app.get(
   }
 );
 
+
+
+  /**
+  *endpoint  allow users to update information
+  *endpoint URL: /users/:username
+  *PUT request
+  *@params {string} username
+  *@params {string} password
+  *@params {string} email
+  *@params {date} birthday
+  *example request:
+  *@function handleUpdate(token) {
+  *  const { user } = this.props;
+  *  const { username, email, birthday, password} = this.state;
+  *  axios({
+  *    method: "put",
+  *    url: `https://immense-springs-16706.herokuapp.com/users/${user.username}`,
+  *    headers: {
+  *      Authorization: `Bearer ${token}`
+  *    },
+  *    data: {
+  *      username: username,
+  *      email: email,
+  *      birthday: birthday,
+  *      password: password,
+  *
+  *    }
+  *  })
+  *    .then(response => {
+  *      //const data = response.data;
+  *      localStorage.removeItem("token");
+  *      localStorage.removeItem("user");
+  *      window.location.reload();
+  *    })
+  *    .catch(e => {
+  *      console.log("error updating the user");
+  *    });
+  *}
+  *example response:
+  *@param {object} user
+  *@params {string} username
+  *@params {string} password
+  *@params {string} email
+  *@params {date} birthday
+  */
+
 //allow to updates users info
 app.put(
   "/users/:Username",
@@ -261,6 +375,37 @@ app.put(
   }
 );
 
+/**
+*endpoint  add a movie to users favorites
+*endpoint URL: /users/:username/favorite/:movieID
+*POST request
+*@params {ObjectId} _id
+*@params {string} user
+*@function addToFavorites() {
+*  const { movie} = this.props;
+*  const user = localStorage.getItem("user");
+*  const token = localStorage.getItem("token");
+*  console.log({ token });
+*  axios
+*    .post(
+*      `https://immense-springs-16706.herokuapp.com/users/${user}/Favorite/${
+*        movie._id
+*      }`,
+*      null,
+*      { headers: { Authorization: `Bearer ${token}` } }
+*    )
+*    .then(res => {
+*      console.log(res);
+*      window.location.reload();
+*    })
+*    .catch(error => {
+*      console.log(error);
+*    });
+*}
+*example response:
+* Json of users updated list of favorites
+*/
+
 //allows user to to add movie to favorites
 app.post(
   "/users/:Username/Favorite/:MovieID",
@@ -289,6 +434,37 @@ app.post(
   }
 );
 
+
+/**
+*endpoint  delete a movie to users favorites
+*endpoint URL: /users/:username/favorite/:movieID
+*POST request
+*@params {ObjectId} _id
+*@params {string} user
+*@function addToFavorites() {
+*  const { movie} = this.props;
+*  const user = localStorage.getItem("user");
+*  const token = localStorage.getItem("token");
+*  console.log({ token });
+*  axios
+*    .delete(
+*      `https://immense-springs-16706.herokuapp.com/users/${user}/Favorite/${
+*        movie._id
+*      }`,
+*      null,
+*      { headers: { Authorization: `Bearer ${token}` } }
+*    )
+*    .then(res => {
+*      console.log(res);
+*      window.location.reload();
+*    })
+*    .catch(error => {
+*      console.log(error);
+*    });
+*}
+*example response:
+* Json of users updated list of favorites
+*/
 //delete from favorites //cant get postman
 app.delete("/users/:Username/Favorite/:MovieID", function (req, res) {
   Users.findOneAndUpdate({
@@ -311,6 +487,31 @@ app.delete("/users/:Username/Favorite/:MovieID", function (req, res) {
   );
 });
 
+
+/**
+*endpoint  delete a user
+*endpoint URL: /users/:username
+*DELETE request
+*@params {string} user
+*example request:
+*@function handleDelete(token) {
+*  const { user } = this.props;
+*  axios
+*    .delete(`https://immense-springs-16706.herokuapp.com/users/${user.username}`, {
+*      headers: { Authorization: `Bearer ${token}` }
+*    })
+*    .then(res => {
+*      localStorage.removeItem("token");
+*      localStorage.removeItem("user");
+*      window.location.reload();
+*    })
+*    .catch(error => {
+*      console.log(error);
+*    });
+*}
+*example response:
+* username was deleted
+*/
 //allows users to deregister
 app.delete(
   "/users/:Username",
@@ -353,39 +554,3 @@ var port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function () {
   console.log("Listening on Port 3000");
 });
-
-
-/* POST login 
-module.exports = (router) => {
-  console.log('this')
-  router.post('/login', (req, res, next) => {
-    console.log(req.body);
-
-    passport.authenticate('local', {
-      session: false
-    }, (error, user, info) => {
-      console.log(user, 1);
-      if (error || !user) {
-        return res.status(400).json({
-          message: 'Something is not right',
-          user: user
-        });
-      }
-      req.login(user, {
-        x: console.log(user, 2),
-        session: false
-      }, (error) => {
-        if (error) {
-          console.log(error, 'error1')
-          res.send(error);
-        }
-        var token = generateJWTToken(user.toJSON());
-        console.log('end', user, token)
-        return res.json({
-          user,
-          token
-        });
-      });
-    })(req, res, next);
-  });
-   */

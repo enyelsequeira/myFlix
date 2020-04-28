@@ -24,6 +24,11 @@ export class ProfileView extends React.Component {
     this.getUserInfo();
   }
 
+    /**
+     * gets user information for display and sets the state with it.
+     * @param {*} token 
+     */
+
   getUserInfo() {
     axios
       .get(
@@ -45,6 +50,7 @@ export class ProfileView extends React.Component {
       });
   }
 
+  
   render() {
     if (!localStorage.user) {
       return <Redirect to="/" />;
